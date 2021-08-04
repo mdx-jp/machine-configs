@@ -1,0 +1,13 @@
+[Unit]
+Description=jupyter lab daemon
+
+[Service]
+Type=simple
+WorkingDirectory={{ jupyterlab_directory }}
+ExecStart=/usr/local/bin/jupyter lab --ip=:: --NotebookApp.token=""
+Restart=always
+User={{ jupyterlab_user }}
+Group={{ jupyterlab_group }} 
+
+[Install]
+WantedBy=multi-user.target

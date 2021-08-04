@@ -57,6 +57,7 @@ General tasks:
 
 Example tasks (environment-dependent)
 - [nfs](tasks/nfs): an example to deploy a NFS server and NFS clients
+- [jupyterlab](tasks/jupyterlab): daemonize and run jupyter lab
 - apache
 
 Template build tasks:

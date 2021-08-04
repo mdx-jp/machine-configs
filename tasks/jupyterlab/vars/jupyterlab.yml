@@ -1,0 +1,5 @@
+
+# variables to run jupyter lab as a daemon
+jupyterlab_user: mdxuser
+jupyterlab_group: mdxuser
+jupyterlab_directory: /home/mdxuser

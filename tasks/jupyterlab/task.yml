@@ -1,0 +1,26 @@
+
+
+
+- name: install jupyterlab
+  pip:
+    name:
+    - jupyterlab
+
+
+- name: include variables to run jupyterlab as a daemon
+  include_vars:
+    file: vars/jupyterlab.yml
+
+
+- name: daemonize jupyterlab through systemd
+  template:
+    src: templates/jupyterlab.service.j2
+    dest: /etc/systemd/system/jupyterlab.service
+
+
+- name: make sure enable and run jupyterlab daemon
+  systemd:
+    name: jupyterlab
+    state: started
+    enabled: yes
+    daemon_reload: yes
