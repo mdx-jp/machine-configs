@@ -1,0 +1,13 @@
+
+
+- name: install essential packages
+  apt:
+    state: present
+    name:
+    - emacs
+    - gcc
+    - make
+    - cmake
+    - tmux
+
+# change list of `name` to install packages you need

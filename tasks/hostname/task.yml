@@ -1,0 +1,8 @@
+
+
+- name: setup hostname
+  hostname:
+    name: "{{ hostname }}"
+
+# "{{ hostname }}" is host variable defined in the inventory file.
+# Please see sample-hosts.ini.
