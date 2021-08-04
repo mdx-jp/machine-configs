@@ -1,0 +1,23 @@
+
+
+- name: install nfs-kernel-server
+  apt:
+    name: nfs-kernel-server
+    state: latest
+
+- name: make sure nfs-server runs
+  systemd:
+    name: nfs-server
+    state: started
+
+- name: make sure /export exists in /etc/exports
+  lineinfile:
+    path: /etc/exports
+    state: present
+    regexp: "^{{ nfs_dir }} "
+    line: "{{ nfs_dir }} {{ nfs_acl }}(rw)"
+
+- name: reexport all directories
+  command: exportfs -ra
+
+
