@@ -5,7 +5,7 @@
 
 Setup hostname of each VM by Ansible `hostname` module.
 
-Ansible hostname module: https://docs.ansible.com/ansible/latest/collections/ansible/builtin/hostname_module.html
+- Ansible hostname module: https://docs.ansible.com/ansible/latest/collections/ansible/builtin/hostname_module.html
 
 Hostname for a VM (specified by an IP address) is defined as host
 variable in the inventory file. Please see the sample inventory file

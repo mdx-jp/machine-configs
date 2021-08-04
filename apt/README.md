@@ -5,7 +5,7 @@
 
 Install packages by Ansible `apt` module.
 
-Ansible apt module: https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_module.html
+- Ansible apt module: https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_module.html
 
 
 ## How to modify it for your environment

@@ -5,7 +5,7 @@
 
 Setup /etc/hosts on all VMs by Ansible `template` module.
 
-Ansible template module: https://docs.ansible.com/ansible/latest/collections/ansible/builtin/template_module.html
+- Ansible template module: https://docs.ansible.com/ansible/latest/collections/ansible/builtin/template_module.html
 
 
 The deployed /etc/hosts file has `IPADDRESS HOSTNAME` lines for all
