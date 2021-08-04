@@ -34,7 +34,7 @@ Then ansible starts to ssh to the VMs and configure them as you
 defined in your playbook.
 
 
-`tasks` directory contains ansible tasks, which are popular tasks in
+[tasks](tasks) directory contains ansible tasks, which are popular tasks in
 mdx. Some tasks are general (e.g., install specified packages on all
 VMs), and some tasks are used to build Virtual Machine Template in mdx
 (e.g., configure network interfaces via netplan).
@@ -50,13 +50,13 @@ the first step and templates for that.
 ## Tasks
 
 General tasks:
-- [apt](apt/): install packages
-- [hostname](hostname/): configure hostname of each VM
-- [hosts](hosts/): deploy appropriate /etc/hosts on VMs
-- [users](users/): add/del UNIX user accounts on VMs
+- [apt](tasks/apt): install packages
+- [hostname](tasks/hostname): configure hostname of each VM
+- [hosts](tasks/hosts): deploy appropriate /etc/hosts on VMs
+- [users](tasks/users): add/del UNIX user accounts on VMs
 
 Example tasks (environment-dependent)
-- [nfs](nfs/): an example to deploy a NFS server and NFS clients
+- [nfs](tasks/nfs): an example to deploy a NFS server and NFS clients
 - apache
 
 Template build tasks:
