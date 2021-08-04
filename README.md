@@ -55,10 +55,12 @@ General tasks:
 - [hosts](tasks/hosts): deploy appropriate /etc/hosts on VMs
 - [users](tasks/users): add/del UNIX user accounts on VMs
 
+
 Example tasks (environment-dependent)
 - [nfs](tasks/nfs): an example to deploy a NFS server and NFS clients
 - [jupyterlab](tasks/jupyterlab): daemonize and run jupyter lab
-- apache
+- [docker](tasks/docker): install Docker Engine
+
 
 Template build tasks:
 - cloud-init
