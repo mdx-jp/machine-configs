@@ -57,9 +57,10 @@ General tasks:
 
 
 Example tasks (environment-dependent)
-- [nfs](tasks/nfs): an example to deploy a NFS server and NFS clients
-- [jupyterlab](tasks/jupyterlab): daemonize and run jupyter lab
+- [apache](tasks/apache): install apache2 web server and put a index.html
 - [docker](tasks/docker): install Docker Engine
+- [jupyterlab](tasks/jupyterlab): daemonize and run jupyter lab
+- [nfs](tasks/nfs): an example to deploy a NFS server and NFS clients
 
 
 Template build tasks:
