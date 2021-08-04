@@ -4,10 +4,12 @@
   become: yes
 
 
-# Coose appropriate tasks.
+# Choose appropriate tasks.
+#
+# tasks/*/README.md describes what the task does.
 #
 # Note that some tasks depend on varibales defined in inventory files.
-# See sample-hosts.yml and modify your inventory file in accordance wtih
+# See sample-inventory.ini and modify your inventory file in accordance wtih
 # your purpose and environment.
 
   tasks:
