@@ -6,8 +6,8 @@
 # See sample-hosts.yml and modify your inventory file in accordance wtih
 # your purpose and environment.
 
-- include: apt/task.yml
-- include: hostname/task.yml
-- include: hosts/task.yml
-- include: user/task.yml
+- import_playbook: apt/task.yml
+#- import_playbook: hostname/task.yml
+#- import_playbook: hosts/task.yml
+#- import_playbook: user/task.yml
 
