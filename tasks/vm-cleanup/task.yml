@@ -1,0 +1,22 @@
+- name: remove dependencies that are no longer required
+  apt:
+    autoremove: yes
+
+- name: remove useless packages
+  apt:
+    autoclean: yes
+
+- name: remove caches
+  shell: find /var/cache -type f -exec rm -rf {} \;
+
+- name: blank netplan machine-id
+  shell: truncate -s 0 /etc/machine-id
+
+- name: remove the files of /tmp and /var/tmp
+  shell: rm -rf /tmp/* /var/tmp/*
+
+- name: clear the history of the installer
+  shell: |
+    export HISTSIZE=0
+    rm -f /root/.wget-hsts
+

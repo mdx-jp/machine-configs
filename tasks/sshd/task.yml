@@ -1,0 +1,10 @@
+- name: modify the settings in sshd_config
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '{{ item.regexp }}'
+    line: '{{ item.line }}'
+  with_items:
+    - regexp: '^#UseDNS no'
+      line: 'UseDNS no'
+    - regexp: '^#GSSAPIAuthentication no'
+      line: 'GSSAPIAuthentication no'

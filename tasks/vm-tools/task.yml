@@ -1,0 +1,10 @@
+- name: install open-vm-tools
+  apt:
+    name: open-vm-tools
+    state: latest
+
+- name: enable and start service open-vm-tools
+  systemd:
+    name: open-vm-tools
+    state: started
+    enabled: yes

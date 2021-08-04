@@ -1,0 +1,17 @@
+- name: mkdir /etc/systemd/timesyncd.conf.d
+  file: path=/etc/systemd/timesyncd.conf.d state=directory owner=root group=root mode=0755 
+
+- name: create /etc/systemd/timesyncd.conf.d/mdx.conf
+  blockinfile:
+    path: /etc/systemd/timesyncd.conf.d/mdx.conf
+    create: yes
+    marker: ""
+    block: |
+      [Time]
+      NTP=172.16.2.26 172.16.2.27
+
+- name: restart systemd-resolved
+  systemd:
+    name: systemd-resolved
+    state: started
+    daemon_reload: yes

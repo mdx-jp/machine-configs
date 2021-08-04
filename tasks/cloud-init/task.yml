@@ -1,0 +1,11 @@
+- name: remove the cloud-init configuration file created by the ubuntu installer
+  shell: rm -f /etc/cloud/cloud.cfg.d/99-installer.cfg
+
+- name: create a cloud-init configuration file for mdx
+  blockinfile:
+    path: /etc/cloud/cloud.cfg.d/mdx.cfg
+    create: yes
+    marker: ""
+    block: |
+      datasource_list: [None]
+
