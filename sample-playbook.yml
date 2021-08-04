@@ -8,6 +8,6 @@
 
 - import_playbook: apt/task.yml
 - import_playbook: hostname/task.yml
-#- import_playbook: hosts/task.yml
+- import_playbook: hosts/task.yml
 #- import_playbook: user/task.yml
 

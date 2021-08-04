@@ -30,5 +30,5 @@ In this example, a managed node having IPv6 address
 2001:2f8:1041:1b9:250:56ff:feb0:71d is configured as hostname
 `vm1`.
 
-Modify IP address and hostname mapping in your inventory file in
+Modify IP address and hostname mappings in your inventory file in
 accordance with your environment.
