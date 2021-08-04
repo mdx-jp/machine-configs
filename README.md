@@ -18,7 +18,8 @@ minimum modification to the sample you need is to change the IP
 addresses to your VMs' addresses.
 
 3. Prepare your Ansible playbook file, which defines tasks to be done
-on the VMs. [sample-playbook.yml] is a sample file.
+on the VMs. [sample-playbook.yml](sample-playbook.yml) is a sample
+file.
 
 4. Run `ansible-playbook` command with your inventory and playbook like:
 
