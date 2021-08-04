@@ -7,15 +7,14 @@
     - jupyterlab
 
 
-- name: include variables to run jupyterlab as a daemon
-  include_vars:
-    file: vars/jupyterlab.yml
-
-
 - name: daemonize jupyterlab through systemd
   template:
     src: templates/jupyterlab.service.j2
     dest: /etc/systemd/system/jupyterlab.service
+  vars:
+    jupyterlab_user: mdxuser
+    jupyterlab_group: mdxuser
+    jupyterlab_directory: /home/mdxuser
 
 
 - name: make sure enable and run jupyterlab daemon
