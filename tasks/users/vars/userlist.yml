@@ -1,0 +1,31 @@
+
+
+users:
+  - name: prjuser1
+    state: present
+    password: $6$ultraslt$b47IR6oT4WndhJ4AiP9hP1s7R8COiJR9G1GY5xM39jSwB4FGiYNSv6Cfb364ECeAhqUiDQLConHh.f1ocFVfZ1
+    key: "{{lookup('file', 'public_keys/prjuser1.key')}}"
+    groups: adm,sudo
+
+  - name: prjuser2
+    state: present
+    password: $6$ultraslt$zRa8WXYezeVd73ZEB/2EdzDv8OALUAB2Te5AFnLWmND2mdUDMEcT5K37dU2oxxlgn5R.o32AOiMlClendPYeu1
+    key: "{{lookup('file', 'public_keys/prjuser2.key')}}"
+    groups: adm,sudo
+
+  - name: prjuser3
+    state: present
+    password: $6$ultraslt$im4hOApcE97M44Y6MOjaAeB4ISx.lt6kA0w5G1a370FOoy8OFxfjFk.rFenNwQBGAdgmb.JH5fpM7GGpEmFSe1
+    key: "{{lookup('file', 'public_keys/prjuser3.key')}}"
+    groups: sudo
+
+  - name: prjuser4
+    state: present
+    password: $6$ultraslt$J9xyTgwGi.V6/2olamio55CAoKG6KCt9t9quB/jh.6ZUMXe587DLWl2OEVRBKiSEh106CbPdHl8IKbNks92YI.
+    key: "{{lookup('file', 'public_keys/prjuser4.key')}}"
+    groups: adm
+
+  - name: prjuser5
+    state: absent
+    password:
+    groups:

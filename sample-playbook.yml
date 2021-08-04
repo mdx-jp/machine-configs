@@ -14,5 +14,5 @@
   - import_tasks: tasks/apt/task.yml
   - import_tasks: tasks/hostname/task.yml
   - import_tasks: tasks/hosts/task.yml
-#- import_tasks: users/task.yml
+  - import_tasks: tasks/users/task.yml
 
