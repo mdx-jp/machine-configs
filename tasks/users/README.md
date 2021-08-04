@@ -12,12 +12,15 @@ authorized keys by `authorized_key` module.
 
 ## How to modify it for your environment
 
-(1) Modify [vars/userlist.yml](vars/userlist.yml) that defines user
-accounts, and (2) put ssh authorized key files in `public_keys`
-directory.
+
+1. Modify [vars/userlist.yml](vars/userlist.yml) that defines user
+   accounts.
+
+2. Put ssh authorized key files in `public_keys` directory.
+
 
 Information of user accounts are defined as a varible in
-vars/userlist.yml and a protion is shown below.
+vars/userlist.yml. A part of of the YAML file is shown below.
 
 ```yml
 users:
@@ -30,18 +33,17 @@ users:
 
 `name` is user name. `state: present` indicates this user account
 should exist; if it does not exist, it will be created. If
-`state:absent` and the user account exist, the account is deleted.
+`state:absent` and the user account exists, the account will be
+deleted.
+
 
 `key: "{{lookup('file', 'public_keys/prjuser1.key')}}"` extracts ssh
 keys in file [public_keys/prjuser1.key](public_keys/prjuser1.key), and
-the content is deployed in `/home/prjuser1/.ssh/authorized_keys`.
+the content is deployed in `/home/prjuser1/.ssh/authorized_keys` by
+the authorized_key module.
 
-These variables are passed to the ansible modules in
-[task.yml](task.yml). task.yml uses `include_vars` module to load the
-variable defined in vars/userlist.yml.
-
-- ANsible include_vars module: https://docs.ansible.com/ansible/latest/collections/ansible/builtin/include_vars_module.html
-
+These variables are passed to the ansible modules.  Please see
+[task.yml](task.yml).
 
 You can add/delete unix accounts in your VMs by describing account
 information in vars/userlist.yml and put ssh keys in public_keys
