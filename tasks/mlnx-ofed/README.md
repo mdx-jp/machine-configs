@@ -1,5 +1,5 @@
 
-# apt
+# mlnx-ofed
 
 ## Description
 
