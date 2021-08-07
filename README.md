@@ -1,13 +1,13 @@
 
 # machine provisioner with ansible at mdx
 
-This is a git repository provides examples and templates to provision
+This git repository provides examples and templates to provision
 configurations in multiple VM instances in mdx. This provisioner
-leverages [Ansible](https://www.ansible.com/), a open-source software
+leverages [Ansible](https://www.ansible.com/), an open-source software
 for provisioning and configuring machines.
 
 
-We recommend you to briefly read [an overview](https://www.ansible.com/overview/how-ansible-works) and [an introduction to playbooks](https://docs.ansible.com/ansible/latest/user_guide/playbooks_intro.html)
+We recommend you to briefly read [an overview](https://www.ansible.com/overview/how-ansible-works) and [an introduction to playbooks](https://docs.ansible.com/ansible/latest/user_guide/playbooks_intro.html).
 
 
 ## Getting Started

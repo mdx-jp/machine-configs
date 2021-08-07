@@ -16,6 +16,10 @@
   - import_tasks: tasks/apt/task.yml
   - import_tasks: tasks/hostname/task.yml
   - import_tasks: tasks/hosts/task.yml
+
+# The users task add/delete users defined in a varible file.
+# please see tasks/users/README.md to properly configure
+# users you want.
   - import_tasks: tasks/users/task.yml
 
 
