@@ -6,14 +6,11 @@
     block: |
       network:
         ethernets:
-          ens160:
+          default:
             dhcp4: true
             match:
-              name: ens160
-          ens192:
-            dhcp4: true
-            match:
-              name: ens192
+              name: ens*
+            dhcp-identifier: mac
         version: 2
 
 - name: netplan apply
