@@ -1,0 +1,19 @@
+- name: update pci.ids
+  shell: update-pciids
+
+- blacklist the nouveau deriver
+  copy:
+    dest: /etc/modprobe.d/blacklist-mdx.conf
+    content: blacklist nouveau
+
+- update initramfs
+  shell: update-initramfs -u
+
+- name: download the cuda installer from nvidia
+  get_url:
+    url: https://developer.download.nvidia.com/compute/cuda/11.4.1/local_installers/cuda_11.4.1_470.57.02_linux.run
+    dest: /tmp/cuda_11.4.1_470.57.02_linux.run
+    mode: '0755'
+
+- name: running cuda installer
+  shell: /tmp/cuda_11.4.1_470.57.02_linux.run --silent --driver --toolkit --samples
