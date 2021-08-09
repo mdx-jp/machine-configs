@@ -1,7 +1,7 @@
 - name: update pci.ids
   shell: update-pciids
 
-- blacklist the nouveau deriver
+- name: blacklist the nouveau deriver
   blockinfile:
     path: /etc/modprobe.d/blacklist-mdx.conf
     create: yes
@@ -9,7 +9,7 @@
     block: |
       blacklist nouveau
 
-- update initramfs
+- name: update initramfs
   shell: update-initramfs -u
 
 - name: download the cuda installer from nvidia
