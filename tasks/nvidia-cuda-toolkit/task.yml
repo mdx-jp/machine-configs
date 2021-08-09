@@ -2,9 +2,12 @@
   shell: update-pciids
 
 - blacklist the nouveau deriver
-  copy:
-    dest: /etc/modprobe.d/blacklist-mdx.conf
-    content: blacklist nouveau
+  blockinfile:
+    path: /etc/modprobe.d/blacklist-mdx.conf
+    create: yes
+    marker: ""
+    block: |
+      blacklist nouveau
 
 - update initramfs
   shell: update-initramfs -u
@@ -17,3 +20,4 @@
 
 - name: running cuda installer
   shell: /tmp/cuda_11.4.1_470.57.02_linux.run --silent --driver --toolkit --samples
+
