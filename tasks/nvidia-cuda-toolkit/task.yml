@@ -1,23 +1,35 @@
 - name: update pci.ids
   shell: update-pciids
 
-- name: blacklist the nouveau deriver
-  blockinfile:
-    path: /etc/modprobe.d/blacklist-mdx.conf
-    create: yes
-    marker: ""
-    block: |
-      blacklist nouveau
-
-- name: update initramfs
-  shell: update-initramfs -u
-
-- name: download the cuda installer from nvidia
+- name: download a apt-preference file for nvidia drivers
   get_url:
-    url: https://developer.download.nvidia.com/compute/cuda/11.4.1/local_installers/cuda_11.4.1_470.57.02_linux.run
-    dest: /tmp/cuda_11.4.1_470.57.02_linux.run
-    mode: '0755'
+    url: https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-ubuntu2004.pin
+    dest: /etc/apt/preferences.d/cuda-repository-pin-600
 
-- name: running cuda installer
-  shell: /tmp/cuda_11.4.1_470.57.02_linux.run --silent --driver --toolkit --samples
+- name: download nvidia GPU drivers
+  get_url:
+    url: https://developer.download.nvidia.com/compute/cuda/11.4.1/local_installers/cuda-repo-ubuntu2004-11-4-local_11.4.1-470.57.02-1_amd64.deb
+    dest: /tmp/cuda-repo-ubuntu2004-11-4-local_11.4.1-470.57.02-1_amd64.deb
+
+- name: install nvidia GPU drivers
+  apt:
+    deb: /tmp/cuda-repo-ubuntu2004-11-4-local_11.4.1-470.57.02-1_amd64.deb
+
+- name: add nvidia apt-key
+  apt_key:
+    url: https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/7fa2af80.pub
+    state: present
+
+- name: apt update
+  apt:
+    update_cache: yes
+
+- name: install nvidia drivers
+  apt:
+    state: present
+    install_recommends: no
+    name:
+      - nvidia-headless-470
+      - nvidia-utils-470
+      - nvidia-cuda-toolkit
 
