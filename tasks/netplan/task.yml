@@ -1,6 +1,6 @@
-- name: create /etc/netplan/mdx.yml
+- name: create /etc/netplan/mdx.yaml
   blockinfile:
-    path: /etc/netplan/mdx.yml
+    path: /etc/netplan/mdx.yaml
     create: yes
     marker: ""
     block: |
