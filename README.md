@@ -7,7 +7,7 @@ leverages [Ansible](https://www.ansible.com/), an open-source software
 for provisioning and configuring machines.
 
 
-We recommend you to briefly read [an overview](https://www.ansible.com/overview/how-ansible-works) and [an introduction to playbooks](https://docs.ansible.com/ansible/latest/user_guide/playbooks_intro.html).
+We recommend you to briefly read [Ansible overview](https://www.ansible.com/overview/how-ansible-works) and [introduction to playbooks](https://docs.ansible.com/ansible/latest/user_guide/playbooks_intro.html).
 
 
 ## Getting Started
@@ -16,13 +16,13 @@ We recommend you to briefly read [an overview](https://www.ansible.com/overview/
 
 2. Prepare your Ansible inventory file, which contains IP addresses of
 VMs (called managed nodes in the Ansible context) to be provisioned.
-[sample-inventory.ini](sample-inventory.ini) is a sample file. The
-minimum modification to the sample you need is to change the IP
+[sample-inventory.ini](sample-inventory.ini) is a sample invetory file.
+The minimum modification to the sample you need is to change the IP
 addresses to your VMs' addresses.
 
 3. Prepare your Ansible playbook file, which defines tasks to be done
-on the VMs. [sample-playbook.yml](sample-playbook.yml) is a sample
-file.
+on your VMs. [sample-playbook.yml](sample-playbook.yml) is also a sample
+file for writing your playbook. 
 
 4. Run `ansible-playbook` command with your inventory and playbook like:
 
@@ -36,8 +36,8 @@ defined in your playbook.
 
 [tasks](tasks) directory contains ansible tasks, which are popular tasks in
 mdx. Some tasks are general (e.g., install specified packages on all
-VMs), and some tasks are used to build Virtual Machine Template in mdx
-(e.g., configure network interfaces via netplan).
+VMs), and some tasks are internally used to build Virtual Machine Template in 
+mdx (e.g., configure network interfaces via netplan).
 
 You can use these tasks in this repository as is, however,
 configurations usually depend on use cases, purposes, environments of
@@ -63,9 +63,10 @@ Example tasks (environment-dependent)
 - [nfs](tasks/nfs): an example to deploy a NFS server and NFS clients
 
 
-Template build tasks:
+Template build tasks (internally used at mdx, but might be helpful):
 - cloud-init
 - netplan
 - sshd
 - ntp
 - vm-*
+- nvidia-*
