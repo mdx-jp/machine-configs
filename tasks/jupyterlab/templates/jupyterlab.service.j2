@@ -4,7 +4,8 @@ Description=jupyter lab daemon
 [Service]
 Type=simple
 WorkingDirectory={{ jupyterlab_directory }}
-ExecStart=/usr/local/bin/jupyter lab --ip=:: --NotebookApp.token=""
+Environment="PATH={{ jupyterlab_directory }}/.python-venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"
+ExecStart={{ jupyterlab_directory }}/.python-venv/bin/jupyter lab --ip=:: --NotebookApp.token=""
 Restart=always
 User={{ jupyterlab_user }}
 Group={{ jupyterlab_group }} 

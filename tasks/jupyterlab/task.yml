@@ -1,11 +1,17 @@
-
-
+- name: create venv for jupyterlab
+  pip:
+    name:
+      - setuptools
+      - pip
+    state: latest
+    virtualenv: "/home/mdxuser/.python-venv"
+    virtualenv_command: '/usr/bin/python3 -m venv'
 
 - name: install jupyterlab
   pip:
     name:
-    - jupyterlab
-
+      - jupyterlab
+    virtualenv: "/home/mdxuser/.python-venv"
 
 - name: daemonize jupyterlab through systemd
   template:
