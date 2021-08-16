@@ -16,3 +16,16 @@
   with_items:
       - /tmp/libcudnn8_8.2.2.26-1+cuda11.4_amd64.deb
       - /tmp/libcudnn8-dev_8.2.2.26-1+cuda11.4_amd64.deb
+
+- name: install cudnn dependent libraries
+  apt:
+    update_cache: yes
+    name:
+      - cuda-cudart-11-4
+      - cuda-cudart-dev-11-4
+      - libcublas-11-4
+      - libcublas-dev-11-4
+      - libcusolver-11-4
+      - libcusolver-dev-11-4
+      - libcusparse-11-4
+      - libcusparse-dev-11-4
