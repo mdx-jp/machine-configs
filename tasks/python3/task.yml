@@ -1,0 +1,7 @@
+- name: install paython3 packages
+  apt:
+    state: present
+    name:
+    - python3
+    - python3-venv
+
