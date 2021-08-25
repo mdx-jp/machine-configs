@@ -3,9 +3,9 @@
     src: "{{ item }}"
     dest: /tmp
   with_items:
-    - ../files/lustre-client-modules-5.4.0-77-generic_2.12.6-ddn13-1_amd64.deb
-    - ../files/lustre-client-utils_2.12.6-ddn13-1_amd64.deb
-    - ../files/lustre_config_ubuntu_rdma.tgz
+    - ./files/lustre-client-modules-5.4.0-77-generic_2.12.6-ddn13-1_amd64.deb
+    - ./files/lustre-client-utils_2.12.6-ddn13-1_amd64.deb
+    - ./files/lustre_config_ubuntu_rdma.tgz
 
 - name: install deb packages
   apt:
@@ -29,12 +29,12 @@
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
   with_items:
-    - { src: ../files/lustre_config/etc/lnet.conf.ddn, dest: /etc/lnet.conf.ddn }
-    - { src: ../files/lustre_config/etc/sysconfig/lustre_client, dest: /etc/sysconfig/lustre_client }
-    - { src: ../files/lustre_config/etc/modprobe.d/lustre.conf, dest: /etc/modprobe.d/lustre.conf }
-    - { src: ../files/lustre_config/etc/init.d/lustre_client, dest: /etc/init.d/lustre_client }
-    - { src: ../files/lustre_config/usr/lib/systemd/system/lustre_client.service, dest: /usr/lib/systemd/system/lustre_client.service }
-    - { src: ../files/lustre_config/var/lib/cloud/scripts/per-boot/lustre-config.sh, dest: /var/lib/cloud/scripts/per-boot/lustre-config.sh }
+    - { src: ./files/lustre_config/etc/lnet.conf.ddn, dest: /etc/lnet.conf.ddn }
+    - { src: ./files/lustre_config/etc/sysconfig/lustre_client, dest: /etc/sysconfig/lustre_client }
+    - { src: ./files/lustre_config/etc/modprobe.d/lustre.conf, dest: /etc/modprobe.d/lustre.conf }
+    - { src: ./files/lustre_config/etc/init.d/lustre_client, dest: /etc/init.d/lustre_client }
+    - { src: ./files/lustre_config/usr/lib/systemd/system/lustre_client.service, dest: /usr/lib/systemd/system/lustre_client.service }
+    - { src: ./files/lustre_config/var/lib/cloud/scripts/per-boot/lustre-config.sh, dest: /var/lib/cloud/scripts/per-boot/lustre-config.sh }
 
 - name: file permissions
   file:

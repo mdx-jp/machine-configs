@@ -1,6 +1,6 @@
 - name: copy the OFED driver image
   copy:
-    src: ../files/MLNX_OFED_LINUX-5.1-2.6.2.0-ubuntu20.04-x86_64.iso
+    src: ./files/MLNX_OFED_LINUX-5.1-2.6.2.0-ubuntu20.04-x86_64.iso
     dest: /tmp
 
 - name: mount the OFED iso image
