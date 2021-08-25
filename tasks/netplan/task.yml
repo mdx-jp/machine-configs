@@ -11,6 +11,7 @@
             match:
               name: ens*
             dhcp-identifier: mac
+            optional: true
         version: 2
 
 - name: netplan apply
