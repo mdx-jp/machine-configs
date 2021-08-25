@@ -8,3 +8,7 @@
       line: 'UseDNS no'
     - regexp: '^#GSSAPIAuthentication no'
       line: 'GSSAPIAuthentication no'
+    - regexp: '^#PubkeyAuthentication yes'
+      line: 'PubkeyAuthentication yes'
+    - regexp: '^#PasswordAuthentication yes'
+      line: 'PasswordAuthentication no'
