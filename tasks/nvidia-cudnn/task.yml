@@ -3,8 +3,8 @@
     src: "{{ item }}"
     dest: /tmp
   with_items:
-  - ../files/libcudnn8_8.2.2.26-1+cuda11.4_amd64.deb
-  - ../files/libcudnn8-dev_8.2.2.26-1+cuda11.4_amd64.deb
+  - ./files/libcudnn8_8.2.2.26-1+cuda11.4_amd64.deb
+  - ./files/libcudnn8-dev_8.2.2.26-1+cuda11.4_amd64.deb
 
 - name: apt update
   apt:
