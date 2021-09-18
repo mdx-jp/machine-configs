@@ -4,42 +4,98 @@ import argparse
 import csv
 import sys
 import json
+from ipaddress import ip_network
 
 def csv2dictlist(csvfile):
     reader = csv.DictReader(csvfile)
     return [ row for row in reader ]
 
+def printvm(vm, args):
+    out = "{:<15} hostname={}".format(vm["SERVICE_NET_1_IPv4"],
+                                      vm["VM_NAME"])
+    if vm["STORAGE_NET_1_IPv4"]:
+        out += " rdmaipv4={:<15}".format(vm["STORAGE_NET_1_IPv4"])
+    args.output.write(out + "\n")
+
+def get_ipv4prefix(vms):
+
+    ethipv4prefix = None
+    rdmaipv4prefix = None
+    for vm in vms:
+        if vm["SERVICE_NET_1_IPv4"]:
+            ethipv4prefix = ip_network(vm["SERVICE_NET_1_IPv4"] + "/21",
+                                         strict = False)
+        if vm["STORAGE_NET_1_IPv4"]:
+            rdmaipv4prefix = ip_network(vm["STORAGE_NET_1_IPv4"] + "/21",
+                                        strict = False)
+        if ethipv4prefix and rdmaipv4prefix:
+            break
+    return ethipv4prefix, rdmaipv4prefix
+
+def generate_group_with(vms, args):
+
+    w = lambda x: args.output.write(x + "\n")
+
+    for attrs in args.group_with:
+        groupname = attrs.pop(0)
+        if not attrs:
+            msg = "no VM name specifeid for --group-with {}".format(groupname)
+            raise AttributeError(msg)
+
+        w("[{}]".format(groupname))
+        w("# group with {}".format(" ".join(attrs)))
+        for vm in filter(lambda v: v["VM_NAME"] in attrs, vms):
+            printvm(vm, args)
+        w("")
+
+def generate_group_without(vms, args):
+
+    w = lambda x: args.output.write(x + "\n")
+
+    for attrs in args.group_without:
+        groupname = attrs.pop(0)
+
+        w("[{}]".format(groupname))
+        w("# group without {}".format(" ".join(attrs)))
+        for vm in filter(lambda v: not v["VM_NAME"] in attrs, vms):
+            printvm(vm, args)
+        w("")
+
+
 def generate_inventory(args):
 
     vms = csv2dictlist(args.csv)
     vms.sort(key = lambda x: x["VM_NAME"])
+    ethipv4prefix, rdmaipv4prefix = get_ipv4prefix(vms)
 
     w = lambda x: args.output.write(x + "\n")
 
     # write a group that contains all nodes
     w("[{}]".format(args.default_group))
     for vm in filter(lambda v: v["SERVICE_NET_1_IPv4"], vms):
-        w("{:<15} hostname={}".format(vm["SERVICE_NET_1_IPv4"], vm["VM_NAME"]))
+        printvm(vm, args)
     w("")
     
     # write vars for all node group
     w("[{}:vars]".format(args.default_group))
     w("ansbile_user={}".format(args.ansible_user))
+    if ethipv4prefix:
+        w("ethipv4prefix={}".format(ethipv4prefix))
+    if rdmaipv4prefix:
+        w("rdmaipv4prefix={}".format(rdmaipv4prefix))
     w("")
 
-    # write a group that contains RDMA IF addrs of nodes
-    if args.rdma_node_group:
-        w("[{}]".format(args.rdma_node_group))
-        for vm in filter(lambda v: v["STORAGE_NET_1_IPv4"], vms):
-            w("{:<15} hostname={}-rdma".format(vm["STORAGE_NET_1_IPv4"],
-                                               vm["VM_NAME"]))
-    w("")
+    if args.group_with:
+        generate_group_with(vms, args)
+
+    if args.group_without:
+        generate_group_without(vms, args)
 
     # write per-node groups
     if args.per_node_groups:
         for vm in filter(lambda v: v["SERVICE_NET_1_IPv4"], vms):
             w("[{}]".format(vm["VM_NAME"]))
-            w(vm["SERVICE_NET_1_IPv4"])
+            printvm(vm, args)
             w("")
             
 
@@ -50,10 +106,14 @@ def main():
                         help = "user to run ansible, default is mdxuser")
     parser.add_argument("-g", "--default-group", default = "default",
                         help = "group name for all nodes, default is default")
-    parser.add_argument("-r", "--rdma-node-group",
-                        help = "group containing addrs of RDMA ports")
     parser.add_argument("--per-node-groups", action = "store_true",
                         help = "make per-node groups in the inventory")
+    parser.add_argument("--group-with", nargs = "+", action = "append",
+                        metavar = ("GROUP", "VM_NAME"),
+                        help = "make a group with specified VM names")
+    parser.add_argument("--group-without", nargs = "+", action = "append",
+                        metavar = ("GROUP", "VM_NAME"),
+                        help = "make a group without specified VM names ")
     parser.add_argument("--output", type = argparse.FileType("w"),
                         default = sys.stdout,
                         help = "output file name, default is STDOUT")
