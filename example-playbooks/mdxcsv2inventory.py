@@ -17,13 +17,13 @@ def generate_inventory(args):
     w = lambda x: args.output.write(x + "\n")
 
     # write a group that contains all nodes
-    w("[{}]".format(args.group_name))
+    w("[{}]".format(args.default_group))
     for vm in filter(lambda v: v["SERVICE_NET_1_IPv4"], vms):
         w("{:<15} hostname={}".format(vm["SERVICE_NET_1_IPv4"], vm["VM_NAME"]))
     w("")
     
     # write vars for all node group
-    w("[{}:vars]".format(args.group_name))
+    w("[{}:vars]".format(args.default_group))
     w("ansbile_user={}".format(args.ansible_user))
     w("")
 
@@ -48,9 +48,9 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-u", "--ansible-user", default = "mdxuser",
                         help = "user to run ansible, default is mdxuser")
-    parser.add_argument("-g", "--group-name", default = "default",
+    parser.add_argument("-g", "--default-group", default = "default",
                         help = "group name for all nodes, default is default")
-    parser.add_argument("--rdma-node-group",
+    parser.add_argument("-r", "--rdma-node-group",
                         help = "group containing addrs of RDMA ports")
     parser.add_argument("--per-node-groups", action = "store_true",
                         help = "make per-node groups in the inventory")

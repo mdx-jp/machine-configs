@@ -1,0 +1,79 @@
+---
+- name: Deploy jupyterlab on all nodes
+  hosts: default
+  become: yes
+
+  tasks:
+    - name: setup hostname
+      hostname:
+        name: "{{ hostname }}"
+
+    - name: install venv
+      apt:
+        name: python3-venv
+        state: present
+
+    - name: create venv for jupyterlab
+      pip:
+        name:
+          - setuptools
+          - pip
+        state: latest
+        virtualenv: "/home/mdxuser/.python-venv"
+        virtualenv_command: '/usr/bin/python3 -m venv'
+  
+    - name: install jupyterlab
+      pip:
+        name:
+          - jupyterlab
+        virtualenv: "/home/mdxuser/.python-venv"
+    
+    - name: recursively change ownership of the python-venv directory
+      file:
+        path: /home/mdxuser/.python-venv
+        state: directory
+        recurse: yes
+        owner: mdxuser
+        group: mdxuser
+    
+    - name: daemonize jupyterlab through systemd
+      template:
+        src: templates/jupyterlab.service.j2
+        dest: /etc/systemd/system/jupyterlab.service
+      vars:
+        jupyterlab_user: mdxuser
+        jupyterlab_group: mdxuser
+        jupyterlab_directory: /home/mdxuser
+    
+    - name: make sure enable and run jupyterlab daemon
+      systemd:
+        name: jupyterlab
+        state: started
+        enabled: yes
+        daemon_reload: yes
+
+
+- name: Configure nginx on vm1 as reverse proxy
+  hosts: vm1
+  become: yes
+
+  tasks:
+    - name: install nginx
+      apt:
+        name: nginx
+        state: present
+
+    - name: configure nginx as a reverse proxy
+      template:
+        src: templates/nginx.jupyterlab.proxy.j2
+        dest: /etc/nginx/conf.d/proxy.conf
+      vars:
+        jupyter_host_group: default
+
+    - name: restart nginx
+      systemd:
+        name: nginx
+        state: restarted
+        enabled: yes
+
+ 

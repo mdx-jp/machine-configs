@@ -1,0 +1,14 @@
+[Unit]
+Description=jupyter lab daemon
+
+[Service]
+Type=simple
+WorkingDirectory={{ jupyterlab_directory }}
+Environment="PATH={{ jupyterlab_directory }}/.python-venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"
+ExecStart={{ jupyterlab_directory }}/.python-venv/bin/jupyter lab --ip=0.0.0.0 --NotebookApp.token=""
+Restart=always
+User={{ jupyterlab_user }}
+Group={{ jupyterlab_group }} 
+
+[Install]
+WantedBy=multi-user.target
