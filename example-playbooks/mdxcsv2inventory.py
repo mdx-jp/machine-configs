@@ -70,14 +70,8 @@ def generate_inventory(args):
 
     w = lambda x: args.output.write(x + "\n")
 
-    # write a group that contains all nodes
-    w("[{}]".format(args.default_group))
-    for vm in filter(lambda v: v["SERVICE_NET_1_IPv4"], vms):
-        printvm(vm, args)
-    w("")
-    
     # write vars for all node group
-    w("[{}:vars]".format(args.default_group))
+    w("[all:vars]")
     w("ansbile_user={}".format(args.ansible_user))
     if ethipv4prefix:
         w("ethipv4prefix={}".format(ethipv4prefix))
@@ -85,6 +79,13 @@ def generate_inventory(args):
         w("rdmaipv4prefix={}".format(rdmaipv4prefix))
     w("")
 
+    # write a group that contains all nodes
+    w("[{}]".format(args.default_group))
+    for vm in filter(lambda v: v["SERVICE_NET_1_IPv4"], vms):
+        printvm(vm, args)
+    w("")
+    
+    # write user-specified groups
     if args.group_with:
         generate_group_with(vms, args)
 

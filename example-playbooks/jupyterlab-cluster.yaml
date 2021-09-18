@@ -1,4 +1,24 @@
 ---
+
+################################
+# Deploy /etc/hosts
+#
+- name: setup /etc/hosts
+  hosts: default
+  become: yes
+
+  tasks:
+    - name: deploy /etc/hosts
+      template:
+        src: templates/etc_hosts.j2
+        dest: /etc/hosts
+      vars:
+        etc_host_group: default
+
+
+################################
+# Deploy jupyter lab
+#
 - name: Deploy jupyterlab on all nodes
   hosts: default
   become: yes
@@ -8,13 +28,15 @@
       hostname:
         name: "{{ hostname }}"
 
-    - name: install venv
+    - name: install required packages
       apt:
-        name: python3-venv
         state: present
+        name:
+          - python3-venv
+          - nfs-common
 
     - name: create venv for jupyterlab
-      pip:
+      pip: 
         name:
           - setuptools
           - pip
@@ -53,6 +75,9 @@
         daemon_reload: yes
 
 
+################################
+# Configure Reverse Proxy
+#
 - name: Configure nginx on vm1 as reverse proxy
   hosts: vm1
   become: yes
@@ -76,4 +101,76 @@
         state: restarted
         enabled: yes
 
- 
+
+
+################################
+# Configure NFS
+#
+- name: Configure NFS server at vm1
+  hosts: vm1
+  become: yes
+  vars:
+    - nfs_dir: /home/mdxuser/nfs
+
+  tasks:
+    - name: install nfs-kernel-server
+      apt:
+        name: nfs-kernel-server
+        state: present
+
+    - name: make sure nfs-server runs
+      systemd:
+        name: nfs-server
+        state: started
+        enabled: yes
+
+    - name: make sure nfs dir exists
+      file:
+        path: "{{ nfs_dir }}"
+        state: directory
+        mode: "0755"
+        owner: mdxuser
+        group: mdxuser
+
+    - name: export /home/mdxuser/nfs
+      lineinfile:
+        path: /etc/exports
+        state: present
+        regexp: "{{ nfs_dir }} "
+        line: "{{ nfs_dir }} {{ rdmaipv4prefix }}(rw)"
+
+    - name: re-export all directories
+      command: exportfs -ra
+
+
+- name: Mount NFS from VMs except vm1
+  hosts: nfsclient
+  become: yes
+  vars:
+    - nfs_dir: /home/mdxuser/nfs
+    - nfs_target: vm1-rdma
+
+  tasks:
+    - name: make sure nfs dir exists
+      file: 
+        path: "{{ nfs_dir }}"
+        state: directory
+        mode: "0755"
+        owner: mdxuser
+        group: mdxuser
+
+    - name: update fstab
+      lineinfile:
+        path: /etc/fstab
+        state: present
+        regexp: "^{{ nfs_dir }}"
+        line: "{{ nfs_target }}:{{ nfs_dir }} {{ nfs_dir}} nfs defaults,noatime 0 1"
+
+    - name: mount NFS volume on vm1
+      mount:
+        src: "{{ nfs_target }}:{{ nfs_dir }}"
+        path: "{{ nfs_dir }}"
+        opts: rw,noatime
+        boot: yes
+        state: mounted
+        fstype: nfs
