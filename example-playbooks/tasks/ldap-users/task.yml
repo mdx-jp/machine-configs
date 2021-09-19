@@ -58,10 +58,13 @@
 # feed ldapadd with all ldif files of
 # non-existing groups
 #
-- name: ldapadd all group ldif files
+- name: generate a shell script to ldapadd all group ldif files
   copy:
     dest: /tmp/add_groups.sh
     content: for x in {{ ldap_groups.list | map(attribute="gid") | join(" ") }} ; do if ! ldapsearch -x -D cn=admin,{{ ldap_domain }} -b cn=${x},ou=groups,{{ ldap_domain }} -w {{ ldap_domain_pw }} > /dev/null ; then cat /tmp/${x}.ldif ; fi ; done | ldapadd -x -D cn=admin,{{ ldap_domain }} -w {{ ldap_domain_pw }}
+
+- name: ldapadd all group ldif files
+  command: bash /tmp/add_groups.sh
 
 #
 # for each user, check if it already exists.
@@ -70,7 +73,10 @@
 # feed ldapadd with all ldif files of
 # non-existing users
 #
-- name: ldapadd all user ldif files
+- name: generate a shell script to ldapadd all user ldif files
   copy:
     dest: /tmp/add_users.sh
     content: for x in {{ ldap_users.list | map(attribute="uid") | join(" ") }} ; do if ! ldapsearch -x -D cn=admin,{{ ldap_domain }} -b uid=${x},ou=people,{{ ldap_domain }} -w {{ ldap_domain_pw }} > /dev/null ; then cat /tmp/${x}.ldif ; fi ; done | ldapadd -x -D cn=admin,{{ ldap_domain }} -w {{ ldap_domain_pw }}
+
+- name: ldapadd all user ldif files
+  command: bash /tmp/add_users.sh
