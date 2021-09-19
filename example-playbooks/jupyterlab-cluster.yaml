@@ -148,7 +148,7 @@
   become: yes
   vars:
     - nfs_dir: /home/mdxuser/nfs
-    - nfs_target: "{{ hostvars[inventory_hostname]['groups']['nfsserver'][0] }}"
+    - nfs_target: "{{ hostvars[groups['nfsserver'][0]]['ethipv4'] }}"
 
   tasks:
     - name: make sure nfs dir exists

@@ -106,7 +106,7 @@
   become: yes
   vars:
     nfs_dir: /nfs
-    nfs_target: "{{ hostvars[inventory_hostname]['groups']['manager'][0] }}"
+    nfs_target: "{{ hostvars[groups['manager'][0]]['ethipv4'] }}"
 
   tasks:
     - name: install nfs client

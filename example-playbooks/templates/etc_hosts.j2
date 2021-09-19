@@ -12,7 +12,7 @@ ff02::2 ip6-allrouters
 
 # Addresses on the Ethernet network
 {% for addr, v in hostvars.items() %}{% if etc_host_group in v.group_names %}
-{{ addr }}	{{ v.hostname }}
+{{ v.ethipv4 }}	{{ v.hostname }}
 {% endif %}{% endfor %}
 
 # Addresses on the RDMA network

@@ -24,7 +24,7 @@ server {
 	server_name	_;
 	listen {{ 8000 + loop.index }};
 	location / {
-		proxy_pass http://{{ addr }}:8888;
+		proxy_pass http://{{ v.ethipv4 }}:8888;
 	}
 }
 
