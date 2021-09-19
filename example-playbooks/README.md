@@ -44,7 +44,8 @@ optional arguments:
   --output OUTPUT       output file name, default is STDOUT
 ```
 
-By default, it generates a simple inventory (to STDOUT).
+By default, it generates a simple inventory (to STDOUT). The following
+output shows an inventory from a CSV for VMs deployed `vm[1-8]`.
 
 ```shell-session
 $ ./mdxcsv2inventory.py user-portal-vm-info.csv
@@ -66,7 +67,8 @@ rdmaipv4prefix=10.141.200.0/21
 ```
 
 You can generate host groups with/without specified VMs. For example,
-to configure vm1 as a manager and others as workers for an MPI cluster:
+to configure `vm1` as a manager and others as workers for an MPI
+cluster:
 
 ```shell-session
 $ ./mdxcsv2inventory.py user-portal-vm-info.csv --group-with manager vm1 --group-without workers vm1
@@ -101,10 +103,29 @@ rdmaipv4prefix=10.141.200.0/21
 
 ```
 
-
-The following commands provison an MPI cluster based on the CSV file.
+The above group names fit mpi-cluster.yaml. The following commands
+provison an MPI cluster based on the CSV file.
 
 ```shell-session
-$ ./mdxcsv2inventory.py user-portal-vm-info.csv --group-with manager vm1 --group-without workers vm1 > mpi-hosts.ini
+$ ./mdxcsv2inventory.py user-portal-vm-info.csv --group-with manager vm1 \
+  						--group-without workers vm1 \
+						> mpi-hosts.ini
+
 $ ansible-playbook -i mpi-hosts.ini mpi-cluster.yaml
 ```
+
+
+For jupyterlab-cluster.yaml:
+
+```shell-session
+$ ./mdxcsv2inventory.py user-portal-vm-info.csv --group-with nginx vm1 \
+  						--group-with nfsserver vm1 \
+						--group-without nfsclient vm1 \
+						> jupyter-hosts.ini
+
+$ ansible-playbook -i jupyter-hosts.ini jupyterlab-cluster.yaml
+```
+
+Assign a global IPv4 address to `vm1` by DNAT, and then you can access
+jupyterlab on a VM through `http://[vm1 global addr]:8001` for
+example.
