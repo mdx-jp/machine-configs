@@ -73,7 +73,7 @@
       command: exportfs -ra
 
 
-    # Download and build OCU Micro Benchmarks
+    # Download and build OSU Micro Benchmarks
     - name: get OSU Micro-benchmarks
       get_url:
         url: "https://mvapich.cse.ohio-state.edu/download/mvapich/{{ bench }}.tgz"
