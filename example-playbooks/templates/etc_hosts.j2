@@ -10,12 +10,12 @@ ff00::0 ip6-mcastprefix
 ff02::1 ip6-allnodes
 ff02::2 ip6-allrouters
 
+# Addresses on the Ethernet network
+{% for addr, v in hostvars.items() %}{% if etc_host_group in v.group_names %}
+{{ addr }}	{{ v.hostname }}
+{% endif %}{% endfor %}
 
-{% for addr, v in hostvars.items() %}
-{% if etc_host_group in v.group_names %}
-
-{{ addr }} {{ v.hostname }}
-{{ v.rdmaipv4 }} {{ v.hostname }}-rdma
-
-{% endif %}
-{% endfor %}
+# Addresses on the RDMA network
+{% for addr, v in hostvars.items() %}{% if etc_host_group in v.group_names %}
+{{ v.rdmaipv4 }}	{{ v.hostname }}-rdma
+{% endif %}{% endfor %}
