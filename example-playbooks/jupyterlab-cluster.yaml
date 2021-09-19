@@ -136,7 +136,7 @@
       lineinfile:
         path: /etc/exports
         state: present
-        regexp: "{{ nfs_dir }} "
+        regexp: "^{{ nfs_dir }} "
         line: "{{ nfs_dir }} {{ rdmaipv4prefix }}(rw)"
 
     - name: re-export all directories
@@ -163,7 +163,7 @@
       lineinfile:
         path: /etc/fstab
         state: present
-        regexp: "^{{ nfs_dir }}"
+        regexp: "^{{ nfs_target }}:{{ nfs_dir }}"
         line: "{{ nfs_target }}:{{ nfs_dir }} {{ nfs_dir}} nfs defaults,noatime 0 1"
 
     - name: mount NFS volume on vm1
