@@ -1,0 +1,39 @@
+#
+# install slapd
+#
+- name: install slapd on master
+  apt:
+    state: present
+    name:
+    - slapd
+    - ldap-utils
+
+#
+# generate ldif to change the administrator password
+# (defined in the inventory file)
+#
+- name: master generates /tmp/change_root_pw.ldif
+  template:
+    src: templates/change_root_pw.ldif.j2
+    dest: /tmp/change_root_pw.ldif
+
+#
+# actually change the administrator password
+#
+- name: master changes LDAP root pw
+  command: ldapadd -Y EXTERNAL -H ldapi:/// -f /tmp/change_root_pw.ldif
+
+#
+# generate ldif file to make the LDAP domain of this cluster
+# (defined in the inventory file)
+#
+- name: master generates /tmp/make_domain.ldif
+  template:
+    src: templates/make_domain.ldif.j2
+    dest: /tmp/make_domain.ldif
+
+#
+# actually make the LDAP domain
+#
+- name: master makes an LDAP domain
+  shell: ldapsearch -Y EXTERNAL -H ldapi:/// -s base -b {{ ldap_domain }} || slapadd -l /tmp/make_domain.ldif

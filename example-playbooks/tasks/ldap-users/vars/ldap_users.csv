@@ -1,0 +1,5 @@
+uid,cn,sn,loginshell,uidnumber,gidnumber,homedirectory,password_hash,password
+u10000,大竹 和樹,大竹,/bin/bash,10000,10000,/home/u10000,{SSHA}dEFLojD/tAjUqNTOtjzrb1I41F5Ius1/,pu10000
+u10001,John Smith,Smith,/bin/bash,10001,10001,/home/u10001,{SSHA}iYaOlelGVO1qpIe7XFud1ccHCq/20wua,pu10001
+u10002,杉村 太蔵,杉村,/bin/bash,10002,10002,/home/u10002,{SSHA}nD5mWRyvBH4xfKZgZx0eG0sAX2EHOUlZ,pu10002
+u10003,みちょぱ,池田,/bin/bash,10003,10003,/home/u10003,{SSHA}QpFxLQKZZ9HBoSSJQSmLi3GQD9hs5wrG,pu10003

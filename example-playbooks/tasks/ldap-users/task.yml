@@ -1,0 +1,76 @@
+#
+# copy group csv file to the remote host
+#
+- name: copy vars/ldap_groups.csv
+  copy:
+    src: vars/ldap_groups.csv
+    dest: /tmp/ldap_groups.csv
+
+#
+# read the group csv file and define the variable
+#
+- name: include group definitions from csv
+  read_csv:
+    path: /tmp/ldap_groups.csv
+  register: ldap_groups
+
+#
+# copy user csv file to the remote host
+# NOTE: plain pw column in the csv file
+# is actually unncessary (retained for
+# convenience)
+#
+- name: copy vars/ldap_users.csv
+  copy:
+    src: vars/ldap_users.csv
+    dest: /tmp/ldap_users.csv
+    
+#
+# read the user csv file and define the variable
+#
+- name: include user definitions from csv
+  read_csv:
+    path: /tmp/ldap_users.csv
+  register: ldap_users
+
+#
+# generate an ldif file for each group
+#
+- name: generate group ldif files
+  template:
+    src: template/group.ldif.j2
+    dest: /tmp/{{ item.gid }}.ldif
+  loop: "{{ ldap_groups.list }}"
+    
+#
+# generate an ldif file for each user
+#
+- name: generate user ldif files
+  template:
+    src: template/user.ldif.j2
+    dest: /tmp/{{ item.uid }}.ldif
+  loop: "{{ ldap_users.list }}"
+
+#
+# for each group, check if it already exists.
+# for each group that does not exist,
+# cat the ldif file generated above.
+# feed ldapadd with all ldif files of
+# non-existing groups
+#
+- name: ldapadd all group ldif files
+  copy:
+    dest: /tmp/add_groups.sh
+    content: for x in {{ ldap_groups.list | map(attribute="gid") | join(" ") }} ; do if ! ldapsearch -x -D cn=admin,{{ ldap_domain }} -b cn=${x},ou=groups,{{ ldap_domain }} -w {{ ldap_domain_pw }} > /dev/null ; then cat /tmp/${x}.ldif ; fi ; done | ldapadd -x -D cn=admin,{{ ldap_domain }} -w {{ ldap_domain_pw }}
+
+#
+# for each user, check if it already exists.
+# for each user that does not exist,
+# cat the ldif file generated above.
+# feed ldapadd with all ldif files of
+# non-existing users
+#
+- name: ldapadd all user ldif files
+  copy:
+    dest: /tmp/add_users.sh
+    content: for x in {{ ldap_users.list | map(attribute="uid") | join(" ") }} ; do if ! ldapsearch -x -D cn=admin,{{ ldap_domain }} -b uid=${x},ou=people,{{ ldap_domain }} -w {{ ldap_domain_pw }} > /dev/null ; then cat /tmp/${x}.ldif ; fi ; done | ldapadd -x -D cn=admin,{{ ldap_domain }} -w {{ ldap_domain_pw }}
