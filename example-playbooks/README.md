@@ -106,5 +106,5 @@ The following commands provison an MPI cluster based on the CSV file.
 
 ```shell-session
 $ ./mdxcsv2inventory.py user-portal-vm-info.csv --group-with manager vm1 --group-without workers vm1 > mpi-hosts.ini
-$ ansible-playbooi -i mpi-hosts.ini mpi-cluster.yaml
+$ ansible-playbook -i mpi-hosts.ini mpi-cluster.yaml
 ```
