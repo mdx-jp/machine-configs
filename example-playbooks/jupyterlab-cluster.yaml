@@ -159,13 +159,6 @@
         owner: mdxuser
         group: mdxuser
 
-    - name: update fstab
-      lineinfile:
-        path: /etc/fstab
-        state: present
-        regexp: "^{{ nfs_target }}:{{ nfs_dir }}"
-        line: "{{ nfs_target }}:{{ nfs_dir }} {{ nfs_dir}} nfs defaults,noatime 0 1"
-
     - name: mount NFS volume on vm1
       mount:
         src: "{{ nfs_target }}:{{ nfs_dir }}"
