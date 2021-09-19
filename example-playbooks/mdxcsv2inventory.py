@@ -11,10 +11,20 @@ def csv2dictlist(csvfile):
     return [ row for row in reader ]
 
 def printvm(vm, args):
-    out = "{:<15} hostname={}".format(vm["SERVICE_NET_1_IPv4"],
-                                      vm["VM_NAME"])
+
+    if args.use_ipv6:
+        key = "SERVICE_NET_1_IPv6"
+    else:
+        key = "SERVICE_NET_1_IPv4"
+
+    out = "{:<15} hostname={}".format(vm[key], vm["VM_NAME"])
+
+    if vm["SERVICE_NET_1_IPv4"]:
+        out += " ethipv4={:<15}".format(vm["SERVICE_NET_1_IPv4"])        
+
     if vm["STORAGE_NET_1_IPv4"]:
         out += " rdmaipv4={:<15}".format(vm["STORAGE_NET_1_IPv4"])
+
     args.output.write(out + "\n")
 
 def get_ipv4prefix(vms):
@@ -103,6 +113,8 @@ def generate_inventory(args):
 def main():
 
     parser = argparse.ArgumentParser()
+    parser.add_argument("-6", "--use-ipv6", action = "store_true",
+                        help = "use IPv6 address for hosts")
     parser.add_argument("-u", "--ansible-user", default = "mdxuser",
                         help = "user to run ansible, default is mdxuser")
     parser.add_argument("-g", "--default-group", default = "default",
