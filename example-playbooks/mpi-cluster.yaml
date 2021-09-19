@@ -171,7 +171,7 @@
         owner: "{{ item.name }}"
         group: "{{ item.name }}"
       loop: "{{ users }}" 
-      when: item.state == "present"
+      when: item.state == "present" and "manager" in hostvars[inventory_hostname]['group_names']
 
     - name: create symbolic link for /nfs/USER_DIR
       file:

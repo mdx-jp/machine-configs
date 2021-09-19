@@ -44,8 +44,10 @@ optional arguments:
   --output OUTPUT       output file name, default is STDOUT
 ```
 
-By default, it generates a simple inventory (to STDOUT). The following
-output shows an inventory from a CSV for VMs deployed `vm[1-8]`.
+By default, it generates a simple inventory (to STDOUT).
+
+The following output shows an inventory from a CSV for VMs deployed
+with `vm[1-8]`.
 
 ```shell-session
 $ ./mdxcsv2inventory.py user-portal-vm-info.csv
@@ -113,6 +115,13 @@ provison an MPI cluster based on the CSV file.
 
 ansible-playbook -i mpi-hosts.ini mpi-cluster.yaml
 ```
+
+After provisioning finished, ssh (probably with ssh-agent) to vm1
+(manager) as mdxuser, execute `cat /etc/hosts | grep rdma | awk
+'{print $2}' | ssh-keyscan -f - | >> ~/.ssh/known_hosts` to gather ssh
+server fingerpints, and then you can do `mpirun -np 4 -H
+vm2-rdma,vm3-rdma,vm4-rdma,vm5-rdma
+/nfs/osu-micro-benchmarks-5.8/mpi/collective/osu_gather` for example.
 
 
 For jupyterlab-cluster.yaml:
