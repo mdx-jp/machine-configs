@@ -78,8 +78,8 @@
 ################################
 # Configure Reverse Proxy
 #
-- name: Configure nginx on vm1 as reverse proxy
-  hosts: vm1
+- name: Configure nginx reverse proxy
+  hosts: nginx
   become: yes
 
   tasks:
@@ -106,8 +106,8 @@
 ################################
 # Configure NFS
 #
-- name: Configure NFS server at vm1
-  hosts: vm1
+- name: Configure NFS server
+  hosts: nfsserver
   become: yes
   vars:
     - nfs_dir: /home/mdxuser/nfs
@@ -137,18 +137,18 @@
         path: /etc/exports
         state: present
         regexp: "^{{ nfs_dir }} "
-        line: "{{ nfs_dir }} {{ rdmaipv4prefix }}(rw)"
+        line: "{{ nfs_dir }} {{ ethipv4prefix }}(rw)"
 
     - name: re-export all directories
       command: exportfs -ra
 
 
-- name: Mount NFS from VMs except vm1
+- name: mount NFS
   hosts: nfsclient
   become: yes
   vars:
     - nfs_dir: /home/mdxuser/nfs
-    - nfs_target: vm1-rdma
+    - nfs_target: "{{ hostvars[inventory_hostname]['groups']['nfsserver'][0] }}"
 
   tasks:
     - name: make sure nfs dir exists
@@ -159,7 +159,7 @@
         owner: mdxuser
         group: mdxuser
 
-    - name: mount NFS volume on vm1
+    - name: mount NFS volume
       mount:
         src: "{{ nfs_target }}:{{ nfs_dir }}"
         path: "{{ nfs_dir }}"
