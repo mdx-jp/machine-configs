@@ -10,6 +10,11 @@
     - nfs_dir: /nfs
 
   tasks:
+
+    - name: setup hostname
+      hostname:
+        name: "{{ hostname }}"
+
     - name: deploy /etc/hosts
       template:
         src: templates/etc_hosts.j2

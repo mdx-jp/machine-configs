@@ -118,7 +118,7 @@ ansible-playbook -i mpi-hosts.ini mpi-cluster.yaml
 
 After provisioning finished, ssh (probably with ssh-agent) to vm1
 (manager) as mdxuser, execute `cat /etc/hosts | grep rdma | awk
-'{print $2}' | ssh-keyscan -f - | >> ~/.ssh/known_hosts` to gather ssh
+'{print $2}' | ssh-keyscan -f - >> ~/.ssh/known_hosts` to gather ssh
 server fingerpints, and then you can do `mpirun -np 4 -H
 vm2-rdma,vm3-rdma,vm4-rdma,vm5-rdma
 /nfs/osu-micro-benchmarks-5.8/mpi/collective/osu_gather` for example.
@@ -138,3 +138,5 @@ ansible-playbook -i jupyter-hosts.ini jupyterlab-cluster.yaml
 Assign a global IPv4 address to `vm1` by DNAT, and then you can access
 jupyterlab on a VM through `http://[vm1 global addr]:8001` for
 example.
+
+`ansible-playbook -f FORKS` would contribute speed up for provisioning.
