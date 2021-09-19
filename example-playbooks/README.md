@@ -107,23 +107,23 @@ The above group names fit mpi-cluster.yaml. The following commands
 provison an MPI cluster based on the CSV file.
 
 ```shell-session
-$ ./mdxcsv2inventory.py user-portal-vm-info.csv --group-with manager vm1 \
-  						--group-without workers vm1 \
-						> mpi-hosts.ini
+./mdxcsv2inventory.py user-portal-vm-info.csv --group-with manager vm1 \
+  					      --group-without workers vm1 \
+					      > mpi-hosts.ini
 
-$ ansible-playbook -i mpi-hosts.ini mpi-cluster.yaml
+ansible-playbook -i mpi-hosts.ini mpi-cluster.yaml
 ```
 
 
 For jupyterlab-cluster.yaml:
 
 ```shell-session
-$ ./mdxcsv2inventory.py user-portal-vm-info.csv --group-with nginx vm1 \
-  						--group-with nfsserver vm1 \
-						--group-without nfsclient vm1 \
-						> jupyter-hosts.ini
+./mdxcsv2inventory.py user-portal-vm-info.csv --group-with nginx vm1 \
+		      			      --group-with nfsserver vm1 \
+					      --group-without nfsclient vm1 \
+					      > jupyter-hosts.ini
 
-$ ansible-playbook -i jupyter-hosts.ini jupyterlab-cluster.yaml
+ansible-playbook -i jupyter-hosts.ini jupyterlab-cluster.yaml
 ```
 
 Assign a global IPv4 address to `vm1` by DNAT, and then you can access
