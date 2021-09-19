@@ -72,7 +72,7 @@ def generate_inventory(args):
 
     # write vars for all node group
     w("[all:vars]")
-    w("ansbile_user={}".format(args.ansible_user))
+    w("ansible_user={}".format(args.ansible_user))
     if ethipv4prefix:
         w("ethipv4prefix={}".format(ethipv4prefix))
     if rdmaipv4prefix:
