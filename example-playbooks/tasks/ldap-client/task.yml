@@ -1,0 +1,111 @@
+#
+# install client packages
+#
+- name: install LDAP client packages
+  apt:
+    state: present
+    name:
+    - nscd
+    - libnss-ldap
+    - libpam-ldap
+    - ldap-utils
+
+#
+# make a line like 
+#  base dc=myldap,dc=mdx,dc=jp
+# in /etc/ldap.conf
+#
+- name: change base /etc/ldap.conf
+  lineinfile:
+    path: /etc/ldap.conf
+    regexp: "^base (.*)$"
+    line:    "base {{ ldap_domain }}"
+
+#
+# make a line like 
+#  uri ldap://ikura000/
+# in /etc/ldap.conf
+#
+- name: change uri /etc/ldap.conf
+  lineinfile:
+    path: /etc/ldap.conf
+    regexp: "^uri (.*)$"
+    line:    "uri ldap://{{ hostvars[groups['manager'][0]].hostname }}/"
+    backup: yes
+    
+#
+# make a line like 
+#  rootbinddn cn=admin,dc=myldap,dc=mdx,dc=jp
+# in /etc/ldap.conf
+#
+- name: change rootbinddn /etc/ldap.conf
+  lineinfile:
+    path: /etc/ldap.conf
+    regexp: "^rootbinddn (.*)$"
+    line:    "rootbinddn cn=admin,{{ ldap_domain }}"
+    
+#
+# put LDAP administrator (ldap_root_pw) password
+# in /etc/ldap.secret
+# TODO: I am still not sure whether we should put
+# LDAP administrator password or
+# domain admin password (domain_pw).
+# it seems more logical to use domain admin password
+# here
+#
+# TODO:
+# AFAIK, /etc/ldap.secret must have a plain password
+# 
+- name: generate /etc/ldap.secret
+  copy:
+    dest: /etc/ldap.secret
+    content: "{{ ldap_root_pw }}"
+    mode: "0600"
+    owner: root
+    backup: yes
+
+#
+# this is a trick to make "su USER_NAME" succeed
+#
+- name: change /etc/pam.d/common-password
+  lineinfile:
+    path: /etc/pam.d/common-password
+    backrefs: yes
+    regexp: "^password(.*) use_authtok(.*)$"
+    line:    'password\1 \2$'
+    backup: yes
+
+#
+# these two tasks really enable LDAP.
+# if you screw this file,
+# you screw everything.
+#
+- name: enable ldap for passwd in /etc/nsswitch.conf
+  lineinfile:
+    path: /etc/nsswitch.conf
+    backrefs: yes
+    regexp: "^passwd:( *)files systemd *$"
+    line:    'passwd:\1files systemd ldap'
+    backup: yes
+    
+- name: enable ldap for group in /etc/nsswitch.conf
+  lineinfile:
+    path: /etc/nsswitch.conf
+    backrefs: yes
+    regexp: "^group:( *)files systemd *$"
+    line:    'group:\1files systemd ldap'
+
+#
+# you need to do this after you set things up.
+# otherwise it keeps saying "no such user", 
+# presumably due to a negative chache
+#
+# TODO: should this be sssd? (not sure as
+# nscd is suggested when we install libnss-ldap
+# etc.)
+#
+- name: restart name space caching daemon
+  service:
+    name: nscd
+    state: restarted
+    
