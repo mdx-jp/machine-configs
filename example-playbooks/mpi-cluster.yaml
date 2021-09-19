@@ -101,20 +101,13 @@
   become: yes
   vars:
     nfs_dir: /nfs
-    nfs_target: vm1
+    nfs_target: "{{ hostvars[inventory_hostname]['groups']['manager'][0] }}"
 
   tasks:
     - name: install nfs client
       apt:
         name: nfs-common
         state: present
-
-    - name: update fstab
-      lineinfile:
-        path: /etc/fstab
-        state: present
-        regexp: "^{{ nfs_target }}:{{ nfs_dir }}"
-        line: "{{ nfs_target }}:{{ nfs_dir }} {{ nfs_dir}} nfs defaults,noatime 0 1"
 
     - name: mount the NFS volume on the manager host
       mount:

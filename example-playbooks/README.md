@@ -69,7 +69,7 @@ You can generate host groups with/without specified VMs. For example,
 to configure vm1 as a manager and others as workers for an MPI cluster:
 
 ```shell-session
-$ ./mdxcsv2inventory.py user-portal-vm-info.csv --group-with manager vm1 --group-without workers vm1    
+$ ./mdxcsv2inventory.py user-portal-vm-info.csv --group-with manager vm1 --group-without workers vm1
 [all:vars]
 ansbile_user=mdxuser
 ethipv4prefix=10.13.200.0/21
@@ -101,3 +101,10 @@ rdmaipv4prefix=10.141.200.0/21
 
 ```
 
+
+The following commands provison an MPI cluster based on the CSV file.
+
+```shell-session
+$ ./mdxcsv2inventory.py user-portal-vm-info.csv --group-with manager vm1 --group-without workers vm1 > mpi-hosts.ini
+$ ansible-playbooi -i mpi-hosts.ini mpi-cluster.yaml
+```
