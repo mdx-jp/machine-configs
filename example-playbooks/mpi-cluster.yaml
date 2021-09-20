@@ -119,11 +119,14 @@
     # XXX: should be gentle...
     - name: killall mdxuser processes before change homedir
       command: killall -KILL -u mdxuser
+      when: home_mdxuser_stat.stat.exists
 
     - name: make sure mdxuser's homedir is /home.local/mdxuser
       user:
         name: mdxuser
         home: /home.local/mdxuser
+      when: home_mdxuser_stat.stat.exists
+
 
 
 ################################
