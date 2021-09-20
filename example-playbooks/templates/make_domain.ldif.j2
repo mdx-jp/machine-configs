@@ -11,7 +11,7 @@ objectClass: simpleSecurityObject
 objectClass: organizationalRole
 cn: admin
 description: LDAP administrator
-userPassword: {{ ldap_domain_pw_hash }}
+userPassword: {{ ldap_domain_password_hash }}
 
 dn: ou=people,{{ ldap_domain }}
 objectClass: organizationalUnit

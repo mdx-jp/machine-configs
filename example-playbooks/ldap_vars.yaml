@@ -1,13 +1,7 @@
 
+# Edit to set your LDAP domain and passwords
 ldap_domain: dc=myldap,dc=mdx,dc=jp
 ldap_domain_short: myldap
 ldap_domain_password: ldapdomainpassword
 ldap_root_password: ldaprootpassword
-
-# if ldap_(domain|root)_password_hash is not defined
-# it is automatically generated from ldap_(domain|root)_password
-#
-#ldap_domain_password_hash: {SSHA}s/tn17T6Q0NAJVo1Rky8ZL2efm5bQVTV
-#ldap_root_password_hash: {SSHA}NzdcYMwYv1HZQpI0m1c4PuRjnmHvSFK7
-
 

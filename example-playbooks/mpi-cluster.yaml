@@ -223,9 +223,17 @@
         name: nfs-common
         state: present
 
-    - name: /home/* to /home.local/ if it is not NFS
-      command: mv /home/* /home.local/
+    - name: find files under /home/*
+      find:
+        paths: /home
+        patterns: ".*"
+      register: home_content
+
+    - name: mv /home/* to /home.local/ if it is not NFS
+      shell: mv {{ item.path }} /home.local/
+      with_items: "{{ home_content.files }}"
       when: ansible_mounts | selectattr('mount', 'equalto', '/home') | list | length == 0
+
 
     - name: mount /home via NFS
       mount:
