@@ -12,23 +12,34 @@ def csv2dictlist(csvfile):
 
 def printvm(vm, args):
 
+    keys = ["SERVICE_NET_1_IPv4", "SERVICE_NET_1_IPv6"]
     if args.use_ipv6:
-        key = "SERVICE_NET_1_IPv6"
+        keys.reverse()
+
+    addr = None
+    for key in keys:
+        if vm[key]:
+            addr = vm[key]
+            break
+
+    if not addr:
+        out = "# !! no service address available for {}".format(vm["VM_NAME"])
     else:
-        key = "SERVICE_NET_1_IPv4"
+        out = "{:<15} hostname={}".format(addr, vm["VM_NAME"])
 
-    out = "{:<15} hostname={}".format(vm[key], vm["VM_NAME"])
+        if vm["SERVICE_NET_1_IPv4"]:
+            out += " ethipv4={:<15}".format(vm["SERVICE_NET_1_IPv4"])
 
-    if vm["SERVICE_NET_1_IPv4"]:
-        out += " ethipv4={:<15}".format(vm["SERVICE_NET_1_IPv4"])        
+        if vm["STORAGE_NET_1_IPv4"]:
+            out += " rdmaipv4={:<15}".format(vm["STORAGE_NET_1_IPv4"])
 
-    if vm["STORAGE_NET_1_IPv4"]:
-        out += " rdmaipv4={:<15}".format(vm["STORAGE_NET_1_IPv4"])
+        if vm["SERVICE_NET_1_IPv6"] and not args.disable_ethipv6:
+            out += " ethipv6={:<15}".format(vm["SERVICE_NET_1_IPv6"])
 
     args.output.write(out + "\n")
 
 def get_ipv4prefix(vms):
-
+    # XXX: Assuming SERVICE|STORAGE_NET_1
     ethipv4prefix = None
     rdmaipv4prefix = None
     for vm in vms:
@@ -41,6 +52,16 @@ def get_ipv4prefix(vms):
         if ethipv4prefix and rdmaipv4prefix:
             break
     return ethipv4prefix, rdmaipv4prefix
+
+def get_ipv6prefix(vms):
+    # XXX: Assuming SERVICE_NET_1
+    ethipv6prefix = None
+    for vm in vms:
+        if vm["SERVICE_NET_1_IPv6"]:
+            ethipv6prefix = ip_network(vm["SERVICE_NET_1_IPv6"] + "/64",
+                                       strict = False)
+    return ethipv6prefix
+
 
 def generate_group_with(vms, args):
 
@@ -77,6 +98,7 @@ def generate_inventory(args):
     vms = csv2dictlist(args.csv)
     vms.sort(key = lambda x: x["VM_NAME"])
     ethipv4prefix, rdmaipv4prefix = get_ipv4prefix(vms)
+    ethipv6prefix = get_ipv6prefix(vms)
 
     w = lambda x: args.output.write(x + "\n")
 
@@ -87,11 +109,13 @@ def generate_inventory(args):
         w("ethipv4prefix={}".format(ethipv4prefix))
     if rdmaipv4prefix:
         w("rdmaipv4prefix={}".format(rdmaipv4prefix))
+    if ethipv6prefix:
+        w("ethipv6prefix={}".format(ethipv6prefix))
     w("")
 
     # write a group that contains all nodes
     w("[{}]".format(args.default_group))
-    for vm in filter(lambda v: v["SERVICE_NET_1_IPv4"], vms):
+    for vm in vms:
         printvm(vm, args)
     w("")
     
@@ -127,6 +151,8 @@ def main():
     parser.add_argument("--group-without", nargs = "+", action = "append",
                         metavar = ("GROUP", "VM_NAME"),
                         help = "make a group without specified VM names ")
+    parser.add_argument("--disable-ethipv6", action = "store_true",
+                        help = "disable host var 'ethipv6'")
     parser.add_argument("--output", type = argparse.FileType("w"),
                         default = sys.stdout,
                         help = "output file name, default is STDOUT")
