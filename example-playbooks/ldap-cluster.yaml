@@ -1,0 +1,258 @@
+---
+
+# deploy ldap
+#
+
+      
+# LDAP Server 
+- name: configure LDAP server
+  hosts: ldapserver
+  become: yes
+  vars_files:
+    - ldap_vars.yaml
+
+  tasks:
+    - name: install slpad
+      apt:
+        state: present
+        name:
+          - slapd
+          - ldap-utils
+
+    # if ldap_root_password_hash is not defined, generate it from root password
+    - name: obtain hash of root password
+      command: slappasswd -s {{ ldap_root_password }}
+      register: slappasswd_root
+      when: ldap_root_password_hash is not defined
+
+    - name: set ldap_root_password_hash
+      set_fact:
+        ldap_root_pw_hash: "{{ slappasswd_root.stdout }}"
+      when: ldap_root_password_hash is not defined
+
+    # set root password
+    - name: generates /tmp/change_root_pw.ldif
+      template:
+        src: templates/change_root_pw.ldif.j2
+        dest: /tmp/change_root_pw.ldif
+
+    - name: changes LDAP root password
+      command: ldapadd -Y EXTERNAL -H ldapi:/// -f /tmp/change_root_pw.ldif
+
+    # if ldap_domain_password_hash is not defined, generate it from domain password
+    - name: obtain hash of domain password
+      command: slappasswd -s {{ ldap_domain_password }}
+      register: slappasswd_domain
+      when: ldap_domain_password_hash is not defined
+
+    - name: set ldap_domain_password_hash
+      set_fact:
+        ldap_domain_pw_hash: "{{ slappasswd_domain.stdout }}"
+      when: ldap_domain_password_hash is not defined
+
+    - name: generates /tmp/make_domain.ldif
+      template:
+        src: templates/make_domain.ldif.j2
+        dest: /tmp/make_domain.ldif 
+
+    - name: makes an LDAP domain
+      shell: ldapsearch -Y EXTERNAL -H ldapi:/// -s base -b {{ ldap_domain }} || slapadd -l /tmp/make_domain.ldif 
+
+
+
+
+# LDAP clients
+- name: configure LDAP clients
+  hosts: default
+  become: yes
+  vars_files:
+    - ldap_vars.yaml
+
+  tasks:
+
+    - name: install LDAP client packages
+      apt:
+        state: present
+        name:
+          - sssd
+          - libnss-ldap
+          - libpam-ldap
+          - ldap-utils
+
+    #
+    # make a line like 
+    #  base dc=myldap,dc=mdx,dc=jp
+    # in /etc/ldap.conf
+    - name: change base /etc/ldap.conf
+      lineinfile:
+        path: /etc/ldap.conf
+        regexp: "^base (.*)$"
+        line:    "base {{ ldap_domain }}"
+
+    #
+    # make a line like 
+    #  uri ldap://ikura000/
+    # in /etc/ldap.conf
+    #
+    - name: change uri /etc/ldap.conf
+      lineinfile:
+        path: /etc/ldap.conf
+        regexp: "^uri (.*)$"
+        line:    "uri ldap://{{ hostvars[groups['ldapserver'][0]].ethipv4 }}/"
+        backup: yes
+
+    #
+    # make a line like 
+    #  rootbinddn cn=admin,dc=myldap,dc=mdx,dc=jp
+    # in /etc/ldap.conf
+    #
+    - name: change rootbinddn /etc/ldap.conf
+      lineinfile:
+        path: /etc/ldap.conf
+        regexp: "^rootbinddn (.*)$"
+        line:    "rootbinddn cn=admin,{{ ldap_domain }}"
+
+    - name: we need both /etc/ldap.conf and /etc/ldap/ldap.conf
+      copy:
+        src: /etc/ldap.conf
+        dest: /etc/ldap/ldap.conf
+        remote_src: yes
+
+    #
+    # this is a trick to make "su USER_NAME" succeed
+    #
+#    - name: change /etc/pam.d/common-password
+#      lineinfile:
+#        path: /etc/pam.d/common-password
+#        backrefs: yes
+#        regexp: "^password(.*) use_authtok(.*)$"
+#        line:    'password\1 \2$'
+#        backup: yes
+#    
+    #
+    # these two tasks really enable LDAP.
+    # if you screw this file,
+    # you screw everything.
+    #
+#    - name: enable ldap for passwd in /etc/nsswitch.conf
+#      lineinfile:
+#        path: /etc/nsswitch.conf
+#        backrefs: yes
+#        regexp: "^passwd:( *)files systemd *$"
+#        line:    'passwd:\1files systemd ldap'
+#        backup: yes
+#    
+#    - name: enable ldap for group in /etc/nsswitch.conf
+#      lineinfile:
+#        path: /etc/nsswitch.conf
+#        backrefs: yes
+#        regexp: "^group:( *)files systemd *$"
+#        line:    'group:\1files systemd ldap'
+#
+    #
+    # you need to do this after you set things up.
+    # otherwise it keeps saying "no such user", 
+    # presumably due to a negative chache
+    #
+    # TODO: should this be sssd? (not sure as
+    # nscd is suggested when we install libnss-ldap
+    # etc.)
+    #
+    #    - name: restart name space caching daemon
+    #  service:
+    #    name: nscd
+    #    state: restarted
+
+    # put sssd.conf
+    - name: put sssd.conf
+      template:
+        src: templates/sssd.conf.j2
+        dest: /etc/sssd/sssd.conf
+        mode: "0600" 
+      vars:
+        ldapserver_addr: "{{ hostvars[groups['ldapserver'][0]].ethipv4 }}"
+
+    - name: restart sssd
+      systemd:
+        name: sssd
+        state: restarted
+
+
+
+- name: create LDAP users
+  hosts: ldapserver
+  become: yes
+  vars_files:
+    - ldap_vars.yaml
+
+    #
+    # copy group csv file to the remote host
+    #
+  tasks:
+    - name: copy vars/ldap_groups.csv
+      copy:
+        src: vars/ldap_groups.csv
+        dest: /tmp/ldap_groups.csv
+    
+    #
+    # read the group csv file and define the variable
+    #
+    - name: include group definitions from csv
+      read_csv:
+        path: /tmp/ldap_groups.csv
+      register: ldap_groups
+    
+    #
+    # copy user csv file to the remote host
+    # NOTE: plain pw column in the csv file
+    # is actually unncessary (retained for
+    # convenience)
+    #
+    - name: copy vars/ldap_users.csv
+      copy:
+        src: vars/ldap_users.csv
+        dest: /tmp/ldap_users.csv
+    
+    #
+    # read the user csv file and define the variable
+    #
+    - name: include user definitions from csv
+      read_csv:
+        path: /tmp/ldap_users.csv
+      register: ldap_users
+    
+    #
+    # generate an ldif file for each group
+    #
+    - name: generate group ldif files from group csv
+      template:
+        src: templates/group.ldif.j2
+        dest: /tmp/{{ item.gid }}.ldif
+      loop: "{{ ldap_groups.list }}"
+
+
+    #
+    # generate an ldif file for each user
+    #
+    - name: generate user ldif files
+      template:
+        src: templates/user.ldif.j2
+        dest: /tmp/{{ item.uid }}.ldif
+      loop: "{{ ldap_users.list }}"
+   
+
+    - name: generate a shell script to ldapadd all group ldif files
+      template:
+        src: templates/add_group.sh
+        dest: /tmp/add_groups.sh
+
+
+    - name: generate a shell script to ldapadd all user/group ldif files
+      template:
+        src: templates/add_users_groups.sh
+        dest: /tmp/add_users_groups.sh
+
+
+    - name: ldapadd all user ldif files
+      command: bash /tmp/add_users_groups.sh
+      
