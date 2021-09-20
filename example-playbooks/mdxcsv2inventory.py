@@ -91,7 +91,7 @@ def generate_inventory(args):
 
     # write a group that contains all nodes
     w("[{}]".format(args.default_group))
-    for vm in filter(lambda v: v["SERVICE_NET_1_IPv4"], vms):
+    for vm in filter(lambda v: v["SERVICE_NET_1_IPv4"] or v["SERVICE_NET_1_IPv6"], vms):
         printvm(vm, args)
     w("")
     

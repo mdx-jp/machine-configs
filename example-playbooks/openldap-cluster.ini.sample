@@ -17,6 +17,8 @@ ldap_root_pw_hash={SSHA}F19A5hS20/p5ivxZRE0ipuzuMhtIMKQN
 ldap_domain_pw=domainpw
 ldap_domain_pw_hash={SSHA}t91n5x4x+n8UEo4J0/ri2R+b/TIKxAv2
 
+nfs_dir=/home.nfs
+
 [manager]
 2001:2f8:1041:208:250:56ff:feb0:bf5     hostname=ikura000 rdmaipv4=10.141.24.123  
 
