@@ -32,17 +32,32 @@
     vars:
       etc_host_group: default
 
-- name: manager-only things
+- name: LDAP server
   hosts: manager
   become: yes
   gather_facts: False
   tasks:
   - import_tasks: tasks/ldap-server/task.yml
-  - import_tasks: tasks/ldap-users/task.yml
 
-- name: things after manager is done
+- name: LDAP clients
   hosts: all
   become: yes
   gather_facts: False
   tasks:
   - import_tasks: tasks/ldap-client/task.yml
+
+- name: NFS server
+  hosts: manager
+  become: yes
+  gather_facts: False
+  tasks:
+  - import_tasks: tasks/ldap-users/task.yml
+  - import_tasks: tasks/nfs-server/task.yml
+    
+- name: NFS clients
+  hosts: workers
+  become: yes
+  gather_facts: False
+  tasks:
+  - import_tasks: tasks/nfs-client/task.yml
+    

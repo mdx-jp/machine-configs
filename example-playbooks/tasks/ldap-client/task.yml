@@ -5,7 +5,7 @@
   apt:
     state: present
     name:
-    - nscd
+    - sssd
     - libnss-ldap
     - libpam-ldap
     - ldap-utils
