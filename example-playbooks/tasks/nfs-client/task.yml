@@ -1,0 +1,14 @@
+- name: install nfs client
+  apt:
+    name: nfs-common
+    state: present
+
+- name: mount the NFS volume on the manager host
+  mount:
+    src: "{{ hostvars[groups['manager'][0]].hostname }}:{{ nfs_dir }}"
+    path: "{{ nfs_dir }}"
+    opts: rw,noatime
+    boot: yes
+    state: mounted
+    fstype: nfs
+    

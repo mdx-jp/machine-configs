@@ -39,10 +39,19 @@
   tasks:
   - import_tasks: tasks/ldap-server/task.yml
   - import_tasks: tasks/ldap-users/task.yml
+  - import_tasks: tasks/nfs-server/task.yml
 
-- name: things after manager is done
+- name: common things after manager is done
   hosts: all
   become: yes
   gather_facts: False
   tasks:
   - import_tasks: tasks/ldap-client/task.yml
+
+- name: worker-only things after manager is done
+  hosts: workers
+  become: yes
+  gather_facts: False
+  tasks:
+  - import_tasks: tasks/nfs-client/task.yml
+    
