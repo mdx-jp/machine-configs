@@ -3,12 +3,9 @@
 ################################
 # provison basic configuration on all nodes
 #
-- name: setup /etc/hosts
+- name: basic configurations
   hosts: default
   become: yes
-  vars:
-    - nfs_dir: /nfs
-
   tasks:
 
     - name: setup hostname
@@ -27,14 +24,6 @@
         name: mpiusers
         state: present
 
-    - name: make sure /nfs exists
-      file:
-        path: "{{ nfs_dir }}"
-        state: directory
-        mode: "0775"
-        owner: mdxuser
-        group: mpiusers
-
     - name: add path for OpenMPI to system-wide bashrc
       blockinfile:
         path: /etc/bash.bashrc
@@ -46,67 +35,140 @@
           export MPIROOT PATH LD_LIBRARY_PATH MANPATH
 
 
+    - name: create ansible user
+      user:
+        name: ansible
+        groups: adm,sudo
+        home: /var/ansible
+        create_home: yes
+
+    - name: make ansible user be sudoable with nopass
+      blockinfile:
+        path: /etc/sudoers.d/ansible
+        create: yes
+        block: |
+          ansible ALL=(ALL) NOPASSWD:ALL
+
+    - name: make sure /var/ansible/.ssh exists
+      file:
+        path: /var/ansible/.ssh
+        state: directory
+        owner: ansible
+        group: ansible
+
+
+    # Following tasks are invoked on the 1st shot 
+    # (HOME of mdxuser is not moved yet)
+    #
+    - name: check /home/mdxuser exists
+      stat: path=/home/mdxuser
+      register: home_mdxuser_stat
+           
+    - name: copy mdxuser authkey to ansible user if /home/mdxuser exists
+      copy:
+        src: /home/mdxuser/.ssh/authorized_keys
+        dest: /var/ansible/.ssh/authorized_keys
+        owner: ansible
+        group: ansible
+        mode: "0600"
+      when: home_mdxuser_stat.stat.exists
+
+
+
 
 ################################
-# Setup manager
+# mv and change $HOME of mdxuser
+# This play is invoked on only the 1st shot where /home/mdxuser exists
 #
-- name: configure manager host
-  hosts: manager
+- name: move /home/mdxuser to /home.mdxuser
+  hosts: default
   become: yes
   vars:
-    - nfs_dir: /nfs
+    ansible_user: ansible
+
+  tasks:
+    - name: make sure /home.local exists
+      file:
+        path: /home.local
+        state: directory
+
+    - name: check /home/mdxuser exists
+      stat: 
+        path: /home/mdxuser
+      register: home_mdxuser_stat
+
+    - name: move home dir of mdxuser
+      command: mv /home/mdxuser /home.local/
+      when: home_mdxuser_stat.stat.exists
+
+      # XXX: should be gentle...
+    - name: killall mdxuser processes before change homedir
+      command: killall -KILL -u mdxuser
+
+    - name: make sure mdxuser's homedir is /home.local/mdxuser
+      user:
+        name: mdxuser
+        home: /home.local/mdxuser
+
+
+################################
+# Setup NFS server
+#
+- name: setup NFS server
+  hosts: nfsserver
+  become: yes
+  vars:
     - bench: osu-micro-benchmarks-5.8
     - mpicc: /usr/mpi/gcc/openmpi-4.0.4rc3/bin/mpicc
     - mpicxx: /usr/mpi/gcc/openmpi-4.0.4rc3/bin/mpicxx
 
   tasks:
-
-    # Configure NFS Server
     - name: install nfs server
       apt:
         name: nfs-kernel-server
         state: present
 
-    - name: export /nfs via NFS
+    - name: export /home via NFS
       lineinfile:
         path: /etc/exports
         state: present
-        regexp: "^{{ nfs_dir }} "
-        line: "{{ nfs_dir }} {{ ethipv4prefix }}(rw)"
+        regexp: "^/home "
+        line: "/home {{ ethipv4prefix }}(rw)"
 
     - name: re-export all directories
       command: exportfs -ra
 
 
-    # Download and build OSU Micro Benchmarks
-    - name: get OSU Micro-benchmarks
-      get_url:
-        url: "https://mvapich.cse.ohio-state.edu/download/mvapich/{{ bench }}.tgz"
-        dest: /tmp
-
-    - name: decompress OSU Micro-benchmarks
-      unarchive:
-        src: "/tmp/{{ bench }}.tgz"
-        dest: "{{ nfs_dir }}/"
-        remote_src: yes
-
-    - name: configure OSU Micro-benchmarks
-      command: "./configure CC={{ mpicc }} CXX={{ mpicxx }} chdir=/nfs/{{ bench }}"
-
-    - name: make OSU Micro-benchmarks
-      command: "make CC={{ mpicc }} CXX={{ mpicxx }} chdir=/nfs/{{ bench }}"
-
+    # Download and build OSU Micro Benchmarks as an example
+#    - name: get OSU Micro-benchmarks
+#      get_url:
+#        url: "https://mvapich.cse.ohio-state.edu/download/mvapich/{{ bench }}.tgz"
+#        dest: /tmp
+#
+#    - name: decompress OSU Micro-benchmarks
+#      unarchive:
+#        src: "/tmp/{{ bench }}.tgz"
+#        dest: "/home"
+#        remote_src: yes
+#
+#    - name: configure OSU Micro-benchmarks
+#      command: "./configure CC={{ mpicc }} CXX={{ mpicxx }} chdir=/home/{{ bench }}"
+#
+#    - name: make OSU Micro-benchmarks
+#      command: "make CC={{ mpicc }} CXX={{ mpicxx }} chdir=/home/{{ bench }}"
+#
 
 
 ################################
 # Setup workers (mount NFS)
 #
-- name: configure worker hosts
-  hosts: workers
+- name: configure nfs clients
+  hosts: nfsclients
   become: yes
+
   vars:
-    nfs_dir: /nfs
-    nfs_target: "{{ hostvars[groups['manager'][0]]['ethipv4'] }}"
+    ansible_user: ansible
+    nfs_target: "{{ hostvars[groups['nfsserver'][0]]['ethipv4'] }}"
 
   tasks:
     - name: install nfs client
@@ -114,10 +176,22 @@
         name: nfs-common
         state: present
 
-    - name: mount the NFS volume on the manager host
+    - name: remove /home if it is not NFS
+      file:
+        path: /home
+        state: absent
+      when: ansible_mounts | selectattr('mount', 'equalto', '/home') | list | length == 0
+
+    - name: create /home if it is not NFS
+      file:
+        path: /home
+        state: directory
+      when: ansible_mounts | selectattr('mount', 'equalto', '/home') | list | length == 0
+
+    - name: mount /home via nfs
       mount:
-        src: "{{ nfs_target }}:{{ nfs_dir }}"
-        path: "{{ nfs_dir }}"
+        src: "{{ nfs_target }}:/home"
+        path: /home
         opts: rw,noatime
         boot: yes
         state: mounted
@@ -126,64 +200,64 @@
 
 ################################
 # Setup user accounts
+##
+#- name: provision user accounts
+#  hosts: default
+#  become: yes
+#  vars:
+#    nfs_dir: /nfs
 #
-- name: provision user accounts
-  hosts: default
-  become: yes
-  vars:
-    nfs_dir: /nfs
-
-    users:
-      - name: prjuser1
-        state: present
-        password: $6$ultraslt$b47IR6oT4WndhJ4AiP9hP1s7R8COiJR9G1GY5xM39jSwB4FGiYNSv6Cfb364ECeAhqUiDQLConHh.f1ocFVfZ1
-        groups: mpiusers
-        keys:
-          - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHUezbSsj6sYL8CWB8oBz38+fEdBo/DfjpYYwlNf6QA9"
-          - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEhNyUV0cdY7HORlQzjvsFTHhyPtdAkHJ7GZepPgtmZC"
-
-      - name: prjuser2
-        state: present
-        password: $6$ultraslt$b47IR6oT4WndhJ4AiP9hP1s7R8COiJR9G1GY5xM39jSwB4FGiYNSv6Cfb364ECeAhqUiDQLConHh.f1ocFVfZ1
-        groups: mpiusers
-        keys:
-          - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJrTe0xnvijAcll+BRNWeqrQ9lDp/9pU+2QJcbZhzDwS"
-
-
-  tasks:
-    - name: create or delete users
-      user:
-        name: "{{ item.name }}"
-        state: "{{ item.state }}"
-        password: "{{ item.password }}"
-        groups: "{{ item.groups }}"
-        shell: /bin/bash
-      loop: "{{ users }}"
-
-    - name: put ssh auth keys for users
-      authorized_key:
-        state: present
-        user: "{{ item.0.name }}"
-        key: "{{ item.1 }}"
-      loop: "{{ users | subelements('keys') }}"
-      when: item.0.state == "present"
-
-    - name: create user directories on NFS dir
-      file:
-        path: "{{ nfs_dir }}/{{ item.name }}"
-        state: directory
-        mode: "0755"
-        owner: "{{ item.name }}"
-        group: "{{ item.name }}"
-      loop: "{{ users }}" 
-      when: item.state == "present" and "manager" in hostvars[inventory_hostname]['group_names']
-
-    - name: create symbolic link for /nfs/USER_DIR
-      file:
-        src: "{{ nfs_dir }}/{{ item.name }}"
-        dest: "/home/{{ item.name }}/nfs"
-        owner: "{{ item.name }}"
-        group: "{{ item.name }}"
-        state: link
-      loop: "{{ users }}"
-      when: item.state == "present"
+#    users:
+#      - name: prjuser1
+#        state: present
+#        password: $6$ultraslt$b47IR6oT4WndhJ4AiP9hP1s7R8COiJR9G1GY5xM39jSwB4FGiYNSv6Cfb364ECeAhqUiDQLConHh.f1ocFVfZ1
+#        groups: mpiusers
+#        keys:
+#          - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHUezbSsj6sYL8CWB8oBz38+fEdBo/DfjpYYwlNf6QA9"
+#          - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEhNyUV0cdY7HORlQzjvsFTHhyPtdAkHJ7GZepPgtmZC"
+#
+#      - name: prjuser2
+#        state: present
+#        password: $6$ultraslt$b47IR6oT4WndhJ4AiP9hP1s7R8COiJR9G1GY5xM39jSwB4FGiYNSv6Cfb364ECeAhqUiDQLConHh.f1ocFVfZ1
+#        groups: mpiusers
+#        keys:
+#          - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJrTe0xnvijAcll+BRNWeqrQ9lDp/9pU+2QJcbZhzDwS"
+#
+#
+#  tasks:
+#    - name: create or delete users
+#      user:
+#        name: "{{ item.name }}"
+#        state: "{{ item.state }}"
+#        password: "{{ item.password }}"
+#        groups: "{{ item.groups }}"
+#        shell: /bin/bash
+#      loop: "{{ users }}"
+#
+#    - name: put ssh auth keys for users
+#      authorized_key:
+#        state: present
+#        user: "{{ item.0.name }}"
+#        key: "{{ item.1 }}"
+#      loop: "{{ users | subelements('keys') }}"
+#      when: item.0.state == "present"
+#
+#    - name: create user directories on NFS dir
+#      file:
+#        path: "{{ nfs_dir }}/{{ item.name }}"
+#        state: directory
+#        mode: "0755"
+#        owner: "{{ item.name }}"
+#        group: "{{ item.name }}"
+#      loop: "{{ users }}" 
+#      when: item.state == "present" and "manager" in hostvars[inventory_hostname]['group_names']
+#
+#    - name: create symbolic link for /nfs/USER_DIR
+#      file:
+#        src: "{{ nfs_dir }}/{{ item.name }}"
+#        dest: "/home/{{ item.name }}/nfs"
+#        owner: "{{ item.name }}"
+#        group: "{{ item.name }}"
+#        state: link
+#      loop: "{{ users }}"
+#      when: item.state == "present"
