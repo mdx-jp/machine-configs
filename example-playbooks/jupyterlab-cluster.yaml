@@ -15,6 +15,10 @@
       vars:
         etc_host_group: default
 
+    - name: setup hostname
+      hostname:
+        name: "{{ hostname }}"
+
 
 ################################
 # Deploy jupyter lab
@@ -24,10 +28,6 @@
   become: yes
 
   tasks:
-    - name: setup hostname
-      hostname:
-        name: "{{ hostname }}"
-
     - name: install required packages
       apt:
         state: present
@@ -35,24 +35,28 @@
           - python3-venv
           - nfs-common
 
+    - name: get homedir of mdxuser
+      shell: "getent passwd mdxuser | cut -d : -f 6"
+      register: mdxuserhome
+
     - name: create venv for jupyterlab
       pip: 
         name:
           - setuptools
           - pip
         state: latest
-        virtualenv: "/home/mdxuser/.python-venv"
+        virtualenv: "{{ mdxuserhome.stdout }}/.python-venv"
         virtualenv_command: '/usr/bin/python3 -m venv'
   
     - name: install jupyterlab
       pip:
         name:
           - jupyterlab
-        virtualenv: "/home/mdxuser/.python-venv"
+        virtualenv: "{{ mdxuserhome.stdout }}/.python-venv"
     
     - name: recursively change ownership of the python-venv directory
       file:
-        path: /home/mdxuser/.python-venv
+        path: "{{ mdxuserhome.stdout }}/.python-venv"
         state: directory
         recurse: yes
         owner: mdxuser
@@ -65,7 +69,7 @@
       vars:
         jupyterlab_user: mdxuser
         jupyterlab_group: mdxuser
-        jupyterlab_directory: /home/mdxuser
+        jupyterlab_directory: "{{ mdxuserhome.stdout }}"
     
     - name: make sure enable and run jupyterlab daemon
       systemd:
@@ -109,14 +113,19 @@
 - name: Configure NFS server
   hosts: nfsserver
   become: yes
-  vars:
-    - nfs_dir: /home/mdxuser/nfs
 
   tasks:
     - name: install nfs-kernel-server
       apt:
         name: nfs-kernel-server
         state: present
+
+    - name: get homedir of mdxuser
+      shell: "getent passwd mdxuser | cut -d : -f 6"
+      register: mdxuserhome
+
+    - name: set nfs directory
+      set_fact: nfs_dir="{{ mdxuserhome.stdout }}/nfs"
 
     - name: make sure nfs-server runs
       systemd:
@@ -147,10 +156,16 @@
   hosts: nfsclients
   become: yes
   vars:
-    - nfs_dir: /home/mdxuser/nfs
     - nfs_target: "{{ hostvars[groups['nfsserver'][0]]['ethipv4'] }}"
 
   tasks:
+    - name: get homedir of mdxuser
+      shell: "getent passwd mdxuser | cut -d : -f 6"
+      register: mdxuserhome
+
+    - name: set nfs directory
+      set_fact: nfs_dir="{{ mdxuserhome.stdout}}/nfs"
+
     - name: make sure nfs dir exists
       file: 
         path: "{{ nfs_dir }}"

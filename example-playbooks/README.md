@@ -3,15 +3,27 @@
 This directory provides self-contained Ansible playbooks to provision
 a cluster on mdx.
 
+- nfs-home-cluster.yaml: Share /home directory among all VMs via NFS.
+
+  - Required host groups: `nfsserver`, `nfsclients`
+
+- ldap-cluster.yaml: Deploy LDAP on a cluster and create user
+  accounts (depending on nfs-home-cluster.yaml).
+
+  - Required host groups: `ldapserver`
+
+- mpi-cluster.yaml: Configure all VMs to be capable of OpenMPI
+  (installed with OFED).
+
+  - Optional host groups: `nfsserver`
+
 - jupyterlab-cluster.yaml: Spawn jupyter lab on all VMs, and configure
   a VM, which would have a global IPv4 address by DNAT, as a reverse
   proxy to access the jupyter lab instances.
 
-- mpi-cluster.yaml: Provision a cluster capable of MPI (OpenMPI
-  installed along with OFED).
+  - Required host groups: `nginx`
+  - Optional host groups: `nfsserver`, `nfsclients`
 
-- ldap-cluster.yaml: Deploy LDAP on a cluster and create user
-  accounts (depending on mpi-cluster.yaml).
 
 Getting Started will be documented on docs.mdx.jp...
 
@@ -71,8 +83,8 @@ rdmaipv4prefix=10.141.200.0/21
 ```
 
 You can generate host groups with/without specified VMs. For example,
-to configure `vm1` as an NFS server and others as NFS clients for an
-MPI cluster:
+to configure `vm1` in nfsserver group and others in nfsclients gorup:
+
 
 ```shell-session
 $ ./mdxcsv2inventory.py user-portal-vm-info.csv --group-with nfsserver vm1 --group-without nfsclients vm1
@@ -107,38 +119,3 @@ rdmaipv4prefix=10.141.200.0/21
 
 ```
 
-The above group names fit mpi-cluster.yaml. The following commands
-provison an MPI cluster based on the CSV file.
-
-```shell-session
-./mdxcsv2inventory.py user-portal-vm-info.csv --group-with nfsserver vm1 \
-  					      --group-without nfsclients vm1 \
-					      > mpi-hosts.ini
-
-ansible-playbook -i mpi-hosts.ini mpi-cluster.yaml
-```
-
-After provisioning finished, ssh (probably with ssh-agent) to vm1 as
-mdxuser, execute `cat /etc/hosts | grep rdma | awk '{print $2}' |
-ssh-keyscan -f - >> ~/.ssh/known_hosts` to gather ssh server
-fingerpints, and then you can do `mpirun -np 4 -H
-vm2-rdma,vm3-rdma,vm4-rdma,vm5-rdma
-/home/example/osu-micro-benchmarks-5.8/mpi/collective/osu_gather` for example.
-
-
-For jupyterlab-cluster.yaml:
-
-```shell-session
-./mdxcsv2inventory.py user-portal-vm-info.csv --group-with nginx vm1 \
-		      			      --group-with nfsserver vm1 \
-					      --group-without nfsclients vm1 \
-					      > jupyter-hosts.ini
-
-ansible-playbook -i jupyter-hosts.ini jupyterlab-cluster.yaml
-```
-
-Assign a global IPv4 address to `vm1` by DNAT, and then you can access
-jupyterlab on a VM through `http://[vm1 global addr]:8001` for
-example.
-
-`ansible-playbook -f FORKS` would contribute speed up for provisioning.
