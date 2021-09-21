@@ -9,5 +9,5 @@ filter_users = root
 [domain/default]
 id_provider = ldap
 ldap_uri = ldap://{{ ldapserver_addr }}/
-ldap_search_base = dc=myldap,dc=mdx,dc=jp
+ldap_search_base = {{ ldap_domain }}
 ldap_default_authtok = {{ ldap_domain_password }}
