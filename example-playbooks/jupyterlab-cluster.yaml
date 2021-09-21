@@ -144,7 +144,7 @@
 
 
 - name: mount NFS
-  hosts: nfsclient
+  hosts: nfsclients
   become: yes
   vars:
     - nfs_dir: /home/mdxuser/nfs

@@ -131,7 +131,7 @@ For jupyterlab-cluster.yaml:
 ```shell-session
 ./mdxcsv2inventory.py user-portal-vm-info.csv --group-with nginx vm1 \
 		      			      --group-with nfsserver vm1 \
-					      --group-without nfsclient vm1 \
+					      --group-without nfsclients vm1 \
 					      > jupyter-hosts.ini
 
 ansible-playbook -i jupyter-hosts.ini jupyterlab-cluster.yaml
