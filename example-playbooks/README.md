@@ -10,6 +10,8 @@ a cluster on mdx.
 - mpi-cluster.yaml: Provision a cluster capable of MPI (OpenMPI
   installed along with OFED).
 
+- ldap-cluster.yaml: Deploy LDAP on a cluster and create user
+  accounts (depending on mpi-cluster.yaml).
 
 Getting Started will be documented on docs.mdx.jp...
 
