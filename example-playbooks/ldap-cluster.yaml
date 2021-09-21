@@ -117,6 +117,22 @@
         dest: /etc/ldap/ldap.conf
         remote_src: yes
 
+    - name: generate /etc/ldap.secret
+      copy:
+        dest: /etc/ldap.secret
+        content: "{{ ldap_root_password }}"
+        mode: "0600"
+        owner: root
+        backup: yes
+
+    - name: change /etc/pam.d/common-password
+      lineinfile:
+        path: /etc/pam.d/common-password
+        backrefs: yes
+        regexp: "^password(.*) use_authtok(.*)$"
+        line:    'password\1 \2$'
+        backup: yes
+
     - name: put sssd.conf
       template:
         src: templates/sssd.conf.j2
