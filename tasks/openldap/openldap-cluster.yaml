@@ -37,27 +37,27 @@
   become: yes
   gather_facts: False
   tasks:
-  - import_tasks: tasks/ldap-server/task.yml
+  - import_tasks: ..//ldap-server/task.yml
 
 - name: LDAP clients
   hosts: all
   become: yes
   gather_facts: False
   tasks:
-  - import_tasks: tasks/ldap-client/task.yml
+  - import_tasks: ..//ldap-client/task.yml
 
 - name: NFS server
   hosts: manager
   become: yes
   gather_facts: False
   tasks:
-  - import_tasks: tasks/ldap-users/task.yml
-  - import_tasks: tasks/nfs-server/task.yml
+  - import_tasks: ../ldap-users/task.yml
+  - import_tasks: ../nfs-server/task.yml
     
 - name: NFS clients
   hosts: workers
   become: yes
   gather_facts: False
   tasks:
-  - import_tasks: tasks/nfs-client/task.yml
+  - import_tasks: ..//nfs-client/task.yml
     

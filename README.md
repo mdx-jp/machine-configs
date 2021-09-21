@@ -61,7 +61,7 @@ Example tasks (environment-dependent)
 - [docker](tasks/docker): install Docker Engine
 - [jupyterlab](tasks/jupyterlab): daemonize and run jupyter lab
 - [nfs](tasks/nfs): an example to deploy a NFS server and NFS clients
-
+- [openldap](tasks/openldap): deploy a cluster with LDAP and NFS
 
 Template build tasks (internally used at mdx, but might be helpful):
 - cloud-init
