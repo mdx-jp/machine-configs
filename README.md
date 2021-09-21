@@ -12,6 +12,9 @@ We recommend you to briefly read [Ansible overview](https://www.ansible.com/over
 
 ## Getting Started
 
+Self-contianed playbooks for deploying some types of specific culsters
+(but dependent on mdx) are in [example-playbooks](example-playbooks).
+
 1. Install `ansible` on your machine that configures your VMs.
 
 2. Prepare your Ansible inventory file, which contains IP addresses of
