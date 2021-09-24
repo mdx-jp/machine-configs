@@ -30,13 +30,14 @@ def make_home(user):
     os.makedirs(home, exist_ok=True,
                 mode=int(perm, 8))
     os.chown(home, uid=uid_num, gid=gid_num)
-    os.makedirs(dot_ssh, exist_ok=True, mode=0o700)
-    os.chown(dot_ssh, uid=uid_num, gid=gid_num)
-    if not os.path.exists(authorized_keys):
-        with open(authorized_keys, "w") as auth_key_wp:
-            auth_key_wp.write(pub_keys)
-        os.chown(authorized_keys, uid=uid_num, gid=gid_num)
-        os.chmod(authorized_keys, 0o600)
+    if pub_keys:
+        os.makedirs(dot_ssh, exist_ok=True, mode=0o700)
+        os.chown(dot_ssh, uid=uid_num, gid=gid_num)
+        if not os.path.exists(authorized_keys):
+            with open(authorized_keys, "w") as auth_key_wp:
+                auth_key_wp.write(pub_keys)
+            os.chown(authorized_keys, uid=uid_num, gid=gid_num)
+            os.chmod(authorized_keys, 0o600)
     return 1                    # OK
 
 def run(cmd, input_str):
@@ -47,6 +48,15 @@ def run(cmd, input_str):
     comp = subprocess.run(cmd, shell=True, input=input_str, encoding="utf-8", check=False)
     print("--> {}".format(comp.returncode))
     return comp.returncode
+
+def slappasswd(passwd):
+    try:
+        comp = subprocess.run(["slappasswd", "-s", passwd],
+                              capture_output=True,
+                              check=False, encoding="utf-8")
+    except FileNotFoundError:
+        return ""
+    return comp.stdout.strip()
 
 def add_ldif_if_not_exist(ldap_domain, ldap_passwd, key, ldif):
     """
@@ -70,6 +80,8 @@ def add_user_if_not_exist(ldap_passwd, ldap_domain, user):
     """
     dic = {"ldap_domain" : ldap_domain}
     dic.update(user)
+    if not dic["password_hash"] and dic["password"]:
+        dic["password_hash"] = slappasswd(dic["password"])
     key = "uid={uid},ou=people,{ldap_domain}".format(**dic)
     ldif = ("""dn: uid={uid},ou=people,{ldap_domain}
 objectClass: inetOrgPerson
@@ -192,9 +204,9 @@ def main():
     main
     """
     opts = parse_args(sys.argv)
-    if add_users_groups(opts):
+    if add_users_groups(opts) == 0:
         return 0                # OK
-    return 1
+    return 1                    # NG
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

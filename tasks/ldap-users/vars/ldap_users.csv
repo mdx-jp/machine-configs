@@ -1,4 +1,0 @@
-uid,gid,cn,sn,loginshell,uidnumber,gidnumber,homedirectory,homedirectory_perm,authorized_keys,password_hash,password
-share,share,share,share,/bin/bash,10000,10000,/home/share,755,ssh-rsa ...........,{SSHA}3K8RfUR3nohtLs3uLp0JnDWrzWig3WZx,need_slappasswd_command
-u10000,g10000,Jiro Tanaka,Tanaka,/bin/bash,10000,10000,/home/u10000,700,ssh-ed25519 .....,,bu2su:iXohy
-u10001,g10001,John Smith,Smith,/bin/bash,10001,10001,/home/u10001,700,ssh-ed25519 ......,{SSHA}GkRFh6kY+O90NUd1/PPLhx6qkDcMr6vD,
