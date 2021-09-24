@@ -30,7 +30,7 @@
   lineinfile:
     path: /etc/ldap.conf
     regexp: "^uri (.*)$"
-    line:    "uri ldap://{{ hostvars[groups['manager'][0]].hostname }}/"
+    line:    "uri ldap://{{ hostvars[groups['ldapserver'][0]].ethipv4 }}/"
     backup: yes
     
 #
@@ -45,11 +45,11 @@
     line:    "rootbinddn cn=admin,{{ ldap_domain }}"
     
 #
-# put LDAP administrator (ldap_root_pw) password
+# put LDAP administrator (ldap_root_password) password
 # in /etc/ldap.secret
 # TODO: I am still not sure whether we should put
 # LDAP administrator password or
-# domain admin password (domain_pw).
+# domain admin password (domain_password).
 # it seems more logical to use domain admin password
 # here
 #
@@ -59,7 +59,8 @@
 - name: generate /etc/ldap.secret
   copy:
     dest: /etc/ldap.secret
-    content: "{{ ldap_root_pw }}"
+#    content: "{{ ldap_root_password }}"
+    content: "{{ ldap_domain_password }}"
     mode: "0600"
     owner: root
     backup: yes
@@ -75,26 +76,14 @@
     line:    'password\1 \2$'
     backup: yes
 
-#
-# these two tasks really enable LDAP.
-# if you screw this file,
-# you screw everything.
-#
-- name: enable ldap for passwd in /etc/nsswitch.conf
-  lineinfile:
-    path: /etc/nsswitch.conf
-    backrefs: yes
-    regexp: "^passwd:( *)files systemd *$"
-    line:    'passwd:\1files systemd ldap'
-    backup: yes
+- name: put sssd.conf
+  template:
+    src: templates/sssd.conf.j2
+    dest: /etc/sssd/sssd.conf
+    mode: "0600" 
+  vars:
+    ldapserver_addr: "{{ hostvars[groups['ldapserver'][0]].hostname }}"
     
-- name: enable ldap for group in /etc/nsswitch.conf
-  lineinfile:
-    path: /etc/nsswitch.conf
-    backrefs: yes
-    regexp: "^group:( *)files systemd *$"
-    line:    'group:\1files systemd ldap'
-
 #
 # you need to do this after you set things up.
 # otherwise it keeps saying "no such user", 
@@ -104,8 +93,8 @@
 # nscd is suggested when we install libnss-ldap
 # etc.)
 #
-- name: restart name space caching daemon
+- name: restart sssd
   service:
-    name: nscd
+    name: sssd
     state: restarted
     

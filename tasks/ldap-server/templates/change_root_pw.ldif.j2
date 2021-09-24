@@ -1,7 +1,7 @@
 dn: olcDatabase={1}mdb,cn=config
 changetype: modify
 replace: olcRootPW
-olcRootPW: {{ ldap_root_pw_hash }}
+olcRootPW: {{ ldap_root_password_hash }}
 -
 replace: olcSuffix
 olcSuffix: {{ ldap_domain }}

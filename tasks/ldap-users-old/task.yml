@@ -1,0 +1,133 @@
+- name: ensure ldap-users work dir exists
+  file:
+    name: /tmp/ldap-users
+    state: directory
+#
+# copy group csv file to the remote host
+#
+- name: copy vars/ldap_groups.csv
+  copy:
+    src: vars/ldap_groups.csv
+    dest: /tmp/ldap-users/ldap_groups.csv
+
+#
+# read the group csv file and define the variable
+#
+- name: include group definitions from csv
+  read_csv:
+    path: /tmp/ldap-users/ldap_groups.csv
+  register: ldap_groups
+
+#
+# copy user csv file to the remote host
+# NOTE: plain pw column in the csv file
+# is actually unncessary (retained for
+# convenience)
+#
+- name: copy vars/ldap_users.csv
+  copy:
+    src: vars/ldap_users.csv
+    dest: /tmp/ldap-users/ldap_users.csv
+    
+#
+# read the user csv file and define the variable
+#
+- name: include user definitions from csv
+  read_csv:
+    path: /tmp/ldap-users/ldap_users.csv
+  register: ldap_users
+
+#
+# generate an ldif file for each group
+#
+- name: generate group ldif files from group csv
+  template:
+    src: templates/group.ldif.j2
+    dest: /tmp/ldap-users/group-{{ item.gid }}.ldif
+  loop: "{{ ldap_groups.list }}"
+    
+#
+# generate an ldif file for each group
+#
+- name: generate group ldif files from user csv
+  template:
+    src: templates/group.ldif.j2
+    dest: /tmp/ldap-users/user-group-{{ item.gid }}.ldif
+  loop: "{{ ldap_users.list }}"
+    
+#
+# generate an ldif file for each user
+#
+- name: generate user ldif files
+  template:
+    src: templates/user.ldif.j2
+    dest: /tmp/ldap-users/user-{{ item.uid }}.ldif
+  loop: "{{ ldap_users.list }}"
+
+#
+# for each user, check if it already exists.
+# for each user that does not exist,
+# cat the ldif file generated above.
+# feed ldapadd with all ldif files of
+# non-existing users
+#
+- name: generate a shell script to ldapadd all user/group ldif files
+  template:
+    src: templates/add_users_groups.sh
+    dest: /tmp/ldap-users/add_users_groups.sh
+
+- name: ldapadd all user ldif files
+  command: bash /tmp/ldap-users/add_users_groups.sh
+
+#
+# for each group, check if it already exists.
+# for each group that does not exist,
+# cat the ldif file generated above.
+# feed ldapadd with all ldif files of
+# non-existing groups
+# TODO: we need to add uid to gid
+#
+- name: generate a shell script to ldapadd all group ldif files
+  template:
+    src: templates/add_groups.sh
+    dest: /tmp/ldap-users/add_groups.sh
+
+- name: ldapadd all group ldif files
+  command: bash /tmp/ldap-users/add_groups.sh
+
+- name: ensure parent directories exist
+  file:
+    path: "{{ item.homedirectory | dirname }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  with_items: "{{ ldap_users.list }}"
+  
+- name: ensure home directories exist
+  file:
+    path: "{{ item.homedirectory }}"
+    state: directory
+    owner: "{{ item.uid }}"
+    group: "{{ item.gid }}"
+    mode: "{{ item.homedirectory_perm }}"
+  with_items: "{{ ldap_users.list }}"
+  
+- name: ensure HOME/.ssh exist
+  file:
+    path: "{{ item.homedirectory }}/.ssh"
+    state: directory
+    owner: "{{ item.uid }}"
+    group: "{{ item.gid }}"
+    mode: '0700'
+  with_items: "{{ ldap_users.list }}"
+  
+- name: ensure HOME/.ssh/authorized_keys exist
+  copy:
+    dest: "{{ item.homedirectory }}/.ssh/authorized_keys"
+    owner: "{{ item.uid }}"
+    group: "{{ item.gid }}"
+    mode: '0600'
+    content: "{{ item.authorized_keys }}"
+  with_items: "{{ ldap_users.list }}"
+  

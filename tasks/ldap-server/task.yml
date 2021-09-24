@@ -8,6 +8,23 @@
     - slapd
     - ldap-utils
 
+# if ldap_root_password_hash is not defined, generate it from root password
+- name: obtain hash of root password
+  command: slappasswd -s {{ ldap_root_password }}
+  register: slappasswd_root
+  when: ldap_root_password_hash is not defined
+
+- name: set ldap_root_password_hash
+  set_fact:
+    ldap_root_password_hash: "{{ slappasswd_root.stdout }}"
+  when: ldap_root_password_hash is not defined
+
+# set root password
+- name: generates /tmp/change_root_pw.ldif
+  template:
+    src: templates/change_root_pw.ldif.j2
+    dest: /tmp/change_root_pw.ldif
+
 #
 # generate ldif to change the administrator password
 # (defined in the inventory file)
@@ -22,6 +39,17 @@
 #
 - name: master changes LDAP root pw
   command: ldapadd -Y EXTERNAL -H ldapi:/// -f /tmp/change_root_pw.ldif
+
+# if ldap_domain_password_hash is not defined, generate it from domain password
+- name: obtain hash of domain password
+  command: slappasswd -s {{ ldap_domain_password }}
+  register: slappasswd_domain
+  when: ldap_domain_password_hash is not defined
+
+- name: set ldap_domain_password_hash
+  set_fact:
+    ldap_domain_password_hash: "{{ slappasswd_domain.stdout }}"
+  when: ldap_domain_password_hash is not defined
 
 #
 # generate ldif file to make the LDAP domain of this cluster

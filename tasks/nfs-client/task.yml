@@ -5,7 +5,7 @@
 
 - name: mount the NFS volume on the manager host
   mount:
-    src: "{{ hostvars[groups['manager'][0]].hostname }}:{{ nfs_dir }}"
+    src: "{{ hostvars[groups['nfsserver'][0]].ethipv4 }}:{{ nfs_dir }}"
     path: "{{ nfs_dir }}"
     opts: rw,noatime
     boot: yes
