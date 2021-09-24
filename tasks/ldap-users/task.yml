@@ -5,10 +5,16 @@
 #
 # copy group csv file to the remote host
 #
+- name: check if vars/ldap_groups.csv exists
+  local_action: stat path=tasks/ldap-users/vars/ldap_groups.csv
+  register: ldap_groups_csv
+  become: no
+
 - name: copy vars/ldap_groups.csv
   copy:
     src: vars/ldap_groups.csv
     dest: /tmp/ldap-users/ldap_groups.csv
+  when: ldap_groups_csv.stat.exists
 
 #
 # copy user csv file to the remote host
@@ -16,10 +22,16 @@
 # is actually unncessary (retained for
 # convenience)
 #
+- name: check if vars/ldap_users.csv exists
+  local_action: stat path=tasks/ldap-users/vars/ldap_users.csv
+  register: ldap_users_csv
+  become: no
+
 - name: copy vars/ldap_users.csv
   copy:
     src: vars/ldap_users.csv
     dest: /tmp/ldap-users/ldap_users.csv
+  when: ldap_users_csv.stat.exists
 
 #    
 # copy python script that does everything
@@ -33,8 +45,26 @@
 #    
 # and execute it
 #
+- name: set --groups opt 1
+  set_fact:
+    groups_opt: 
+
+- name: set --groups opt 2
+  set_fact:
+    groups_opt: --groups ldap_groups.csv
+  when: ldap_groups_csv.stat.exists
+
+- name: set --users opt 1
+  set_fact:
+    users_opt: 
+
+- name: set --users opt 2
+  set_fact:
+    users_opt: --users ldap_users.csv
+  when: ldap_users_csv.stat.exists
+
 - name: make users and groups
   command:
-    cmd: ./make_users_groups.py {{ldap_domain_password}} {{ldap_domain}} --users ldap_users.csv --groups ldap_groups.csv
+    cmd: ./make_users_groups.py {{ldap_domain_password}} {{ldap_domain}} {{users_opt}} {{groups_opt}}
     chdir: /tmp/ldap-users
 
