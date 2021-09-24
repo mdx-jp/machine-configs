@@ -3,9 +3,9 @@
   apt:
     update_cache: yes
 
-- name: apt upgrade
-  apt:
-    upgrade: yes
+# - name: apt upgrade
+#   apt:
+#     upgrade: yes
 
 # change list of `name` to install packages you need
 - name: install basic packages
