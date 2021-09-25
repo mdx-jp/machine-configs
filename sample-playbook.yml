@@ -60,7 +60,7 @@
   vars_files:
     - ldap_vars.yaml
   tasks:
-  - import_tasks: tasks/ldap-users-fast/task.yml
+  - import_tasks: tasks/ldap-users/task.yml
 
 - name: CUDA
   hosts: gpus
@@ -89,14 +89,29 @@
   gather_facts: no
   become: yes
   tasks:
-  - import_tasks: tasks/tensorflow/task.yml
+#  - import_tasks: tasks/tensorflow/task.yml
 
 - name: Other tasks
   hosts: default
   gather_facts: no
   become: yes
   tasks:
+  - import_tasks: tasks/jupyterhub/task.yml
 #  - import_tasks: tasks/apache/task.yml
 #  - import_tasks: tasks/docker/task.yml
 #  - import_tasks: tasks/jupyterlab/task.yml
 
+# - name: reboot server
+#   hosts: nfsserver
+#   gather_facts: no
+#   become: yes
+#   tasks:
+#     reboot
+
+- name: reboot clients
+  hosts: nfsclients
+  gather_facts: no
+  become: yes
+  tasks:
+  - reboot:
+    
