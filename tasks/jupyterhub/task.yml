@@ -1,0 +1,22 @@
+- name: install npm
+  apt:
+    name:
+    - npm
+
+- name: install jupyterhub
+  pip:
+    executable: pip3
+    name:
+    - tornado
+    - jupyter
+    - matplotlib
+    - jupyterlab
+    - jupyterhub
+    - notebook
+    - pixiedust
+
+- name: install configurable-http-proxy
+  npm:
+    name: configurable-http-proxy
+    global: yes
+    
