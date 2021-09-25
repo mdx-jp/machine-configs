@@ -3,11 +3,16 @@
     name: nfs-common
     state: present
 
+# without x-systemd.xxx options, mount fails on start up with an error
+# Sep 25 12:38:47 x001 mount[940]: mount.nfs: Network is unreachable
+# presumably because dhcp takes some time to assign IP address.
+# see
+# https://unix.stackexchange.com/questions/459731/systemd-failed-to-mount-nfs-share-mount-nfs-network-is-unreachable-until-late
 - name: mount the NFS volume on the manager host
   mount:
     src: "{{ hostvars[groups['nfsserver'][0]].ethipv4 }}:{{ nfs_dir }}"
     path: "{{ nfs_dir }}"
-    opts: rw,noatime
+    opts: rw,noatime,x-systemd.automount,x-systemd.requires=network-online.target,x-systemd.device-timeout=10
     boot: yes
     state: mounted
     fstype: nfs
