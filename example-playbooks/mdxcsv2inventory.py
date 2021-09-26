@@ -4,6 +4,7 @@ import argparse
 import csv
 import sys
 import json
+import re
 from ipaddress import ip_network
 
 def csv2dictlist(csvfile):
@@ -92,6 +93,26 @@ def generate_group_without(vms, args):
             printvm(vm, args)
         w("")
 
+def generate_group_regexp(vms, args, group_args, invert = False):
+
+    w = lambda x: args.output.write(x + "\n")
+
+    for attrs in group_args:
+        groupname = attrs[0]
+        regexp = re.compile(attrs[1])
+
+        if not invert:
+            f = lambda v: regexp.search(v["VM_NAME"])
+            m = "with"
+        else:
+            f = lambda v: not regexp.search(v["VM_NAME"])
+            m = "without"
+
+        w("[{}]".format(groupname))
+        w("# group {} regexp '{}'".format(m, attrs[1]))
+        for vm in filter(f, vms):
+            printvm(vm, args)
+        w("")
 
 def generate_inventory(args):
 
@@ -126,6 +147,15 @@ def generate_inventory(args):
     if args.group_without:
         generate_group_without(vms, args)
 
+    # write groups with regexp
+    if args.group_regexp:
+        generate_group_regexp(vms, args, args.group_regexp, invert = False)
+
+    # write groups with regexp
+    if args.group_regexp_invert:
+        generate_group_regexp(vms, args, args.group_regexp_invert,
+                              invert = True)
+
     # write per-node groups
     if args.per_node_groups:
         for vm in filter(lambda v: v["SERVICE_NET_1_IPv4"], vms):
@@ -145,7 +175,7 @@ def main():
                         help = "use IPv6 address for hosts")
     parser.add_argument("-u", "--ansible-user", default = "mdxuser",
                         help = "user to run ansible, default is mdxuser")
-    parser.add_argument("-g", "--default-group", default = "default",
+    parser.add_argument("-d", "--default-group", default = "default",
                         help = "group name for all nodes, default is default")
     parser.add_argument("--per-node-groups", action = "store_true",
                         help = "make per-node groups in the inventory")
@@ -155,6 +185,15 @@ def main():
     parser.add_argument("--group-without", nargs = "+", action = "append",
                         metavar = ("GROUP", "VM_NAME"),
                         help = "make a group without specified VM names ")
+    parser.add_argument("-g", "--group-regexp", nargs = 2, action = "append",
+                        metavar = ("GROUP", "REGEXP"),
+                        help = ("make a group GROUP with " +
+                                "VM names matched with REGEXP"))
+    parser.add_argument("-gv", "--group-regexp-invert",
+                        nargs = 2, action = "append",
+                        metavar = ("GROUP", "REGEXP"),
+                        help = ("make a group GROUP without " +
+                                "VM names matched with REGEXP"))
     parser.add_argument("--enable-ethipv6", action = "store_true",
                         help = "enable host var 'ethipv6'")
     parser.add_argument("--output", type = argparse.FileType("w"),
