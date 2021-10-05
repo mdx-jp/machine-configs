@@ -5,11 +5,27 @@ import csv
 import sys
 import json
 import re
-from ipaddress import ip_network
+from ipaddress import ip_network, ip_address
 
 def csv2dictlist(csvfile):
     reader = csv.DictReader(csvfile)
     return [ row for row in reader ]
+
+def validate_vms(vms, enable_linklocal):
+    """
+    Validate values for *_IPv* are IP addresses
+    """
+    for vm in vms:
+        for key in vm.keys():
+            if vm[key] and "_IPv" in key:
+                try:
+                    addr = ip_address(vm[key])
+                    if (not enable_linklocal and
+                        addr.version == 6 and addr.is_link_local):
+                        vm[key] = ""
+                except ValueError:
+                    vm[key] = ""
+
 
 def printvm(vm, args):
 
@@ -54,14 +70,20 @@ def get_ipv4prefix(vms):
             break
     return ethipv4prefix, rdmaipv4prefix
 
+
 def get_ipv6prefix(vms):
     # XXX: Assuming SERVICE_NET_1
     ethipv6prefix = None
     for vm in vms:
         if vm["SERVICE_NET_1_IPv6"]:
             ethipv6prefix = ip_network(vm["SERVICE_NET_1_IPv6"] + "/64",
-                                       strict = False)
-    return ethipv6prefix
+                                strict = False)
+            if ethipv6prefix.is_link_local:
+                continue
+
+            return ethipv6prefix
+
+    return None
 
 
 def generate_group_with(vms, args):
@@ -117,6 +139,7 @@ def generate_group_regexp(vms, args, group_args, invert = False):
 def generate_inventory(args):
 
     vms = csv2dictlist(args.csv)
+    validate_vms(vms, args.enable_linklocal)
     vms.sort(key = lambda x: x["VM_NAME"])
     ethipv4prefix, rdmaipv4prefix = get_ipv4prefix(vms)
     ethipv6prefix = get_ipv6prefix(vms)
@@ -128,10 +151,16 @@ def generate_inventory(args):
     w("ansible_user={}".format(args.ansible_user))
     if ethipv4prefix:
         w("ethipv4prefix={}".format(ethipv4prefix))
+    else:
+        w("# no valid IPv4 prefix for Ethernet network found")
     if rdmaipv4prefix:
         w("rdmaipv4prefix={}".format(rdmaipv4prefix))
+    else:
+        w("# no valid IPv4 prefix for RDMA network found")
     if ethipv6prefix:
         w("ethipv6prefix={}".format(ethipv6prefix))
+    else:
+        w("# no valid IPv6 prefix for Ethernet network found")
     w("")
 
     # write a group that contains all nodes
@@ -177,14 +206,6 @@ def main():
                         help = "user to run ansible, default is mdxuser")
     parser.add_argument("-d", "--default-group", default = "default",
                         help = "group name for all nodes, default is default")
-    parser.add_argument("--per-node-groups", action = "store_true",
-                        help = "make per-node groups in the inventory")
-    parser.add_argument("--group-with", nargs = "+", action = "append",
-                        metavar = ("GROUP", "VM_NAME"),
-                        help = "make a group with specified VM names")
-    parser.add_argument("--group-without", nargs = "+", action = "append",
-                        metavar = ("GROUP", "VM_NAME"),
-                        help = "make a group without specified VM names ")
     parser.add_argument("-g", "--group-regexp", nargs = 2, action = "append",
                         metavar = ("GROUP", "REGEXP"),
                         help = ("make a group GROUP with " +
@@ -194,8 +215,18 @@ def main():
                         metavar = ("GROUP", "REGEXP"),
                         help = ("make a group GROUP without " +
                                 "VM names matched with REGEXP"))
+    parser.add_argument("--group-with", nargs = "+", action = "append",
+                        metavar = ("GROUP", "VM_NAME"),
+                        help = "make a group with specified VM names")
+    parser.add_argument("--group-without", nargs = "+", action = "append",
+                        metavar = ("GROUP", "VM_NAME"),
+                        help = "make a group without specified VM names ")
+    parser.add_argument("--per-node-groups", action = "store_true",
+                        help = "make per-node groups in the inventory")
     parser.add_argument("--enable-ethipv6", action = "store_true",
                         help = "enable host var 'ethipv6'")
+    parser.add_argument("--enable-linklocal", action = "store_true",
+                        help = "enable IPv6 link locak address on inventory")
     parser.add_argument("--output", type = argparse.FileType("w"),
                         default = sys.stdout,
                         help = "output file name, default is STDOUT")
