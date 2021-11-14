@@ -1,7 +1,0 @@
-
-
-- name: install ubuntu-desktop package
-  apt:
-    state: present
-    name:
-    - ubuntu-desktop

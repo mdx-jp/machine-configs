@@ -1,6 +1,0 @@
-
-# packer-apt
-
-## Description
-
-TBD
