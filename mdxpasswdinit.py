@@ -3,7 +3,9 @@
 import argparse
 import getpass
 import pexpect
+import multiprocessing as mp
 import sys
+
 
 from ansible.parsing.dataloader import DataLoader
 from ansible.inventory.manager import InventoryManager
@@ -25,7 +27,9 @@ def load_hosts_from_inventory(args):
     return list(map(str, inventory.groups[args.group].serialize()["hosts"]))
 
 
-def set_first_password(args, host):
+def set_first_password(mparg):
+
+    (args, host) = mparg
 
     ssh_args = ("-o StrictHostKeyChecking=no " +
                 "-o UserKnownHostsFile=/dev/null " +
@@ -33,6 +37,8 @@ def set_first_password(args, host):
     cmd = "ssh {} {} -l {} {}".format(ssh_args, args.ssh_args, args.user, host)
 
     conn = pexpect.spawn(cmd, timeout = args.timeout)
+
+    ret = "Success"
 
     try:
         conn.expect("New password: ")
@@ -43,9 +49,9 @@ def set_first_password(args, host):
     except Exception as e:
         for line in str(e).split("\n"):
             if "buffer (last 100 chars)" in line:
-                return line
+                ret = line
         
-    return "success"
+    return (host, ret)
 
 
 def main():
@@ -63,6 +69,8 @@ def main():
                                 "initialize passowrd, default is 'default'"))
     parser.add_argument("-t", "--timeout", default = 5,
                         help = "timeout to ssh and wait 'New password:'")
+    parser.add_argument("--f", "--forks", default = 30,
+                        help = "number of fork processes")
     parser.add_argument("--ssh-args", default = "",
                         help = "arguments for ssh to VMs")
     
@@ -81,9 +89,19 @@ def main():
 
     setattr(args, "password", password)
 
+
+    print("initializing the first password...")
+    mpargs = []
     for host in hosts:
-        ret = set_first_password(args, host)
-        print("{}: {}".format(host, ret))
+        mpargs.append((args, host))
+
+    with mp.Pool(processes = 30) as p:
+        rets = p.map(set_first_password, mpargs)
+
+    for ret in rets:
+        print("{}: {}".format(ret[0], ret[1]))
+
+
 
 if __name__ == "__main__":
     main()
