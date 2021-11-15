@@ -1,0 +1,54 @@
+---
+
+# Role: jupyterlab
+# install and execute jupyterlab at HOME of mdxuser
+
+- name: install required packages
+  apt:
+    state: present
+    name:
+      - python3-venv
+      - nfs-common
+
+- name: get homedir of mdxuser
+  shell: "getent passwd mdxuser | cut -d : -f 6"
+  register: mdxuserhome
+
+- name: create venv for jupyterlab
+  pip:
+    name:
+      - setuptools
+      - pip
+    state: latest
+    virtualenv: "{{ mdxuserhome.stdout }}/.python-venv"
+    virtualenv_command: '/usr/bin/python3 -m venv'
+
+- name: install jupyterlab
+  pip:
+    name:
+      - jupyterlab
+    virtualenv: "{{ mdxuserhome.stdout }}/.python-venv"
+
+- name: recursively change ownership of the python-venv directory
+  file:
+    path: "{{ mdxuserhome.stdout }}/.python-venv"
+    state: directory
+    recurse: yes
+    owner: mdxuser
+    group: mdxuser
+
+- name: daemonize jupyterlab through systemd
+  template:
+    src: jupyterlab.service.j2
+    dest: /etc/systemd/system/jupyterlab.service
+  vars:
+    jupyterlab_user: mdxuser
+    jupyterlab_group: mdxuser
+    jupyterlab_directory: "{{ mdxuserhome.stdout }}"
+
+- name: make sure enable and run jupyterlab daemon
+  systemd:
+    name: jupyterlab
+    state: started
+    enabled: yes
+    daemon_reload: yes

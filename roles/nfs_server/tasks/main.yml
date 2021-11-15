@@ -1,0 +1,28 @@
+---
+
+# Role: nfs_server
+# Configure a host as an NFS server to export /home
+
+
+- name: move HOME of mdxuser to /home.local
+  include_role:
+    name: mv_home_mdxuser
+
+
+# Setup NFS server
+# 
+- name: install nfs server
+  apt:
+    name: nfs-kernel-server
+    state: present
+
+- name: export /home via NFS
+  lineinfile:
+    path: /etc/exports
+    state: present
+    regexp: "^/home "
+    line: "/home {{ ethipv4prefix }}(rw)"
+
+- name: re-export all directories
+  command: exportfs -ra
+

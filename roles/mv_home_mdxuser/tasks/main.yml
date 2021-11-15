@@ -1,0 +1,39 @@
+---
+
+# Role: mv_home_mdxuser
+# mv /home/mdxuser to /home.local/mdxuser
+#
+# This role is internally called from nfs_server and nfs_client rols
+
+- name: make sure /home.local exists
+  file:
+    path: /home.local
+    state: directory
+
+- name: check /home/mdxuser exists
+  stat:
+    path: /home/mdxuser
+  register: home_mdxuser_stat
+
+- name: copy /home/mdxuser to /home.local/mdxuser
+  copy:
+    src: /home/mdxuser
+    dest: /home.local/
+    remote_src: yes
+    mode: preserve
+    directory_mode: yes
+    owner: mdxuser
+    group: mdxuser
+  when: home_mdxuser_stat.stat.exists
+
+- name: change mdxuser's homedir to /home.local/mdxuser
+  lineinfile:
+    path: /etc/passwd
+    regexp: '^mdxuser:x:1000:1000:mdxuser:/home/mdxuser:/bin/bash'
+    line: 'mdxuser:x:1000:1000:mdxuser:/home.local/mdxuser:/bin/bash'
+
+- name: remove /home/mdxuser
+  file:
+    path: /home/mdxuser
+    state: absent
+

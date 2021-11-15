@@ -1,0 +1,30 @@
+---
+
+- name: default settings
+  hosts: default
+  roles:
+    - common
+
+- name: setup NFS server
+  hosts: nfsserver
+  roles:
+    - nfs_server
+
+- name: setup LDAP server
+  hosts: ldapserver
+  roles:
+    - ldap_server
+
+- name: setup reverse proxy for jupyterlab
+  hosts: reverseproxy
+  roles:
+    - reverse_proxy
+
+- name: all machines
+  hosts: default
+  roles:
+    - nfs_client
+    - ldap_client
+    - mpi
+    - jupyterlab
+

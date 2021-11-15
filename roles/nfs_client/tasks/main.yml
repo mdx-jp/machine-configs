@@ -1,0 +1,45 @@
+---
+
+# Role: nfs_client
+# Configure a host as an NFS client to mount /home
+
+- name: move HOME of mdxuser to /home.local
+  include_role:
+    name: mv_home_mdxuser
+
+- name: check this machine is NFS server or not
+  stat:
+    path: /etc/exports
+  register: exports
+    
+# mount /home over NFS if /etc/exports does not exists
+#
+- block:
+  - name: install nfs client
+    apt:
+      name: nfs-common
+      state: present
+  
+  - name: find files under /home/*
+    find:
+      paths: /home
+      patterns: ".*"
+    register: home_content
+  
+  - name: mv /home/* to /home.local/ if it is not NFS
+    shell: mv {{ item.path }} /home.local/
+    with_items: "{{ home_content.files }}"
+    when: ansible_mounts | selectattr('mount', 'equalto', '/home') | list | length == 0
+  
+  - name: mount /home via NFS
+    mount:
+      src: "{{ nfs_target }}:/home"
+      path: /home
+      opts: rw,noatime
+      boot: yes
+      state: mounted
+      fstype: nfs
+    vars:
+      nfs_target: "{{ hostvars[groups['nfsserver'][0]]['ethipv4'] }}"
+  
+  when: not exports.stat.exists 

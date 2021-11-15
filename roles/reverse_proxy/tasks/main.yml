@@ -1,0 +1,24 @@
+---
+
+# Role: reverse proxy
+# Configure a server as a reverse proxy with nginx
+
+
+- name: install nginx
+  apt:
+    name: nginx
+    state: present
+
+- name: configure nginx as a reverse proxy
+  template:
+    src: templates/nginx.jupyterlab.proxy.j2
+    dest: /etc/nginx/conf.d/proxy.conf
+  vars:
+    jupyter_host_group: default
+
+- name: restart nginx
+  systemd:
+    name: nginx
+    state: restarted
+    enabled: yes
+
