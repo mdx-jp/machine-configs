@@ -70,7 +70,7 @@ def main():
     parser.add_argument("-t", "--timeout", default = 5,
                         help = "timeout to ssh and wait 'New password:'")
     parser.add_argument("--f", "--forks", default = 30,
-                        help = "number of fork processes")
+                        help = "number of fork processes, default is 30")
     parser.add_argument("--ssh-args", default = "",
                         help = "arguments for ssh to VMs")
     
