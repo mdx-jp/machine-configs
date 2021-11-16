@@ -12,6 +12,8 @@
 
 - name: setup LDAP server
   hosts: ldapserver
+  vars_files:
+    - vars/ldap.yml
   roles:
     - ldap_server
 
@@ -22,6 +24,8 @@
 
 - name: all machines
   hosts: default
+  vars_files:
+    - vars/ldap.yml
   roles:
     - nfs_client
     - ldap_client
