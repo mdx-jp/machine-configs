@@ -1,0 +1,103 @@
+#!/usr/bin/python3
+
+"""
+ldap_addusers
+"""
+
+import argparse
+import csv
+import sys
+import ldaptool
+
+def opts_set_defaults(opts):
+    """
+    complement options
+    """
+    if opts.ldap_domain is None:
+        opts.ldap_domain = ldaptool.get_default_ldap_domain()
+    if opts.ldap_passwd is None:
+        opts.ldap_passwd = ldaptool.get_default_ldap_passwd()
+    if opts.firstuid is None:
+        opts.firstuid = 10000
+    return opts
+
+def set_if_empty(dic, key, defulat_val):
+    """
+    if dic has no key or the value for the key is "",
+    set the value to default_val
+    """
+    if dic.get(key, "") == "":
+        dic[key] = defulat_val
+
+def info_set_defaults(info):
+    """
+    set default values for this info
+    """
+    set_if_empty(info, "cn", info["user"])
+    set_if_empty(info, "sn", info["user"])
+    set_if_empty(info, "home", "/home/{user}".format(**info))
+    info["no_create_home"] = (info["home"] == "-")
+    set_if_empty(info, "home_perm", "0700")
+    set_if_empty(info, "authorized_keys", "")
+    set_if_empty(info, "shell", "/bin/bash")
+    set_if_empty(info, "grp", info["user"])
+    if info.get("uid", "") == "":
+        info["uid"] = ldaptool.get_next_uid(info["ldap_domain"],
+                                            info["ldap_passwd"],
+                                            info["firstuid"])
+    if info.get("gid", "") == "":
+        info["gid"] = info["uid"]
+    info["groups"] = info["groups"].strip().split()
+    if info.get("password_hash", "") == "":
+        if info.get("password", "") == "":
+            info["password_hash"] = ""
+        else:
+            info["password_hash"] = ldaptool.slappasswd(info["password"])
+
+def addusers_of_opt(opts):
+    """
+    add user according to opts
+    """
+    opts = opts_set_defaults(opts)
+    users_info = {}
+    for users_csv in opts.file:
+        with open(users_csv) as users_fp:
+            users_info[users_csv] = list(csv.DictReader(users_fp))
+    any_err = 0
+    for users_csv, rows in users_info.items():
+        for i, row in enumerate(rows):
+            row.update(opts.__dict__)
+            info_set_defaults(row)
+            err = ldaptool.adduser_group_home(row)
+            if err:
+                print("{users_csv}:{line}: error occurred".format(users_csv=users_csv, line=i + 1))
+            any_err = any_err or err
+            if any_err and opts.exit_on_error:
+                return any_err
+    return any_err
+
+def parse_args(argv):
+    """
+    parse comand line args
+    """
+    parser = argparse.ArgumentParser()
+    parser.add_argument("file", nargs="+", help="csv files")
+    parser.add_argument("--exit-on-error", action="store_true", default=False,
+                        help="exit on the first error encountered")
+    parser.add_argument("--firstuid", type=int, help="first uid")
+    parser.add_argument("--ldap-passwd", help="LDAP domain password")
+    parser.add_argument("--ldap-domain", help="LDAP domain (e.g., dc=myldap,dc=mdx,dc=jp")
+    args = parser.parse_args(argv[1:])
+    return args
+
+def main():
+    """
+    main
+    """
+    opts = parse_args(sys.argv)
+    if addusers_of_opt(opts) == 0:
+        return 0                # OK
+    return 1                    # NG
+
+if __name__ == "__main__":
+    sys.exit(main())

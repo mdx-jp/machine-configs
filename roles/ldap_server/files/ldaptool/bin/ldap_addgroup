@@ -1,0 +1,58 @@
+#!/usr/bin/python3
+
+"""
+ldap_addgroup
+"""
+
+import argparse
+import sys
+import ldaptool
+
+def opts_set_defaults(opts):
+    """
+    complement options
+    """
+    if opts.ldap_domain is None:
+        opts.ldap_domain = ldaptool.get_default_ldap_domain()
+    if opts.ldap_passwd is None:
+        opts.ldap_passwd = ldaptool.get_default_ldap_passwd()
+    if opts.firstgid is None:
+        opts.firstgid = 5000
+    if opts.gid is None:
+        opts.gid = ldaptool.get_next_gid(opts.ldap_domain, opts.ldap_passwd, opts.firstgid)
+    return opts
+
+def addgroup_of_opt(opts):
+    """
+    add user according to opts
+    """
+    opts = opts_set_defaults(opts)
+    opts_dict = opts.__dict__
+    err = ldaptool.addgroup(opts_dict)
+    if err == -1:
+        err = 0
+    return err
+
+def parse_args(argv):
+    """
+    parse comand line args
+    """
+    parser = argparse.ArgumentParser()
+    parser.add_argument("grp", help="group to create")
+    parser.add_argument("--gid", help="gid")
+    parser.add_argument("--firstgid", type=int, help="first gid")
+    parser.add_argument("--ldap-passwd", help="LDAP domain password")
+    parser.add_argument("--ldap-domain", help="LDAP domain (e.g., dc=myldap,dc=mdx,dc=jp")
+    args = parser.parse_args(argv[1:])
+    return args
+
+def main():
+    """
+    main
+    """
+    opts = parse_args(sys.argv)
+    err = addgroup_of_opt(opts)
+    return err
+
+if __name__ == "__main__":
+    sys.exit(main())

@@ -1,0 +1,3 @@
+user,grp,cn,sn,shell,uid,gid,home,home_perm,authorized_keys,groups,password_hash,password
+upa,upa,upa,upa,/bin/bash,20000,20000,/home/upa,700,ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIPo5ug9Z57fqrd3HcQhXrA+yn3n4A5qFvQc0Xph0gzV upa_for_github,sp,{SSHA}6T/A61Bp6Zf8Hssp6HjVKD2bwLDJmTMh,BOGUS_PASSWORD
+tau,tau,tau,tau,/bin/bash,20001,20001,/home/tau,700,ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILO69azO1xpm7e28FnzY9i8a2blEECQAODXc5G8CSii4 tau@namo,sp,{SSHA}IMNsyA9JD95amjcDgqwnpwqGZ8lCcJ40,BOGUS_PASSWORD

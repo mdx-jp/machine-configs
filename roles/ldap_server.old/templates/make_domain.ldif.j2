@@ -1,0 +1,22 @@
+dn: {{ ldap_domain }}
+objectClass: top
+objectClass: dcObject
+objectClass: organization
+o: {{ ldap_domain_short }}
+dc: {{ ldap_domain_short }}
+structuralObjectClass: organization
+
+dn: cn=admin,{{ ldap_domain }}
+objectClass: simpleSecurityObject
+objectClass: organizationalRole
+cn: admin
+description: LDAP administrator
+userPassword: {{ ldap_domain_password_hash }}
+
+dn: ou=people,{{ ldap_domain }}
+objectClass: organizationalUnit
+ou: people
+
+dn: ou=groups,{{ ldap_domain }}
+objectClass: organizationalUnit
+ou: groups

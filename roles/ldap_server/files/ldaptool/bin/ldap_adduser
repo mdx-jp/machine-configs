@@ -1,0 +1,101 @@
+#!/usr/bin/python3
+
+"""
+ldap_adduser
+"""
+
+import argparse
+import sys
+import ldaptool
+
+def opts_set_defaults(opts):
+    """
+    complement options
+    cn <- user
+    sn <- user
+    password_hash <- generate from password
+    password <- ask if not supplied
+    uid <- generate between 10000 - 59999
+    gid <- generate between 10000 - 59999
+    home : /home/user
+    shell : /bin/bash
+    """
+    if opts.ldap_domain is None:
+        opts.ldap_domain = ldaptool.get_default_ldap_domain()
+    if opts.ldap_passwd is None:
+        opts.ldap_passwd = ldaptool.get_default_ldap_passwd()
+    if opts.cn is None:
+        opts.cn = opts.user
+    if opts.sn is None:
+        opts.sn = opts.user
+    if opts.home is None:
+        opts.home = "/home/{user}".format(**opts.__dict__)
+    if opts.home_perm is None:
+        opts.home_perm = "0700"
+    if opts.shell is None:
+        opts.shell = "/bin/bash"
+    if opts.firstuid is None:
+        opts.firstuid = 10000
+    if opts.ingroup is None:
+        opts.ingroup = opts.user
+    opts.grp = opts.ingroup
+    if opts.uid is None:
+        opts.uid = ldaptool.get_next_uid(opts.ldap_domain, opts.ldap_passwd, opts.firstuid)
+    if opts.gid is None:
+        opts.gid = opts.uid
+    # do not ask hear but when actually necessary
+    if 0 and opts.password_hash is None:
+        if opts.password is None:
+            opts.password = ldaptool.ask_password(opts.user)
+        opts.password_hash = ldaptool.slappasswd(opts.password)
+    return opts
+
+def adduser_of_opt(opts):
+    """
+    add user according to opts
+    """
+    opts = opts_set_defaults(opts)
+    opts_dict = opts.__dict__
+    err = ldaptool.adduser_group_home(opts_dict)
+    return err
+
+def parse_args(argv):
+    """
+    parse comand line args
+    """
+    parser = argparse.ArgumentParser()
+    parser.add_argument("user", help="user to create")
+    parser.add_argument("--cn", help="cn")
+    parser.add_argument("--sn", help="sn")
+    parser.add_argument("--home", help="home directory")
+    parser.add_argument("--no-create-home", default=False, action="store_true",
+                        help="does not create home directory")
+    parser.add_argument("--home-perm", help="home directory permission")
+    parser.add_argument("--authorized-keys", "--authorized_keys",
+                        help="authorized_keys")
+    parser.add_argument("--shell", help="shell")
+    parser.add_argument("--uid", help="uid")
+    parser.add_argument("--gid", help="gid")
+    parser.add_argument("--ingroup", help="primary group of the new user")
+    parser.add_argument("--firstuid", type=int, help="uid")
+    parser.add_argument("--password", help="password")
+    parser.add_argument("--password-hash", help="password hash")
+    parser.add_argument("--groups", nargs="*",
+                        default=[], help="add user to these groups")
+    parser.add_argument("--ldap-passwd", help="LDAP domain password")
+    parser.add_argument("--ldap-domain",
+                        help="LDAP domain (e.g., dc=myldap,dc=mdx,dc=jp")
+    args = parser.parse_args(argv[1:])
+    return args
+
+def main():
+    """
+    main
+    """
+    opts = parse_args(sys.argv)
+    if adduser_of_opt(opts) == 0:
+        return 0                # OK
+    return 1                    # NG
+
+if __name__ == "__main__":
+    sys.exit(main())

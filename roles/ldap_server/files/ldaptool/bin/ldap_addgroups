@@ -1,0 +1,80 @@
+#!/usr/bin/python3
+
+"""
+ldap_addgroups
+"""
+
+import argparse
+import csv
+import sys
+import ldaptool
+
+def opts_set_defaults(opts):
+    """
+    complement options
+    """
+    if opts.ldap_domain is None:
+        opts.ldap_domain = ldaptool.get_default_ldap_domain()
+    if opts.ldap_passwd is None:
+        opts.ldap_passwd = ldaptool.get_default_ldap_passwd()
+    if opts.firstgid is None:
+        opts.firstgid = 5000
+    return opts
+
+def info_set_defaults(info):
+    """
+    set default values for this info
+    """
+    if info.get("gid", "") == "":
+        info["gid"] = ldaptool.get_next_gid(info["ldap_domain"],
+                                            info["ldap_passwd"],
+                                            info["firstgid"])
+
+def addgroups_of_opt(opts):
+    """
+    add group according to opts
+    """
+    opts = opts_set_defaults(opts)
+    groups_info = {}
+    for groups_csv in opts.file:
+        with open(groups_csv) as groups_fp:
+            groups_info[groups_csv] = list(csv.DictReader(groups_fp))
+    any_err = 0
+    for groups_csv, rows in groups_info.items():
+        for i, row in enumerate(rows):
+            row.update(opts.__dict__)
+            info_set_defaults(row)
+            err = ldaptool.addgroup(row)
+            if err:
+                print("{groups_csv}:{line}: error occurred"
+                      .format(groups_csv=groups_csv, line=i + 1))
+            any_err = any_err or err
+            if any_err and opts.exit_on_error:
+                return any_err
+    return any_err
+
+def parse_args(argv):
+    """
+    parse comand line args
+    """
+    parser = argparse.ArgumentParser()
+    parser.add_argument("file", nargs="+", help="csv files")
+    parser.add_argument("--exit-on-error", action="store_true", default=False,
+                        help="exit on the first error encountered")
+    parser.add_argument("--firstgid", type=int, help="first gid")
+    parser.add_argument("--ldap-passwd", help="LDAP domain password")
+    parser.add_argument("--ldap-domain", help="LDAP domain (e.g., dc=myldap,dc=mdx,dc=jp")
+    args = parser.parse_args(argv[1:])
+    return args
+
+def main():
+    """
+    main
+    """
+    opts = parse_args(sys.argv)
+    if addgroups_of_opt(opts) == 0:
+        return 0                # OK
+    return 1                    # NG
+
+if __name__ == "__main__":
+    sys.exit(main())

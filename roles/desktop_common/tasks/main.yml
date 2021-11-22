@@ -1,0 +1,14 @@
+---
+
+# Role: common
+
+- name: install xrdp
+  apt:
+    name: xrdp
+    state: present
+
+# after we do this, we need to reboot the machine until
+# users other than mdxuser are able to use xrdp.
+# we also need this or are asked for authentication to
+# create a color managed device. see 
+# https://god-support.blogspot.com/2019/11/ubuntu1804-xrdp-authentication-is.html

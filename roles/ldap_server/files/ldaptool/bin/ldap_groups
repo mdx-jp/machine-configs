@@ -1,0 +1,50 @@
+#!/usr/bin/python3
+
+"""
+ldap_groups
+"""
+
+import argparse
+import sys
+import ldaptool
+
+def opts_set_defaults(opts):
+    """
+    set default values of opts
+    """
+    if opts.ldap_domain is None:
+        opts.ldap_domain = ldaptool.get_default_ldap_domain()
+    if opts.ldap_passwd is None:
+        opts.ldap_passwd = ldaptool.get_default_ldap_passwd()
+    return opts
+
+def list_ldap_groups(opts):
+    """
+    list ldap groups
+    """
+    opts = opts_set_defaults(opts)
+    opts_dict = opts.__dict__
+    err = ldaptool.list_groups(opts_dict)
+    return err
+
+def parse_args(argv):
+    """
+    parse comand line args
+    """
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--ldap-passwd", help="LDAP domain password")
+    parser.add_argument("--ldap-domain", help="LDAP domain (e.g., dc=myldap,dc=mdx,dc=jp")
+    args = parser.parse_args(argv[1:])
+    return args
+
+def main():
+    """
+    main
+    """
+    opts = parse_args(sys.argv)
+    if list_ldap_groups(opts) == 0:
+        return 0                # OK
+    return 1                    # NG
+
+if __name__ == "__main__":
+    sys.exit(main())
