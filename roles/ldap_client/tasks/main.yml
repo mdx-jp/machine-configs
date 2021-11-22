@@ -9,6 +9,7 @@
     state: present
     name:
       - sssd
+      - sssd-tools
       - libnss-ldap
       - libpam-ldap
       - ldap-utils
@@ -67,7 +68,7 @@
     path: /etc/pam.d/common-password
     backrefs: yes
     regexp: "^password(.*) use_authtok(.*)$"
-    line:    'password\1 \2$'
+    line:    'password\1 \2'
     backup: yes
 
 - name: put sssd.conf
