@@ -1,0 +1,18 @@
+
+# These variables are overriden by the same name variables
+# defined in machine-configs/vars/ldap.yml
+#
+ldap_domain: dc=sp,dc=mdx,dc=jp
+ldap_domain_short: sp
+ldap_domain_password: Gc2vbJ6ZrtVi
+ldap_root_password: Gc2vbJ6ZrtVi
+
+
+# These variables indirectly specifying csv files are overriden by
+# the same name variables in machine-configs/vars/ldap.yml.
+#
+# This indirection enables users to override files hard-coded in role.
+# https://stackoverflow.com/questions/55742881/is-there-a-way-to-override-a-template-defined-into-an-ansible-galaxy-role/55749981
+#
+ldap_users_csv: ldap_users.csv
+ldap_groups_csv: ldap_groups.csv

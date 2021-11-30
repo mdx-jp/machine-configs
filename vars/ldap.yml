@@ -6,3 +6,12 @@ ldap_domain: dc=sp,dc=mdx,dc=jp
 ldap_domain_short: sp
 ldap_domain_password: Gc2vbJ6ZrtVi
 ldap_root_password: Gc2vbJ6ZrtVi
+
+
+
+
+# Create and Edit machine-configs/files/ldap_users.csv and
+# machine-configs/files/ldap_groups.csv.
+# Please see machine-configs/files/README.md
+ldap_users_csv: files/ldap_users.csv
+ldap_groups_csv: files/ldap_groups.csv
