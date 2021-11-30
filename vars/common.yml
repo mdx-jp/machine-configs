@@ -1,0 +1,6 @@
+
+
+# Edit to add packages you want to install
+common_packages:
+  - gcc
+  - vim

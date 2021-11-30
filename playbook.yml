@@ -1,7 +1,8 @@
 ---
 
-- name: default settings
+- name: common settings
   hosts: default
+  vars_files: [ vars/common.yml ]
   roles:
     - common
 
@@ -12,8 +13,7 @@
 
 - name: setup LDAP server
   hosts: ldapserver
-  vars_files:
-    - vars/ldap.yml
+  vars_files: [ vars/ldap.yml ]
   roles:
     - ldap_server
 
@@ -24,8 +24,7 @@
 
 - name: all machines
   hosts: default
-  vars_files:
-    - vars/ldap.yml
+  vars_files: [ vars/ldap.yml ]
   roles:
     - nfs_client
     - ldap_client
