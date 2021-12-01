@@ -1,7 +1,7 @@
 # LDAP groups and users
 
-copy ldap_users.csv.in  -> ldap_users.csv
-copy ldap_groups.csv.in -> ldap_groups.csv
+- copy ldap_users.csv.in  -> ldap_users.csv
+- copy ldap_groups.csv.in -> ldap_groups.csv
 
 and change the contents accordingly to make initial set of users and groups.
 
