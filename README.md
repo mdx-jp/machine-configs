@@ -11,9 +11,9 @@ We recommend you to briefly read [Ansible overview](https://www.ansible.com/over
 Note that the ansible playbook and roles in this repository assume
 that virtual machines are instantiated from the Ubuntu 20.04 template.
 
-1. Install `ansible` on your machine that configures your VMs.
+1. Install `ansible` on your machine that configures your VMs
 
-2. Download your `user-portal-vm-info.csv` from mdx portal.
+2. Download your `user-portal-vm-info.csv` from mdx portal
 
 3. and:
 
@@ -22,7 +22,7 @@ that virtual machines are instantiated from the Ubuntu 20.04 template.
 git clone https://github.com/mdx-jp/machine-configs
 cd machine-configs
 
-# create your ansible inventory file 'hosts.init 'from user-portal-vm-info.csv
+# create your ansible inventory file 'hosts.ini 'from user-portal-vm-info.csv
  ./mdxcsv2inventory.py -g nfsserver vm1 -g ldapserver vm1 -g reverseproxy vm1 [PATH-TO]/user-portal-vm-info.csv > hosts.ini
  
 # initialize password of mdxuser at VMs to be provisioned
@@ -45,42 +45,22 @@ vim playbook.yml
 ansible-playbook -i hosts.ini
 ```
 
-A detailed instruction is available on [mdx
-document](https://docs.mdx.jp/ja/).
+A detailed instruction is available on [mdx document](https://docs.mdx.jp/ja/).
 
 
 ## Roles
 
 This repository contains following roles:
 
-- common: setup hostname, deploy /etc/hosts, install packages
-  - you can add packages you want to install by editing
-    [vars/common.yml](vars/common.yml).
-
-- desktop_common: install xrdp
-
-- nfs_server: export /home via NFS
-
-- nfs_client: mount /home of an NFS server which is the first host in
-  the host group `nfsserver`
-  
-- ldap_server: setup LDAP server
-  - you can configure LDAP domain and password etc by editing
-    [vars/ldap.yml](vars/ldap.yml) and add users and groups to be
-    created on the LDAP domain by editing files/ldap_users.csv and
-    files/ldap_users.csv. Please see
-    [files/README.md](files/README.md).
-
-- ldap_client: setup LDAP client using the first host in the host
-  group `ldapserver` as an LDAP server. 
-  
-- jupyter: setup jupyter lab as a daemon process in virtualenv
-
-- reverse_proxy: setup reverse proxy for Jupyter lab.
-  - you can change hosts behind the reverse proxy by a host group
-  defined in a varible `jupyter_host_group` in
-  [vars/reverse_proxy.yml](vars/reverse_proxy.yml).
-  
-- mpi: setup MPI (installed along with OFED)
+| Role          | Description | Configurable parameter | 
+|:--------------|:------------|:-----------------------|
+| common | setup hostname, /etc/hosts, and install packages | [vars/common.yml](vars/common.yml) |
+| desktop_common | install xrdp | |
+| nfs_server | export /home via NFS | |
+| nfs_client | mount /home of an NFS server which is the first host in the host group `nfsserver` | |
+| ldap_server | setup LDAP server | [vars/ldap.yml](vars/ldap.yml) and see [files/README.md](files/README.md). | 
+| jupyter | setup jupyter lab as a daemon process in virtualenv | |
+| reverse_proxy | setup reverse proxy for Jupyter lab | [vars/reverse_proxy.yml](vars/reverse_proxy.yml) |
+| mpi | setup MPI (installed along with OFED) | |
 
 
