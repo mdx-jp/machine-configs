@@ -13,8 +13,6 @@
   template:
     src: templates/nginx.jupyterlab.proxy.j2
     dest: /etc/nginx/conf.d/proxy.conf
-  vars:
-    jupyter_host_group: default
 
 - name: restart nginx
   systemd:

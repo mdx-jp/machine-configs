@@ -1,2 +1,3 @@
 
 proxy_port: 8888
+jupyter_host_group: default

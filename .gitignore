@@ -1,4 +1,4 @@
 .*.swp
-test.ini
+*.ini
 **/ldap_users.csv
 **/ldap_groups.csv

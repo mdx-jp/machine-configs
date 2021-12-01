@@ -1,0 +1,8 @@
+
+# Variables for reverse proxy
+#
+# Edit to configure host group on which jupyterlab runs
+jupyter_host_group: default
+
+# Edit to change a port of jupyterlab
+proxy_port: 8888
