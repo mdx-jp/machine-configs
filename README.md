@@ -58,9 +58,9 @@ This repository contains following roles:
 | desktop_common | install xrdp | |
 | nfs_server | export /home via NFS | |
 | nfs_client | mount /home of an NFS server which is the first host in the host group `nfsserver` | |
-| ldap_server | setup LDAP server | [vars/ldap.yml](vars/ldap.yml) and see [files/README.md](files/README.md). | 
+| ldap_server | setup LDAP server | [vars/ldap.yml](vars/ldap.yml) and see [files/README.md](files/README.md) | 
 | jupyter | setup jupyter lab as a daemon process in virtualenv | |
-| reverse_proxy | setup reverse proxy for Jupyter lab | [vars/reverse_proxy.yml](vars/reverse_proxy.yml) |
+| reverse_proxy | setup reverse proxy for jupyter lab | [vars/reverse_proxy.yml](vars/reverse_proxy.yml) |
 | mpi | setup MPI (installed along with OFED) | |
 
 
