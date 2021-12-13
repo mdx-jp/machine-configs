@@ -42,7 +42,7 @@ initializing the first password...
 vim playbook.yml
 
 # execute ansible playbook
-ansible-playbook -i hosts.ini
+ansible-playbook -i hosts.ini playbook.yml
 ```
 
 A detailed instruction is available on [mdx document](https://docs.mdx.jp/ja/).
