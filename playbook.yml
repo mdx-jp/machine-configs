@@ -28,6 +28,7 @@
   roles:
     - nfs_client
     - ldap_client
+    - ldap_sudoers
     - mpi
     - jupyterlab
 

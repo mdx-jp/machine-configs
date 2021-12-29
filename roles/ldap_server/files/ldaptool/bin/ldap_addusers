@@ -53,6 +53,7 @@ def info_set_defaults(info):
             info["password_hash"] = ""
         else:
             info["password_hash"] = ldaptool.slappasswd(info["password"])
+    info["ask_password"] = False
 
 def addusers_of_opt(opts):
     """

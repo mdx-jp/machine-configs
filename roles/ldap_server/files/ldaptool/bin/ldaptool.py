@@ -129,7 +129,7 @@ def add_attr_val_ldif(ldap_domain, ldap_passwd, key, filt, gen_ldif):
     if comp.returncode != 0:
         print("{key} does not exist".format(**dic))
         return comp.returncode
-    if key in comp.stdout:
+    if "numEntries:" in comp.stdout:
         print("{key} exists and already has {filter}".format(**dic))
         return 0
     comp = run(mod_cmd, check=True, input=gen_ldif())
@@ -192,19 +192,25 @@ def adduser(info):
     def gen_ldif():
         if info["password_hash"] is None:
             if info["password"] is None:
-                info["password"] = ask_password(info["user"])
-            info["password_hash"] = slappasswd(info["password"])
+                if info["ask_password"]:
+                    info["password"] = ask_password(info["user"])
+            if info["password"] is not None:
+                info["password_hash"] = slappasswd(info["password"])
+        if info["password_hash"] is None:
+            info["user_password_hash"] = ""
+        else:
+            info["user_password_hash"] = "userPassword: {password_hash}".format(**info)
         ldif = ("""dn: uid={user},ou=people,{ldap_domain}
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: shadowAccount
 cn: {cn}
 sn: {sn}
-userPassword: {password_hash}
 loginShell: {shell}
 uidNumber: {uid}
 gidNumber: {gid}
 homeDirectory: {home}
+{user_password_hash}
 """.format(**info))
         return ldif
     return add_ldif_if_not_exist(info["ldap_domain"], info["ldap_passwd"], key, gen_ldif)

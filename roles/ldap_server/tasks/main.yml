@@ -33,6 +33,11 @@
 - name: changes LDAP root password
   command: ldapadd -Y EXTERNAL -H ldapi:/// -f /tmp/change_root_pw.ldif
 
+- name: remove change_root_pw.ldif
+  file:
+    dest: /tmp/change_root_pw.ldif
+    state: absent
+  
 # if ldap_domain_password_hash is not defined, generate it from domain password
 - name: obtain hash of domain password
   command: slappasswd -s {{ ldap_domain_password }}
@@ -52,7 +57,10 @@
 - name: makes an LDAP domain
   shell: ldapsearch -Y EXTERNAL -H ldapi:/// -s base -b {{ ldap_domain }} || slapadd -l /tmp/make_domain.ldif
 
-
+- name: remove make_domain.ldif
+  file:
+    dest: /tmp/make_domain.ldif
+    state: absent
 
 # Make the LDAP server refer to itself
 #

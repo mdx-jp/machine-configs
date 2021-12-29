@@ -1,0 +1,10 @@
+---
+
+# Role: LDAP sudoers
+# Configure a sudo file so that a group called ldap_sudo can sudo
+
+- name: put /etc/sudoers.d/ldap_sudo
+  template:
+    src: templates/ldap_sudo.j2
+    dest: /etc/sudoers.d/ldap_sudo
+    mode: "0600"

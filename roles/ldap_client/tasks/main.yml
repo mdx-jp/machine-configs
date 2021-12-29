@@ -9,6 +9,7 @@
     state: present
     name:
       - sssd
+      - sssd-tools
       - libnss-ldap
       - libpam-ldap
       - ldap-utils
