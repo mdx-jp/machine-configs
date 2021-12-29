@@ -1,8 +1,0 @@
-uid,gid,cn,sn,loginshell,uidnumber,gidnumber,homedirectory,homedirectory_perm,authorized_keys,password_hash,password
-upa,upa,upa,upa,/bin/bash,20000,20000,/home/upa,700,ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIPo5ug9Z57fqrd3HcQhXrA+yn3n4A5qFvQc0Xph0gzV upa_for_github,{SSHA}Be0Hsx8iV7aQqnysD94yqB/4hj088hrv,password
-u10000,g10000,大竹 和樹,大竹,/bin/bash,10000,10000,/home/u10000,700,ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILO69azO1xpm7e28FnzY9i8a2blEECQAODXc5G8CSii4 tau@namo,{SSHA}dEFLojD/tAjUqNTOtjzrb1I41F5Ius1/,pu10000
-u10001,g10001,John Smith,Smith,/bin/bash,10001,10001,/home/u10001,700,ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILO69azO1xpm7e28FnzY9i8a2blEECQAODXc5G8CSii4 tau@namo,{SSHA}iYaOlelGVO1qpIe7XFud1ccHCq/20wua,pu10001
-u10002,g10002,杉村 太蔵,杉村,/bin/bash,10002,10002,/home/u10002,700,ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILO69azO1xpm7e28FnzY9i8a2blEECQAODXc5G8CSii4 tau@namo,{SSHA}nD5mWRyvBH4xfKZgZx0eG0sAX2EHOUlZ,pu10002
-u10003,g10003,みちょぱ,池田,/bin/bash,10003,10003,/home/u10003,700,ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILO69azO1xpm7e28FnzY9i8a2blEECQAODXc5G8CSii4 tau@namo,{SSHA}QpFxLQKZZ9HBoSSJQSmLi3GQD9hs5wrG,pu10003
-u10004,g10004,田中 みな実,田中,/bin/bash,10004,10004,/home/u10004,700,ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILO69azO1xpm7e28FnzY9i8a2blEECQAODXc5G8CSii4 tau@namo,{SSHA}Xs3rjgBN83I/p3o7gTScCBAGlkNVdekL,pu10004
-u10005,g10005,弘中 綾香,弘中,/bin/bash,10005,10005,/home/u10005,700,ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILO69azO1xpm7e28FnzY9i8a2blEECQAODXc5G8CSii4 tau@namo,{SSHA}+S7Db/8s3YzEJdh9M9e0cD/Iko6LMFhB,pu10005
