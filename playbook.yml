@@ -32,7 +32,13 @@
     - mpi
     - jupyterlab
 
-- name: desktop apps
+- name: desktop machines
   hosts: desktop
   roles:
     - desktop_common
+
+- name: gpu machines
+  hosts: gpu
+  roles:
+    - nvidia_cuda_toolkit
+    - nvidia_cudnn
