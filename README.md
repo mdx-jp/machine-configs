@@ -23,7 +23,7 @@ git clone https://github.com/mdx-jp/machine-configs
 cd machine-configs
 
 # create your ansible inventory file 'hosts.ini 'from user-portal-vm-info.csv
- ./mdxcsv2inventory.py -g nfsserver vm1 -g ldapserver vm1 -g reverseproxy vm1 [PATH-TO]/user-portal-vm-info.csv > hosts.ini
+./mdxcsv2inventory.py -g nfsserver vm1 -g ldapserver vm1 -g reverseproxy vm1 [PATH-TO]/user-portal-vm-info.csv > hosts.ini
  
 # initialize password of mdxuser at VMs to be provisioned
 ./mdxpasswdinit.py ./hosts.ini
@@ -42,7 +42,7 @@ initializing the first password...
 vim playbook.yml
 
 # execute ansible playbook
-ansible-playbook -i hosts.ini
+ansible-playbook -i hosts.ini playbook.yml
 ```
 
 A detailed instruction is available on [mdx document](https://docs.mdx.jp/ja/).
