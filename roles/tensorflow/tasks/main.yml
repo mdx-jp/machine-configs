@@ -8,3 +8,20 @@
     executable: pip3
     name:
     - tensorflow
+
+# 2021/12/31
+# an attempt to configure tensorflow, which fails with the following.
+# it is presumably because we install a wrong version of cuda, to be
+# compatible with pytorch.
+# I did not dig deeper as I feel I am going to be bogged down
+# in the infamous version-dependency issues of pytorch/tensorflow...
+#
+    
+# tau@gpu000:~$ python3 
+# Python 3.8.10 (default, Nov 26 2021, 20:14:08) 
+# [GCC 9.3.0] on linux
+# Type "help", "copyright", "credits" or "license" for more information.
+# >>> import tensorflow
+# 2021-12-31 22:30:33.826141: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/mpi/gcc/openmpi-4.0.4rc3/lib:
+# 2021-12-31 22:30:33.826174: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+    
