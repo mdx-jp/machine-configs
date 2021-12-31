@@ -22,23 +22,30 @@
   roles:
     - reverse_proxy
 
-- name: all machines
+- name: nfs and ldap clients
   hosts: default
   vars_files: [ vars/ldap.yml ]
   roles:
     - nfs_client
     - ldap_client
     - ldap_sudoers
-    - mpi
-    - jupyterlab
 
-- name: desktop machines
+- name: desktop environment
   hosts: desktop
   roles:
     - desktop_common
 
-- name: gpu machines
+- name: gpu software
   hosts: gpu
   roles:
     - nvidia_cuda_toolkit
     - nvidia_cudnn
+
+- name: common software
+  hosts: default
+  roles:
+    - mpi
+    - jupyterlab
+    - pytorch
+#    - tensorflow
+    
