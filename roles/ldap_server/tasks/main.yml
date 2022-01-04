@@ -13,6 +13,36 @@
       - slapd
       - ldap-utils
 
+# if ldap_root_password is not defined, use BIOS UUID as the password
+- name: output a message if ldap passwords are not defined
+  debug:
+    msg: "ldap_root_password and/or ldap_domain_password is not defined in vars/ldap.yml. So we use BIOS UUID of the ldap server as the rood and domain password."
+  when: ldap_root_password is not defined or ldap_domain_password is not defined
+
+- name: obtain BIOS UUID
+  shell: dmidecode -t system | grep UUID | awk '{print $2}'
+  register: bios_uuid
+  when: ldap_root_password is not defined or ldap_domain_password is not defined
+
+- name: use BIOS UUID for ldap root password if it is not defined
+  set_fact:
+    ldap_root_password: "{{ bios_uuid.stdout }}"
+  delegate_to: "{{ item }}"
+  delegate_facts: true
+  with_items: "{{ groups['all'] }}"
+  when: bios_uuid.changed
+  # bios_uuid.changed == true means the previous task is invoked,
+  # and false indicates the task is skipped that means ldap_root_password
+  # is already defined
+
+- name: use BIOS UUID for ldap domain password if it is not defined
+  set_fact:
+    ldap_domain_password: "{{ bios_uuid.stdout }}"
+  delegate_to: "{{ item }}"
+  delegate_facts: true
+  with_items: "{{ groups['all'] }}"
+  when: bios_uuid.changed
+
 # if ldap_root_password_hash is not defined, generate it from root password
 - name: obtain hash of root password
   command: slappasswd -s {{ ldap_root_password }}

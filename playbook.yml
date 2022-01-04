@@ -17,17 +17,12 @@
   roles:
     - ldap_server
 
-- name: setup reverse proxy for jupyterlab
-  hosts: reverseproxy
-  roles:
-    - reverse_proxy
-
 - name: nfs and ldap clients
   hosts: default
   vars_files: [ vars/ldap.yml ]
   roles:
     - nfs_client
-    - ldap_client
+    - ldap_client # ldap_client role must run after the ldap_server role
     - ldap_sudoers
 
 - name: desktop environment
@@ -40,6 +35,11 @@
   roles:
     - nvidia_cuda_toolkit
     - nvidia_cudnn
+
+- name: setup reverse proxy for jupyterlab
+  hosts: reverseproxy
+  roles:
+    - reverse_proxy
 
 - name: common software
   hosts: default

@@ -4,8 +4,11 @@
 #
 ldap_domain: dc=sp,dc=mdx,dc=jp
 ldap_domain_short: sp
-ldap_domain_password: Gc2vbJ6ZrtVi
-ldap_root_password: Gc2vbJ6ZrtVi
+#ldap_domain_password: SET_YOUR_LDAP_DOMAIN_PASSWORD
+#ldap_root_password: SET_YOUR_LDAP_ROOT_PASSWORD
+
+# if ldap_domain_password or ldap_root_password is not defined,
+# BIOS UUID of a ldap server is used for the password.
 
 
 # These variables indirectly specifying csv files are overriden by
