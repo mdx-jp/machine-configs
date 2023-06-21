@@ -26,7 +26,7 @@ def delusers_of_opt(opts):
     opts = opts_set_defaults(opts)
     users_info = {}
     for users_csv in opts.file:
-        with open(users_csv) as users_fp:
+        with open(users_csv, encoding="utf-8") as users_fp:
             users_info[users_csv] = list(csv.DictReader(users_fp))
     any_err = 0
     for users_csv, rows in users_info.items():
@@ -34,8 +34,8 @@ def delusers_of_opt(opts):
             row.update(opts.__dict__)
             err = ldaptool.deluser(row)
             if err:
-                print("{users_csv}:{line}: error occurred"
-                      .format(users_csv=users_csv, line=i + 1))
+                print(f"{users_csv}:{i + 1}: error occurred")
+                # .format(users_csv=users_csv, line=i + 1)
             any_err = any_err or err
             if any_err and opts.exit_on_error:
                 return any_err
@@ -51,6 +51,8 @@ def parse_args(argv):
                         help="exit on the first error encountered")
     parser.add_argument("--ldap-passwd", help="LDAP domain password")
     parser.add_argument("--ldap-domain", help="LDAP domain (e.g., dc=myldap,dc=mdx,dc=jp")
+    parser.add_argument("--verbose", default=0, type=int, help="if 1, print all commands to execute")
+    parser.add_argument("--run", default=1, type=int, help="if 0, it does not run")
     args = parser.parse_args(argv[1:])
     return args
 

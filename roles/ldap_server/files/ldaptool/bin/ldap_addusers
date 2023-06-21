@@ -35,7 +35,7 @@ def info_set_defaults(info):
     """
     set_if_empty(info, "cn", info["user"])
     set_if_empty(info, "sn", info["user"])
-    set_if_empty(info, "home", "/home/{user}".format(**info))
+    set_if_empty(info, "home", f'/home/{info["user"]}') # .format(**info)
     info["no_create_home"] = (info["home"] == "-")
     set_if_empty(info, "home_perm", "0700")
     set_if_empty(info, "authorized_keys", "")
@@ -44,7 +44,8 @@ def info_set_defaults(info):
     if info.get("uid", "") == "":
         info["uid"] = ldaptool.get_next_uid(info["ldap_domain"],
                                             info["ldap_passwd"],
-                                            info["firstuid"])
+                                            info["firstuid"],
+                                            info)
     if info.get("gid", "") == "":
         info["gid"] = info["uid"]
     info["groups"] = info["groups"].strip().split()
@@ -52,7 +53,7 @@ def info_set_defaults(info):
         if info.get("password", "") == "":
             info["password_hash"] = ""
         else:
-            info["password_hash"] = ldaptool.slappasswd(info["password"])
+            info["password_hash"] = ldaptool.slappasswd(info["password"], info)
     info["ask_password"] = False
 
 def addusers_of_opt(opts):
@@ -62,7 +63,7 @@ def addusers_of_opt(opts):
     opts = opts_set_defaults(opts)
     users_info = {}
     for users_csv in opts.file:
-        with open(users_csv) as users_fp:
+        with open(users_csv, encoding="utf-8") as users_fp:
             users_info[users_csv] = list(csv.DictReader(users_fp))
     any_err = 0
     for users_csv, rows in users_info.items():
@@ -71,7 +72,8 @@ def addusers_of_opt(opts):
             info_set_defaults(row)
             err = ldaptool.adduser_group_home(row)
             if err:
-                print("{users_csv}:{line}: error occurred".format(users_csv=users_csv, line=i + 1))
+                print(f"{users_csv}:{i + 1}: error occurred")
+                # .format(users_csv=users_csv, line=i + 1)
             any_err = any_err or err
             if any_err and opts.exit_on_error:
                 return any_err
@@ -88,6 +90,8 @@ def parse_args(argv):
     parser.add_argument("--firstuid", type=int, help="first uid")
     parser.add_argument("--ldap-passwd", help="LDAP domain password")
     parser.add_argument("--ldap-domain", help="LDAP domain (e.g., dc=myldap,dc=mdx,dc=jp")
+    parser.add_argument("--verbose", default=0, type=int, help="if 1, print all commands to execute")
+    parser.add_argument("--run", default=1, type=int, help="if 0, it does not run")
     args = parser.parse_args(argv[1:])
     return args
 

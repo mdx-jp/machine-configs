@@ -29,7 +29,7 @@ def opts_set_defaults(opts):
     if opts.sn is None:
         opts.sn = opts.user
     if opts.home is None:
-        opts.home = "/home/{user}".format(**opts.__dict__)
+        opts.home = f"/home/{opts.user}" # .format(**opts.__dict__)
     if opts.home_perm is None:
         opts.home_perm = "0700"
     if opts.shell is None:
@@ -40,14 +40,9 @@ def opts_set_defaults(opts):
         opts.ingroup = opts.user
     opts.grp = opts.ingroup
     if opts.uid is None:
-        opts.uid = ldaptool.get_next_uid(opts.ldap_domain, opts.ldap_passwd, opts.firstuid)
+        opts.uid = ldaptool.get_next_uid(opts.ldap_domain, opts.ldap_passwd, opts.firstuid, opts)
     if opts.gid is None:
         opts.gid = opts.uid
-    # do not ask hear but when actually necessary
-    if 0 and opts.password_hash is None:
-        if opts.password is None:
-            opts.password = ldaptool.ask_password(opts.user)
-        opts.password_hash = ldaptool.slappasswd(opts.password)
     return opts
 
 def adduser_of_opt(opts):
@@ -87,6 +82,8 @@ def parse_args(argv):
     parser.add_argument("--ldap-passwd", help="LDAP domain password")
     parser.add_argument("--ldap-domain",
                         help="LDAP domain (e.g., dc=myldap,dc=mdx,dc=jp")
+    parser.add_argument("--verbose", default=0, type=int, help="if 1, print all commands to execute")
+    parser.add_argument("--run", default=1, type=int, help="if 0, it does not run")
     args = parser.parse_args(argv[1:])
     return args
 

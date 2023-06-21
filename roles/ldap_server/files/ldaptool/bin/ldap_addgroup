@@ -19,7 +19,7 @@ def opts_set_defaults(opts):
     if opts.firstgid is None:
         opts.firstgid = 5000
     if opts.gid is None:
-        opts.gid = ldaptool.get_next_gid(opts.ldap_domain, opts.ldap_passwd, opts.firstgid)
+        opts.gid = ldaptool.get_next_gid(opts.ldap_domain, opts.ldap_passwd, opts.firstgid, opts)
     return opts
 
 def addgroup_of_opt(opts):
@@ -43,6 +43,8 @@ def parse_args(argv):
     parser.add_argument("--firstgid", type=int, help="first gid")
     parser.add_argument("--ldap-passwd", help="LDAP domain password")
     parser.add_argument("--ldap-domain", help="LDAP domain (e.g., dc=myldap,dc=mdx,dc=jp")
+    parser.add_argument("--verbose", default=0, type=int, help="if 1, print all commands to execute")
+    parser.add_argument("--run", default=1, type=int, help="if 0, it does not run")
     args = parser.parse_args(argv[1:])
     return args
 
