@@ -1,0 +1,10 @@
+diff -ur gdrcopy-2.3.1-1/packages/build-deb-packages.sh ../gdrcopy-2.3.1/packages/build-deb-packages.sh
+--- packages/build-deb-packages.sh
++++ packages/build-deb-packages.sh
+@@ -96,7 +96,8 @@
+     echo "Failed to get version numbers!" >&2
+     exit 1
+ fi
+-FULL_VERSION="${VERSION}-${DEBIAN_VERSION}"
++#FULL_VERSION="${VERSION}-${DEBIAN_VERSION}"
++FULL_VERSION="${VERSION}"

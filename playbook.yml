@@ -33,19 +33,14 @@
 - name: gpu software
   hosts: gpu
   roles:
+    - mlnx_ofed
     - nvidia_cuda_toolkit
-    - nvidia_cudnn
+    - nvidia_gpu_direct
+    - ucx
+    - openmpi
 
 - name: setup reverse proxy for jupyterlab
   hosts: reverseproxy
   roles:
     - reverse_proxy
 
-- name: common software
-  hosts: default
-  roles:
-    - mpi
-    - jupyterlab
-    - pytorch
-#    - tensorflow
-    

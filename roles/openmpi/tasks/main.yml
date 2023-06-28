@@ -1,0 +1,30 @@
+- name: copy env files
+  copy:
+    src: "{{ item }}"
+    dest: /etc/profile.d
+  with_items:
+    - ./files/openmpi.sh
+
+- name: get sources
+  get_url:
+    url: https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.5.tar.bz2
+    dest: /tmp/openmpi-4.1.5.tar.bz2
+
+- name: unarchive
+  shell: tar jxf /tmp/openmpi-4.1.5.tar.bz2 -C /tmp/
+
+- name: compile and install
+  shell: |
+    cd /tmp/openmpi-4.1.5/
+    mkdir build-gpu
+    cd build-gpu
+    ../configure --prefix=/usr/local/openmpi-4.1.5 --with-ucx=/usr/local/ucx-1.14.1 --with-platform=../contrib/platform/mellanox/optimized --with-cuda=/usr/local/cuda-11.8
+    make -j
+    make install
+
+- name: Reboot
+  reboot: reboot_timeout=120
+
+- name: Ping connection
+  ping:
+

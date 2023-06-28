@@ -4,3 +4,5 @@
 common_packages:
   - gcc
   - vim
+  - build-essential
+  - python3-venv
