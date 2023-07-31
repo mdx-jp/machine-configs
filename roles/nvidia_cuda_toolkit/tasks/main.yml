@@ -59,3 +59,10 @@
 
 - name: apt clean
   shell: apt clean
+
+- name: Reboot
+  reboot: reboot_timeout=120
+
+- name: Ping connection
+  ping:
+
