@@ -14,10 +14,11 @@
 - name: unarchive
   shell: tar zxvf /tmp/ucx-1.14.1.tar.gz -C /tmp/
 
+# ./contrib/configure-release-mt --prefix=/usr/local/ucx-1.14.1 --with-cuda=/usr/local/cuda-11.8 --with-gdrcopy --enable-optimizations
 - name: compile and install
   shell: |
     cd /tmp/ucx-1.14.1
-    ./contrib/configure-release-mt --prefix=/usr/local/ucx-1.14.1 --with-cuda=/usr/local/cuda-11.8 --with-gdrcopy --enable-optimizations
+    ./contrib/configure-release-mt --prefix=/usr/local/ucx-1.14.1 --with-cuda=/usr/local/cuda-11.8 --enable-optimizations
      make -j
      make install
 

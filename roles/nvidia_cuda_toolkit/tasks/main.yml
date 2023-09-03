@@ -17,23 +17,14 @@
   apt:
     update_cache: yes
     name:
-      - nvidia-headless-530
-      - nvidia-utils-530
+      - nvidia-headless-535
+      - nvidia-utils-535
 
 - name: install cuda-toolkit
   apt:
     name: cuda-toolkit-11-8
     update_cache: yes
-    install_recommends: no
 
-      #- name: install libcudnn and nccl
-      #  apt:
-      #    update_cache: yes
-      #    name:
-      #      - libcudnn8=8.9.2.26-1+cuda11.8
-      #      - libcudnn8-dev=8.9.2.26-1+cuda11.8
-      #      - libnccl2=2.15.5-1+cuda11.8
-      #      - libnccl-dev=2.15.5-1+cuda11.8
 - name: install libcudnn and nccl
   apt:
     update_cache: yes
@@ -53,9 +44,15 @@
 - name: run the nvidia-persistenced-init script
   ignore_errors: yes
   shell: |
-    cp /usr/share/doc/nvidia-compute-utils-530/nvidia-persistenced-init.tar.bz2 /tmp/
+    cp /usr/share/doc/nvidia-compute-utils-535/nvidia-persistenced-init.tar.bz2 /tmp/
     tar jxf /tmp/nvidia-persistenced-init.tar.bz2 -C /tmp/
     /tmp/nvidia-persistenced-init/install.sh
+
+- name: install fabricmanager
+  apt:
+    update_cache: yes
+    name:
+      - nvidia-fabricmanager-535
 
 - name: apt clean
   shell: apt clean
