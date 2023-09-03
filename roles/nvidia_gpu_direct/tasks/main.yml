@@ -1,9 +1,9 @@
-- name: copy patch files
-  copy:
-    src: "{{ item }}"
-    dest: /tmp
-  with_items:
-    - ./files/000-gdrcopy-2.3.1.patch
+#- name: copy patch files
+#  copy:
+#    src: "{{ item }}"
+#    dest: /tmp
+#  with_items:
+#    - ./files/000-gdrcopy-2.3.1.patch
 #
 #- name: install nvidia direct storage packages
 #  apt:
