@@ -1,3 +1,8 @@
+---
+
+# Role: OpenMPI
+# Install OpenMPI
+
 - name: copy env files
   copy:
     src: "{{ item }}"
@@ -5,26 +10,23 @@
   with_items:
     - ./files/openmpi.sh
 
-- name: get sources
-  get_url:
-    url: https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.5.tar.bz2
-    dest: /tmp/openmpi-4.1.5.tar.bz2
+- name: make /opt/openmpi
+  file:
+    path: /opt/openmpi
+    state: directory
 
-- name: unarchive
-  shell: tar jxf /tmp/openmpi-4.1.5.tar.bz2 -C /tmp/
+- name: download and unarchive OpenMPI
+  unarchive:
+    src: https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.5.tar.bz2
+    dest: /opt/openmpi
+    remote_src: yes
 
 - name: compile and install
   shell: |
-    cd /tmp/openmpi-4.1.5/
+    cd /opt/openmpi/openmpi-4.1.5/
     mkdir build-gpu
     cd build-gpu
     ../configure --prefix=/usr/local/openmpi-4.1.5 --with-ucx=/usr/local/ucx-1.14.1 --with-platform=../contrib/platform/mellanox/optimized --with-cuda=/usr/local/cuda-11.8
     make -j
     make install
-
-- name: Reboot
-  reboot: reboot_timeout=120
-
-- name: Ping connection
-  ping:
 

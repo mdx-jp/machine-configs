@@ -19,3 +19,10 @@ ff02::2 ip6-allrouters
 {% for addr, v in hostvars.items() %}{% if etc_host_group in v.group_names %}
 {{ v.rdmaipv4 }}	{{ v.hostname }}-rdma
 {% endif %}{% endfor %}
+
+# global hostname
+{% for addr, v in hostvars.items() %}
+{% if v.fqdn is defined %}
+{{ v.glbipv4 }}	{{ v.fqdn }}
+{% endif %}
+{% endfor %}

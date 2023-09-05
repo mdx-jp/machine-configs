@@ -1,0 +1,12 @@
+---
+
+# Role: NVIDIA fabric manager
+# Install NVIDIA fabric manager, necessary on GPU nodes with passthrough NVSwitch
+
+# ncessary on machines with nvlink
+- name: install fabricmanager
+  apt:
+    update_cache: yes
+    name:
+      - nvidia-fabricmanager-535
+

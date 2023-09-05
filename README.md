@@ -23,7 +23,7 @@ git clone https://github.com/mdx-jp/machine-configs
 cd machine-configs
 
 # create your ansible inventory file 'hosts.ini 'from user-portal-vm-info.csv
-./mdxcsv2inventory.py -g nfsserver vm1 -g ldapserver vm1 -g reverseproxy vm1 [PATH-TO]/user-portal-vm-info.csv > hosts.ini
+./mdxcsv2inventory.py -g nfs_server vm1 -g ldap_server vm1 -g reverseproxy vm1 [PATH-TO]/user-portal-vm-info.csv > hosts.ini
  
 # initialize password of mdxuser at VMs to be provisioned
 ./mdxpasswdinit.py ./hosts.ini
@@ -57,9 +57,9 @@ This repository contains following roles:
 | common | setup hostname, /etc/hosts, and install packages | [vars/common.yml](vars/common.yml) |
 | desktop_common | install xrdp | |
 | nfs_server | export /home via NFS | |
-| nfs_client | mount /home of an NFS server |  the first host in the host group `nfsserver` is used as the NFS server |
+| nfs_client | mount /home of an NFS server |  the first host in the host group `nfs_server` is used as the NFS server |
 | ldap_server | setup LDAP server | [vars/ldap.yml](vars/ldap.yml) and see [files/README.md](files/README.md) | 
-| ldap_client | setup LDAP client | the first host in the host group `ldapserver` is used as the LDAP server |
+| ldap_client | setup LDAP client | the first host in the host group `ldap_server` is used as the LDAP server |
 | jupyter | setup jupyter lab as a daemon process in virtualenv | |
 | reverse_proxy | setup reverse proxy for jupyter lab | [vars/reverse_proxy.yml](vars/reverse_proxy.yml) |
 | mpi | setup MPI (installed along with OFED) | |

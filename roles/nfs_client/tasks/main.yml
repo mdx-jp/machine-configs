@@ -40,6 +40,6 @@
       state: mounted
       fstype: nfs
     vars:
-      nfs_target: "{{ hostvars[groups['nfsserver'][0]]['ethipv4'] }}"
+      nfs_target: "{{ hostvars[groups['nfs_server'][0]]['ethipv4'] }}"
   
   when: not exports.stat.exists 

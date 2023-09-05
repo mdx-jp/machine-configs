@@ -3,15 +3,12 @@
 
 - name: download nvidia meta packages
   get_url:
-    url: https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-keyring_1.0-1_all.deb
-    dest: /tmp/cuda-keyring_1.0-1_all.deb
+    url: https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-keyring_1.1-1_all.deb
+    dest: /opt/cuda-keyring_1.1-1_all.deb
 
 - name: install nvidia repository
   apt:
-    deb: /tmp/cuda-keyring_1.0-1_all.deb
-
-- name: apt update
-  command: apt update
+    deb: /opt/cuda-keyring_1.1-1_all.deb
 
 - name: install nvidia drivers
   apt:
@@ -24,6 +21,14 @@
   apt:
     name: cuda-toolkit-11-8
     update_cache: yes
+
+- name: put /etc/modules-load.d/nvidia-peermem.conf
+  blockinfile:
+    path: /etc/modules-load.d/nvidia-peermem.conf
+    create: yes
+    marker: ""
+    block: |
+      nvidia-peermem
 
 - name: install libcudnn and nccl
   apt:
@@ -40,26 +45,4 @@
     block: |
       export PATH=/usr/local/cuda/bin${PATH:+:${PATH}}
       export LD_LIBRARY_PATH=/usr/local/cuda/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
-
-- name: run the nvidia-persistenced-init script
-  ignore_errors: yes
-  shell: |
-    cp /usr/share/doc/nvidia-compute-utils-535/nvidia-persistenced-init.tar.bz2 /tmp/
-    tar jxf /tmp/nvidia-persistenced-init.tar.bz2 -C /tmp/
-    /tmp/nvidia-persistenced-init/install.sh
-
-- name: install fabricmanager
-  apt:
-    update_cache: yes
-    name:
-      - nvidia-fabricmanager-535
-
-- name: apt clean
-  shell: apt clean
-
-- name: Reboot
-  reboot: reboot_timeout=120
-
-- name: Ping connection
-  ping:
 

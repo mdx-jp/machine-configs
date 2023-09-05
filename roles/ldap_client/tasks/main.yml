@@ -3,7 +3,6 @@
 # Role: LDAP client
 # Configure a servier as an LDAP client
 
-
 - name: install LDAP client packages
   apt:
     state: present
@@ -33,10 +32,10 @@
   lineinfile:
     path: /etc/ldap.conf
     regexp: "^uri (.*)$"
-    line:    "uri ldap://{{ ldapserver_addr }}/"
+    line:    "uri ldap://{{ ldap_server_addr }}/"
     backup: yes
   vars:
-    ldapserver_addr: "{{ hostvars[groups['ldapserver'][0]].ethipv4 }}"
+    ldap_server_addr: "{{ hostvars[groups['ldap_server'][0]].ethipv4 }}"
 
 #
 # make a line like 
@@ -77,10 +76,25 @@
     dest: /etc/sssd/sssd.conf
     mode: "0600"
   vars:
-    ldapserver_addr: "{{ hostvars[groups['ldapserver'][0]].ethipv4 }}"
+    ldap_server_addr: "{{ hostvars[groups['ldap_server'][0]].ethipv4 }}"
 
 - name: restart sssd
   systemd:
     name: sssd
     state: restarted
+
+#
+# copy ldaptool
+#
+- name: git checkout
+  git:
+    repo: 'https://github.com/mdx-jp/ldaptool.git'
+    dest: /opt/ldaptool
+
+- name: copy ldaptool
+  copy:
+    remote_src: true
+    src: /opt/ldaptool/bin
+    dest: /usr/local/
+    mode: preserve
 

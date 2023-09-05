@@ -1,65 +1,51 @@
-#- name: copy patch files
-#  copy:
-#    src: "{{ item }}"
-#    dest: /tmp
-#  with_items:
-#    - ./files/000-gdrcopy-2.3.1.patch
-#
-#- name: install nvidia direct storage packages
-#  apt:
-#    update_cache: yes
-#    name:
-#      - check
-#      - libsubunit0
-#      - libsubunit-dev
-#      - build-essential
-#      - devscripts
-#      - debhelper
-#      - check
-#      - libsubunit-dev
-#      - fakeroot
-#      - pkg-config
-#      - dkms
-#      - nvidia-gds-11-8
+- name: make /opt/gpu_direct
+  file:
+    path: /opt/gpu_direct
+    state: directory
 
-- name: put /etc/modules-load.d/nvidia-peermem.conf
-  blockinfile:
-    path: /etc/modules-load.d/nvidia-peermem.conf
-    create: yes
-    marker: ""
-    block: |
-      nvidia-peermem
+- name: copy patch files
+  copy:
+    src: "{{ item }}"
+    dest: /opt/gpu_direct
+  with_items:
+    - ./files/000-gdrcopy-2.3.1.patch
 
-#- name: get gdrcopy sources
-#  get_url:
-#    url: https://github.com/NVIDIA/gdrcopy/archive/refs/tags/v2.3.1-1.tar.gz
-#    dest: /tmp/v2.3.1-1.tar.gz
-#
-#- name: unarchive
-#  shell: tar zxvf /tmp/v2.3.1-1.tar.gz -C /tmp/
-#
-#- name: compile
-#  shell: |
-#    cd /tmp/gdrcopy-2.3.1-1
-#    patch -p0 < /tmp/000-gdrcopy-2.3.1.patch
-#    cd packages
-#    CUDA=/usr/local/cuda-11.8 ./build-deb-packages.sh
-#
-#- name: install gdrcopy debs
-#  apt:
-#    deb: "{{ item }}"
-#  with_items:
-#    - /tmp/gdrcopy-2.3.1-1/packages/gdrdrv-dkms_2.3.1_amd64.Ubuntu22_04.deb
-#    - /tmp/gdrcopy-2.3.1-1/packages/libgdrapi_2.3.1_amd64.Ubuntu22_04.deb
-#    - /tmp/gdrcopy-2.3.1-1/packages/gdrcopy-tests_2.3.1_amd64.Ubuntu22_04.deb
-#    - /tmp/gdrcopy-2.3.1-1/packages/gdrcopy_2.3.1_amd64.Ubuntu22_04.deb
-#
-#- name: apt clean
-#  shell: apt clean
+- name: install nvidia direct storage packages
+  apt:
+    update_cache: yes
+    name:
+      - check
+      - libsubunit0
+      - libsubunit-dev
+      - build-essential
+      - devscripts
+      - debhelper
+      - check
+      - libsubunit-dev
+      - fakeroot
+      - pkg-config
+      - dkms
+      - nvidia-gds-11-8
 
-- name: Reboot
-  reboot: reboot_timeout=120
+- name: unarchive v2.3.1-1.tar.gz
+  unarchive:
+    remote_src: yes
+    src: https://github.com/NVIDIA/gdrcopy/archive/refs/tags/v2.3.1-1.tar.gz
+    dest: /opt/gpu_direct
 
-- name: Ping connection
-  ping:
+- name: compile
+  shell: |
+    cd /opt/gpu_direct/gdrcopy-2.3.1-1
+    patch -p0 < /opt/gpu_direct/000-gdrcopy-2.3.1.patch
+    cd packages
+    CUDA=/usr/local/cuda-11.8 ./build-deb-packages.sh
+
+- name: install gdrcopy debs
+  apt:
+    deb: "{{ item }}"
+  with_items:
+    - /opt/gpu_direct/gdrcopy-2.3.1-1/packages/gdrdrv-dkms_2.3.1_amd64.Ubuntu22_04.deb
+    - /opt/gpu_direct/gdrcopy-2.3.1-1/packages/libgdrapi_2.3.1_amd64.Ubuntu22_04.deb
+    - /opt/gpu_direct/gdrcopy-2.3.1-1/packages/gdrcopy-tests_2.3.1_amd64.Ubuntu22_04.deb
+    - /opt/gpu_direct/gdrcopy-2.3.1-1/packages/gdrcopy_2.3.1_amd64.Ubuntu22_04.deb
 

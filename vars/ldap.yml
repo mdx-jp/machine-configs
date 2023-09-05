@@ -2,8 +2,8 @@
 # Variables for ldap_server and ldap_client roles
 #
 # Edit to set your LDAP domain and passwords
-ldap_domain: dc=sp,dc=mdx,dc=jp
-ldap_domain_short: sp
+ldap_domain: dc=spp,dc=zapto,dc=org
+ldap_domain_short: spp
 #ldap_domain_password: SET_YOUR_LDAP_DOMAIN_PASSWORD
 #ldap_root_password: SET_YOUR_LDAP_ROOT_PASSWORD
 

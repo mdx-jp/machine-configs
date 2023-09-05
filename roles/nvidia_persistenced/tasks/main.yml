@@ -1,0 +1,16 @@
+---
+
+# Role: NVIDIA Persistenced
+# Install NVIDIA Persistenced
+
+- name: unarchive nvidia-persistenced-init.tar.bz2
+  unarchive:
+    remote_src: yes
+    src: /usr/share/doc/nvidia-compute-utils-535/nvidia-persistenced-init.tar.bz2
+    dest: /opt
+
+- name: run the nvidia-persistenced-init script
+  ignore_errors: yes
+  shell: 
+    /opt/nvidia-persistenced-init/install.sh
+

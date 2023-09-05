@@ -8,31 +8,24 @@
     url: http://www.mellanox.com/downloads/ofed/RPM-GPG-KEY-Mellanox
     state: present
 
-- name: get a ofed-src file
-  get_url:
-    url: https://content.mellanox.com/ofed/MLNX_OFED-5.8-3.0.7.0/MLNX_OFED_LINUX-5.8-3.0.7.0-ubuntu22.04-x86_64.tgz
-    dest: /tmp/MLNX_OFED_LINUX-5.8-3.0.7.0-ubuntu22.04-x86_64.tgz
-
-- name: unarchive the ofed file
-  shell: tar zxvf /tmp/MLNX_OFED_LINUX-5.8-3.0.7.0-ubuntu22.04-x86_64.tgz -C /tmp/
+- name: create /opt/ofed directory
+  file:
+    path: /opt/ofed
+    state: directory
+    
+- name: download and unarchive the ofed file
+  unarchive:
+    src: https://content.mellanox.com/ofed/MLNX_OFED-5.8-3.0.7.0/MLNX_OFED_LINUX-5.8-3.0.7.0-ubuntu22.04-x86_64.tgz
+    dest: /opt/ofed
+    remote_src: yes
 
 - name: install ofed packages
   shell: |
-    cd /tmp/MLNX_OFED_LINUX-5.8-3.0.7.0-ubuntu22.04-x86_64
+    cd /opt/ofed/MLNX_OFED_LINUX-5.8-3.0.7.0-ubuntu22.04-x86_64
     ./mlnxofedinstall --all --force
 
 - name: apt clean
   shell: apt clean
-
-- name: remove the ofed installer
-  file:
-    path: /tmp/MLNX_OFED_LINUX-5.8-3.0.7.0-ubuntu22.04-x86_64.tgz
-    state: absent
-
-- name: remove the ofed installer directory
-  file:
-    path: /tmp/MLNX_OFED_LINUX-5.8-3.0.7.0-ubuntu22.04-x86_64
-    state: absent
 
 - name: Reboot
   reboot: reboot_timeout=120

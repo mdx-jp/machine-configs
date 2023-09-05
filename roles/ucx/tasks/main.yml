@@ -1,3 +1,13 @@
+---
+
+# Role: UCX
+# Install UCX
+
+#
+# UCX is necessary for building CUDA-aware OpenMPI
+# UCX requires CUDA supporting GPU Direct (nvidia-peermem kernel module)
+#
+
 - name: install related packages
   apt:
     update_cache: yes
@@ -6,28 +16,22 @@
       - libnuma-dev
       - binutils-dev
 
-- name: get sources
-  get_url:
-    url: https://github.com/openucx/ucx/releases/download/v1.14.1/ucx-1.14.1.tar.gz
-    dest: /tmp/ucx-1.14.1.tar.gz
+- name: make /opt/ucx
+  file:
+    path: /opt/ucx
+    state: directory
 
-- name: unarchive
-  shell: tar zxvf /tmp/ucx-1.14.1.tar.gz -C /tmp/
+- name: unarchive ucx-1.14.1.tar.gz
+  unarchive:
+    remote_src: yes
+    src: https://github.com/openucx/ucx/releases/download/v1.14.1/ucx-1.14.1.tar.gz
+    dest: /opt/ucx
 
 # ./contrib/configure-release-mt --prefix=/usr/local/ucx-1.14.1 --with-cuda=/usr/local/cuda-11.8 --with-gdrcopy --enable-optimizations
 - name: compile and install
   shell: |
-    cd /tmp/ucx-1.14.1
+    cd /opt/ucx/ucx-1.14.1
     ./contrib/configure-release-mt --prefix=/usr/local/ucx-1.14.1 --with-cuda=/usr/local/cuda-11.8 --enable-optimizations
      make -j
      make install
-
-- name: apt clean
-  shell: apt clean
-
-- name: Reboot
-  reboot: reboot_timeout=120
-
-- name: Ping connection
-  ping:
 

@@ -1,0 +1,70 @@
+---
+# tasks file for ldap_users
+
+#
+# check ldap_groups.csv exists
+#
+- name: check ldap_groups.csv exists on local
+  delegate_to: localhost
+  run_once: true
+  become: no
+  stat:
+    path: "{{ ldap_groups_csv }}"
+  register: ldap_groups
+
+#
+# check ldap_users.csv exists
+#
+- name: check ldap_users.csv exists on local
+  delegate_to: localhost
+  run_once: true
+  become: no
+  stat:
+    path: "{{ ldap_users_csv }}"
+  register: ldap_users
+
+
+#
+# copy group csv file to the remote host
+#
+- name: copy ldap_groups.csv
+  copy:
+    src: "{{ ldap_groups_csv }}"
+    dest: /tmp/ldap_groups.csv
+  when: ldap_groups.stat.exists
+
+#
+# copy user csv file to the remote host
+# NOTE: plain pw column in the csv file
+# is actually unncessary (retained for
+# convenience)
+#
+- name: copy ldap_users.csv
+  copy:
+    src: "{{ ldap_users_csv }}"
+    dest: /tmp/ldap_users.csv
+  when: ldap_users.stat.exists
+
+#
+# create all users and groups    
+#
+- name: create all users and groups
+  shell: /usr/local/bin/ldap_addgroups /tmp/ldap_groups.csv && /usr/local/bin/ldap_addusers /tmp/ldap_users.csv
+  when: ldap_groups.stat.exists and ldap_users.stat.exists
+
+#
+# delete group csv file
+#
+- name: remove ldap_groups.csv
+  file:
+    path: /tmp/ldap_groups.csv
+    state: absent
+
+#
+# delete users csv file
+#
+- name: remove ldap_users.csv
+  file:
+    dest: /tmp/ldap_users.csv
+    state: absent
+

@@ -7,35 +7,66 @@
     - common
 
 - name: setup NFS server
-  hosts: nfsserver
+  hosts: nfs_server
   roles:
     - nfs_server
 
+- name: nfs client
+  hosts: default
+  roles:
+    - nfs_client
+
 - name: setup LDAP server
-  hosts: ldapserver
+  hosts: ldap_server
   vars_files: [ vars/ldap.yml ]
   roles:
     - ldap_server
 
-- name: nfs and ldap clients
+- name: ldap client
   hosts: default
-  vars_files: [ vars/ldap.yml ]
+  vars_files: [ "{{ ldap_vars_file }}" ]
   roles:
-    - nfs_client
-    - ldap_client # ldap_client role must run after the ldap_server role
-    - ldap_sudoers
+    - ldap_client
 
+- name: ldap users
+  hosts: ldap_server
+  vars_files: [ "{{ ldap_vars_file }}" ]
+  roles:
+    - ldap_users
+
+- name: make ldap_sudo sudoers
+  hosts: default
+  roles:
+    - ldap_sudoers
+    
 - name: desktop environment
   hosts: desktop
   roles:
     - desktop_common
 
-- name: gpu software
-  hosts: gpu
+- name: OFED and CUDA (install on all nodes, including CPU)
+  hosts: none
+#  hosts: default
   roles:
     - mlnx_ofed
     - nvidia_cuda_toolkit
-    - nvidia_gpu_direct
+
+- name: gpu-only software
+  hosts: none
+#  hosts: gpu
+  roles:
+    - nvidia_persistenced
+    # - nvidia_gpu_direct_storage
+
+- name: install nvidia fabric manager on vms having nvswitch
+  hosts: nvswitch
+  roles:
+    - nvidia_fabricmanager
+
+- name: ucx and mpi
+  hosts: none
+#  hosts: default
+  roles:
     - ucx
     - openmpi
 

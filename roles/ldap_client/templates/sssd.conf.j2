@@ -8,7 +8,7 @@ filter_users = root
 
 [domain/default]
 id_provider = ldap
-ldap_uri = ldap://{{ ldapserver_addr }}/
+ldap_uri = ldap://{{ ldap_server_addr }}/
 ldap_search_base = {{ ldap_domain }}
 ldap_default_authtok = {{ ldap_domain_password }}
 
@@ -19,7 +19,7 @@ ldap_default_authtok = {{ ldap_domain_password }}
 # auth_provider = ldap
 # chpass_provider = ldap
 # access_provider = ldap
-# ldap_uri = ldap://{{ ldapserver_addr }}/
+# ldap_uri = ldap://{{ ldap_server_addr }}/
 # ldap_default_bind_dn = cn=admin,{{ ldap_domain }}
 # ldap_default_authtok = {{ ldap_domain_password }}
 # ldap_tls_reqcert = demand
