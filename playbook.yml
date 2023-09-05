@@ -45,15 +45,15 @@
     - desktop_common
 
 - name: OFED and CUDA (install on all nodes, including CPU)
-  hosts: none
-#  hosts: default
+#  hosts: none
+  hosts: default
   roles:
     - mlnx_ofed
     - nvidia_cuda_toolkit
 
 - name: gpu-only software
-  hosts: none
-#  hosts: gpu
+#  hosts: none
+  hosts: gpu
   roles:
     - nvidia_persistenced
     # - nvidia_gpu_direct_storage
@@ -64,8 +64,8 @@
     - nvidia_fabricmanager
 
 - name: ucx and mpi
-  hosts: none
-#  hosts: default
+#  hosts: none
+  hosts: default
   roles:
     - ucx
     - openmpi
