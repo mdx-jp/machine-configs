@@ -83,6 +83,9 @@
     name: sssd
     state: restarted
 
+- name: invalidate sss cache
+  command: sss_cache -E
+
 #
 # copy ldaptool
 #
