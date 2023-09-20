@@ -75,3 +75,8 @@
   roles:
     - reverse_proxy
 
+- name: Lustre
+  hosts: default
+  roles:
+    - lustre
+
