@@ -1,0 +1,5 @@
+options lnet lnet_peer_discovery_disabled=1
+options lnet lnet_transaction_timeout=100
+# lustre (tcp)
+{{ lustre_conf_hash }}options ksocklnd rx_buffer_size=16777216
+{{ lustre_conf_hash }}options ksocklnd tx_buffer_size=16777216

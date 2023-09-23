@@ -1,0 +1,3360 @@
+net:
+    - net type: lo
+      local NI(s):
+        - nid: 0@lo
+          status: up
+          interfaces:
+              0: lo
+    - net type: o2ib10
+      local NI(s):
+        - nid: {{ ib_src_ipaddr }}@o2ib10
+          status: up
+          interfaces:
+              0: {{ ib_netif }}
+    - net type: tcp10
+      local NI(s):
+        - nid: {{ tcp_src_ipaddr }}@tcp10
+          status: up
+          interfaces:
+              0: {{ tcp_netif }}
+
+peer:
+##hsmds1
+    - primary nid: 172.17.8.40@o2ib10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.40@o2ib10
+        - nid: 172.17.8.140@o2ib10
+    - primary nid: 172.17.8.40@o2ib11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.40@o2ib11
+        - nid: 172.17.8.140@o2ib11
+    - primary nid: 172.17.8.40@o2ib12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.40@o2ib12
+        - nid: 172.17.8.140@o2ib12
+    - primary nid: 172.17.8.40@o2ib13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.40@o2ib13
+        - nid: 172.17.8.140@o2ib13
+    - primary nid: 172.17.8.40@o2ib14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.40@o2ib14
+        - nid: 172.17.8.140@o2ib14
+    - primary nid: 172.17.8.40@o2ib15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.40@o2ib15
+        - nid: 172.17.8.140@o2ib15
+    - primary nid: 172.17.8.40@o2ib16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.40@o2ib16
+        - nid: 172.17.8.140@o2ib16
+    - primary nid: 172.17.8.40@tcp10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.40@tcp10
+        - nid: 172.17.8.140@tcp10
+    - primary nid: 172.17.8.40@tcp11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.40@tcp11
+        - nid: 172.17.8.140@tcp11
+    - primary nid: 172.17.8.40@tcp12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.40@tcp12
+        - nid: 172.17.8.140@tcp12
+    - primary nid: 172.17.8.40@tcp13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.40@tcp13
+        - nid: 172.17.8.140@tcp13
+    - primary nid: 172.17.8.40@tcp14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.40@tcp14
+        - nid: 172.17.8.140@tcp14
+    - primary nid: 172.17.8.40@tcp15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.40@tcp15
+        - nid: 172.17.8.140@tcp15
+    - primary nid: 172.17.8.40@tcp16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.40@tcp16
+        - nid: 172.17.8.140@tcp16
+##hsmds2
+    - primary nid: 172.17.8.41@o2ib10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.41@o2ib10
+        - nid: 172.17.8.141@o2ib10
+    - primary nid: 172.17.8.41@o2ib11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.41@o2ib11
+        - nid: 172.17.8.141@o2ib11
+    - primary nid: 172.17.8.41@o2ib12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.41@o2ib12
+        - nid: 172.17.8.141@o2ib12
+    - primary nid: 172.17.8.41@o2ib13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.41@o2ib13
+        - nid: 172.17.8.141@o2ib13
+    - primary nid: 172.17.8.41@o2ib14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.41@o2ib14
+        - nid: 172.17.8.141@o2ib14
+    - primary nid: 172.17.8.41@o2ib15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.41@o2ib15
+        - nid: 172.17.8.141@o2ib15
+    - primary nid: 172.17.8.41@o2ib16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.41@o2ib16
+        - nid: 172.17.8.141@o2ib16
+    - primary nid: 172.17.8.41@tcp10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.41@tcp10
+        - nid: 172.17.8.141@tcp10
+    - primary nid: 172.17.8.41@tcp11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.41@tcp11
+        - nid: 172.17.8.141@tcp11
+    - primary nid: 172.17.8.41@tcp12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.41@tcp12
+        - nid: 172.17.8.141@tcp12
+    - primary nid: 172.17.8.41@tcp13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.41@tcp13
+        - nid: 172.17.8.141@tcp13
+    - primary nid: 172.17.8.41@tcp14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.41@tcp14
+        - nid: 172.17.8.141@tcp14
+    - primary nid: 172.17.8.41@tcp15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.41@tcp15
+        - nid: 172.17.8.141@tcp15
+    - primary nid: 172.17.8.41@tcp16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.41@tcp16
+        - nid: 172.17.8.141@tcp16
+##hsoss01
+    - primary nid: 172.17.8.42@o2ib10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.42@o2ib10
+        - nid: 172.17.8.142@o2ib10
+    - primary nid: 172.17.8.42@o2ib11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.42@o2ib11
+        - nid: 172.17.8.142@o2ib11
+    - primary nid: 172.17.8.42@o2ib12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.42@o2ib12
+        - nid: 172.17.8.142@o2ib12
+    - primary nid: 172.17.8.42@o2ib13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.42@o2ib13
+        - nid: 172.17.8.142@o2ib13
+    - primary nid: 172.17.8.42@o2ib14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.42@o2ib14
+        - nid: 172.17.8.142@o2ib14
+    - primary nid: 172.17.8.42@o2ib15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.42@o2ib15
+        - nid: 172.17.8.142@o2ib15
+    - primary nid: 172.17.8.42@o2ib16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.42@o2ib16
+        - nid: 172.17.8.142@o2ib16
+    - primary nid: 172.17.8.42@tcp10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.42@tcp10
+        - nid: 172.17.8.142@tcp10
+    - primary nid: 172.17.8.42@tcp11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.42@tcp11
+        - nid: 172.17.8.142@tcp11
+    - primary nid: 172.17.8.42@tcp12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.42@tcp12
+        - nid: 172.17.8.142@tcp12
+    - primary nid: 172.17.8.42@tcp13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.42@tcp13
+        - nid: 172.17.8.142@tcp13
+    - primary nid: 172.17.8.42@tcp14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.42@tcp14
+        - nid: 172.17.8.142@tcp14
+    - primary nid: 172.17.8.42@tcp15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.42@tcp15
+        - nid: 172.17.8.142@tcp15
+    - primary nid: 172.17.8.42@tcp16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.42@tcp16
+        - nid: 172.17.8.142@tcp16
+##hsoss02
+    - primary nid: 172.17.8.43@o2ib10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.43@o2ib10
+        - nid: 172.17.8.143@o2ib10
+    - primary nid: 172.17.8.43@o2ib11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.43@o2ib11
+        - nid: 172.17.8.143@o2ib11
+    - primary nid: 172.17.8.43@o2ib12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.43@o2ib12
+        - nid: 172.17.8.143@o2ib12
+    - primary nid: 172.17.8.43@o2ib13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.43@o2ib13
+        - nid: 172.17.8.143@o2ib13
+    - primary nid: 172.17.8.43@o2ib14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.43@o2ib14
+        - nid: 172.17.8.143@o2ib14
+    - primary nid: 172.17.8.43@o2ib15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.43@o2ib15
+        - nid: 172.17.8.143@o2ib15
+    - primary nid: 172.17.8.43@o2ib16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.43@o2ib16
+        - nid: 172.17.8.143@o2ib16
+    - primary nid: 172.17.8.43@tcp10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.43@tcp10
+        - nid: 172.17.8.143@tcp10
+    - primary nid: 172.17.8.43@tcp11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.43@tcp11
+        - nid: 172.17.8.143@tcp11
+    - primary nid: 172.17.8.43@tcp12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.43@tcp12
+        - nid: 172.17.8.143@tcp12
+    - primary nid: 172.17.8.43@tcp13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.43@tcp13
+        - nid: 172.17.8.143@tcp13
+    - primary nid: 172.17.8.43@tcp14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.43@tcp14
+        - nid: 172.17.8.143@tcp14
+    - primary nid: 172.17.8.43@tcp15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.43@tcp15
+        - nid: 172.17.8.143@tcp15
+    - primary nid: 172.17.8.43@tcp16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.43@tcp16
+        - nid: 172.17.8.143@tcp16
+##hsmds3
+    - primary nid: 172.17.8.44@o2ib10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.44@o2ib10
+        - nid: 172.17.8.144@o2ib10
+    - primary nid: 172.17.8.44@o2ib11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.44@o2ib11
+        - nid: 172.17.8.144@o2ib11
+    - primary nid: 172.17.8.44@o2ib12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.44@o2ib12
+        - nid: 172.17.8.144@o2ib12
+    - primary nid: 172.17.8.44@o2ib13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.44@o2ib13
+        - nid: 172.17.8.144@o2ib13
+    - primary nid: 172.17.8.44@o2ib14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.44@o2ib14
+        - nid: 172.17.8.144@o2ib14
+    - primary nid: 172.17.8.44@o2ib15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.44@o2ib15
+        - nid: 172.17.8.144@o2ib15
+    - primary nid: 172.17.8.44@o2ib16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.44@o2ib16
+        - nid: 172.17.8.144@o2ib16
+    - primary nid: 172.17.8.44@tcp10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.44@tcp10
+        - nid: 172.17.8.144@tcp10
+    - primary nid: 172.17.8.44@tcp11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.44@tcp11
+        - nid: 172.17.8.144@tcp11
+    - primary nid: 172.17.8.44@tcp12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.44@tcp12
+        - nid: 172.17.8.144@tcp12
+    - primary nid: 172.17.8.44@tcp13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.44@tcp13
+        - nid: 172.17.8.144@tcp13
+    - primary nid: 172.17.8.44@tcp14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.44@tcp14
+        - nid: 172.17.8.144@tcp14
+    - primary nid: 172.17.8.44@tcp15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.44@tcp15
+        - nid: 172.17.8.144@tcp15
+    - primary nid: 172.17.8.44@tcp16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.44@tcp16
+        - nid: 172.17.8.144@tcp16
+##hsmds4
+    - primary nid: 172.17.8.45@o2ib10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.45@o2ib10
+        - nid: 172.17.8.145@o2ib10
+    - primary nid: 172.17.8.45@o2ib11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.45@o2ib11
+        - nid: 172.17.8.145@o2ib11
+    - primary nid: 172.17.8.45@o2ib12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.45@o2ib12
+        - nid: 172.17.8.145@o2ib12
+    - primary nid: 172.17.8.45@o2ib13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.45@o2ib13
+        - nid: 172.17.8.145@o2ib13
+    - primary nid: 172.17.8.45@o2ib14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.45@o2ib14
+        - nid: 172.17.8.145@o2ib14
+    - primary nid: 172.17.8.45@o2ib15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.45@o2ib15
+        - nid: 172.17.8.145@o2ib15
+    - primary nid: 172.17.8.45@o2ib16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.45@o2ib16
+        - nid: 172.17.8.145@o2ib16
+    - primary nid: 172.17.8.45@tcp10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.45@tcp10
+        - nid: 172.17.8.145@tcp10
+    - primary nid: 172.17.8.45@tcp11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.45@tcp11
+        - nid: 172.17.8.145@tcp11
+    - primary nid: 172.17.8.45@tcp12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.45@tcp12
+        - nid: 172.17.8.145@tcp12
+    - primary nid: 172.17.8.45@tcp13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.45@tcp13
+        - nid: 172.17.8.145@tcp13
+    - primary nid: 172.17.8.45@tcp14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.45@tcp14
+        - nid: 172.17.8.145@tcp14
+    - primary nid: 172.17.8.45@tcp15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.45@tcp15
+        - nid: 172.17.8.145@tcp15
+    - primary nid: 172.17.8.45@tcp16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.45@tcp16
+        - nid: 172.17.8.145@tcp16
+##hsoss03
+    - primary nid: 172.17.8.46@o2ib10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.46@o2ib10
+        - nid: 172.17.8.146@o2ib10
+    - primary nid: 172.17.8.46@o2ib11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.46@o2ib11
+        - nid: 172.17.8.146@o2ib11
+    - primary nid: 172.17.8.46@o2ib12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.46@o2ib12
+        - nid: 172.17.8.146@o2ib12
+    - primary nid: 172.17.8.46@o2ib13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.46@o2ib13
+        - nid: 172.17.8.146@o2ib13
+    - primary nid: 172.17.8.46@o2ib14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.46@o2ib14
+        - nid: 172.17.8.146@o2ib14
+    - primary nid: 172.17.8.46@o2ib15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.46@o2ib15
+        - nid: 172.17.8.146@o2ib15
+    - primary nid: 172.17.8.46@o2ib16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.46@o2ib16
+        - nid: 172.17.8.146@o2ib16
+    - primary nid: 172.17.8.46@tcp10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.46@tcp10
+        - nid: 172.17.8.146@tcp10
+    - primary nid: 172.17.8.46@tcp11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.46@tcp11
+        - nid: 172.17.8.146@tcp11
+    - primary nid: 172.17.8.46@tcp12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.46@tcp12
+        - nid: 172.17.8.146@tcp12
+    - primary nid: 172.17.8.46@tcp13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.46@tcp13
+        - nid: 172.17.8.146@tcp13
+    - primary nid: 172.17.8.46@tcp14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.46@tcp14
+        - nid: 172.17.8.146@tcp14
+    - primary nid: 172.17.8.46@tcp15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.46@tcp15
+        - nid: 172.17.8.146@tcp15
+    - primary nid: 172.17.8.46@tcp16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.46@tcp16
+        - nid: 172.17.8.146@tcp16
+##hsoss04
+    - primary nid: 172.17.8.47@o2ib10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.47@o2ib10
+        - nid: 172.17.8.147@o2ib10
+    - primary nid: 172.17.8.47@o2ib11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.47@o2ib11
+        - nid: 172.17.8.147@o2ib11
+    - primary nid: 172.17.8.47@o2ib12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.47@o2ib12
+        - nid: 172.17.8.147@o2ib12
+    - primary nid: 172.17.8.47@o2ib13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.47@o2ib13
+        - nid: 172.17.8.147@o2ib13
+    - primary nid: 172.17.8.47@o2ib14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.47@o2ib14
+        - nid: 172.17.8.147@o2ib14
+    - primary nid: 172.17.8.47@o2ib15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.47@o2ib15
+        - nid: 172.17.8.147@o2ib15
+    - primary nid: 172.17.8.47@o2ib16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.47@o2ib16
+        - nid: 172.17.8.147@o2ib16
+    - primary nid: 172.17.8.47@tcp10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.47@tcp10
+        - nid: 172.17.8.147@tcp10
+    - primary nid: 172.17.8.47@tcp11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.47@tcp11
+        - nid: 172.17.8.147@tcp11
+    - primary nid: 172.17.8.47@tcp12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.47@tcp12
+        - nid: 172.17.8.147@tcp12
+    - primary nid: 172.17.8.47@tcp13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.47@tcp13
+        - nid: 172.17.8.147@tcp13
+    - primary nid: 172.17.8.47@tcp14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.47@tcp14
+        - nid: 172.17.8.147@tcp14
+    - primary nid: 172.17.8.47@tcp15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.47@tcp15
+        - nid: 172.17.8.147@tcp15
+    - primary nid: 172.17.8.47@tcp16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.47@tcp16
+        - nid: 172.17.8.147@tcp16
+##hsoss05
+    - primary nid: 172.17.8.48@o2ib10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.48@o2ib10
+        - nid: 172.17.8.148@o2ib10
+    - primary nid: 172.17.8.48@o2ib11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.48@o2ib11
+        - nid: 172.17.8.148@o2ib11
+    - primary nid: 172.17.8.48@o2ib12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.48@o2ib12
+        - nid: 172.17.8.148@o2ib12
+    - primary nid: 172.17.8.48@o2ib13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.48@o2ib13
+        - nid: 172.17.8.148@o2ib13
+    - primary nid: 172.17.8.48@o2ib14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.48@o2ib14
+        - nid: 172.17.8.148@o2ib14
+    - primary nid: 172.17.8.48@o2ib15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.48@o2ib15
+        - nid: 172.17.8.148@o2ib15
+    - primary nid: 172.17.8.48@o2ib16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.48@o2ib16
+        - nid: 172.17.8.148@o2ib16
+    - primary nid: 172.17.8.48@tcp10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.48@tcp10
+        - nid: 172.17.8.148@tcp10
+    - primary nid: 172.17.8.48@tcp11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.48@tcp11
+        - nid: 172.17.8.148@tcp11
+    - primary nid: 172.17.8.48@tcp12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.48@tcp12
+        - nid: 172.17.8.148@tcp12
+    - primary nid: 172.17.8.48@tcp13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.48@tcp13
+        - nid: 172.17.8.148@tcp13
+    - primary nid: 172.17.8.48@tcp14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.48@tcp14
+        - nid: 172.17.8.148@tcp14
+    - primary nid: 172.17.8.48@tcp15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.48@tcp15
+        - nid: 172.17.8.148@tcp15
+    - primary nid: 172.17.8.48@tcp16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.48@tcp16
+        - nid: 172.17.8.148@tcp16
+##hsoss06
+    - primary nid: 172.17.8.49@o2ib10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.49@o2ib10
+        - nid: 172.17.8.149@o2ib10
+    - primary nid: 172.17.8.49@o2ib11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.49@o2ib11
+        - nid: 172.17.8.149@o2ib11
+    - primary nid: 172.17.8.49@o2ib12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.49@o2ib12
+        - nid: 172.17.8.149@o2ib12
+    - primary nid: 172.17.8.49@o2ib13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.49@o2ib13
+        - nid: 172.17.8.149@o2ib13
+    - primary nid: 172.17.8.49@o2ib14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.49@o2ib14
+        - nid: 172.17.8.149@o2ib14
+    - primary nid: 172.17.8.49@o2ib15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.49@o2ib15
+        - nid: 172.17.8.149@o2ib15
+    - primary nid: 172.17.8.49@o2ib16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.49@o2ib16
+        - nid: 172.17.8.149@o2ib16
+    - primary nid: 172.17.8.49@tcp10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.49@tcp10
+        - nid: 172.17.8.149@tcp10
+    - primary nid: 172.17.8.49@tcp11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.49@tcp11
+        - nid: 172.17.8.149@tcp11
+    - primary nid: 172.17.8.49@tcp12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.49@tcp12
+        - nid: 172.17.8.149@tcp12
+    - primary nid: 172.17.8.49@tcp13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.49@tcp13
+        - nid: 172.17.8.149@tcp13
+    - primary nid: 172.17.8.49@tcp14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.49@tcp14
+        - nid: 172.17.8.149@tcp14
+    - primary nid: 172.17.8.49@tcp15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.49@tcp15
+        - nid: 172.17.8.149@tcp15
+    - primary nid: 172.17.8.49@tcp16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.49@tcp16
+        - nid: 172.17.8.149@tcp16
+##hsoss07
+    - primary nid: 172.17.8.50@o2ib10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.50@o2ib10
+        - nid: 172.17.8.150@o2ib10
+    - primary nid: 172.17.8.50@o2ib11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.50@o2ib11
+        - nid: 172.17.8.150@o2ib11
+    - primary nid: 172.17.8.50@o2ib12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.50@o2ib12
+        - nid: 172.17.8.150@o2ib12
+    - primary nid: 172.17.8.50@o2ib13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.50@o2ib13
+        - nid: 172.17.8.150@o2ib13
+    - primary nid: 172.17.8.50@o2ib14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.50@o2ib14
+        - nid: 172.17.8.150@o2ib14
+    - primary nid: 172.17.8.50@o2ib15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.50@o2ib15
+        - nid: 172.17.8.150@o2ib15
+    - primary nid: 172.17.8.50@o2ib16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.50@o2ib16
+        - nid: 172.17.8.150@o2ib16
+    - primary nid: 172.17.8.50@tcp10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.50@tcp10
+        - nid: 172.17.8.150@tcp10
+    - primary nid: 172.17.8.50@tcp11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.50@tcp11
+        - nid: 172.17.8.150@tcp11
+    - primary nid: 172.17.8.50@tcp12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.50@tcp12
+        - nid: 172.17.8.150@tcp12
+    - primary nid: 172.17.8.50@tcp13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.50@tcp13
+        - nid: 172.17.8.150@tcp13
+    - primary nid: 172.17.8.50@tcp14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.50@tcp14
+        - nid: 172.17.8.150@tcp14
+    - primary nid: 172.17.8.50@tcp15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.50@tcp15
+        - nid: 172.17.8.150@tcp15
+    - primary nid: 172.17.8.50@tcp16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.50@tcp16
+        - nid: 172.17.8.150@tcp16
+##hsoss08
+    - primary nid: 172.17.8.51@o2ib10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.51@o2ib10
+        - nid: 172.17.8.151@o2ib10
+    - primary nid: 172.17.8.51@o2ib11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.51@o2ib11
+        - nid: 172.17.8.151@o2ib11
+    - primary nid: 172.17.8.51@o2ib12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.51@o2ib12
+        - nid: 172.17.8.151@o2ib12
+    - primary nid: 172.17.8.51@o2ib13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.51@o2ib13
+        - nid: 172.17.8.151@o2ib13
+    - primary nid: 172.17.8.51@o2ib14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.51@o2ib14
+        - nid: 172.17.8.151@o2ib14
+    - primary nid: 172.17.8.51@o2ib15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.51@o2ib15
+        - nid: 172.17.8.151@o2ib15
+    - primary nid: 172.17.8.51@o2ib16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.51@o2ib16
+        - nid: 172.17.8.151@o2ib16
+    - primary nid: 172.17.8.51@tcp10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.51@tcp10
+        - nid: 172.17.8.151@tcp10
+    - primary nid: 172.17.8.51@tcp11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.51@tcp11
+        - nid: 172.17.8.151@tcp11
+    - primary nid: 172.17.8.51@tcp12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.51@tcp12
+        - nid: 172.17.8.151@tcp12
+    - primary nid: 172.17.8.51@tcp13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.51@tcp13
+        - nid: 172.17.8.151@tcp13
+    - primary nid: 172.17.8.51@tcp14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.51@tcp14
+        - nid: 172.17.8.151@tcp14
+    - primary nid: 172.17.8.51@tcp15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.51@tcp15
+        - nid: 172.17.8.151@tcp15
+    - primary nid: 172.17.8.51@tcp16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.51@tcp16
+        - nid: 172.17.8.151@tcp16
+##hsoss09
+    - primary nid: 172.17.8.52@o2ib10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.52@o2ib10
+        - nid: 172.17.8.152@o2ib10
+    - primary nid: 172.17.8.52@o2ib11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.52@o2ib11
+        - nid: 172.17.8.152@o2ib11
+    - primary nid: 172.17.8.52@o2ib12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.52@o2ib12
+        - nid: 172.17.8.152@o2ib12
+    - primary nid: 172.17.8.52@o2ib13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.52@o2ib13
+        - nid: 172.17.8.152@o2ib13
+    - primary nid: 172.17.8.52@o2ib14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.52@o2ib14
+        - nid: 172.17.8.152@o2ib14
+    - primary nid: 172.17.8.52@o2ib15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.52@o2ib15
+        - nid: 172.17.8.152@o2ib15
+    - primary nid: 172.17.8.52@o2ib16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.52@o2ib16
+        - nid: 172.17.8.152@o2ib16
+    - primary nid: 172.17.8.52@tcp10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.52@tcp10
+        - nid: 172.17.8.152@tcp10
+    - primary nid: 172.17.8.52@tcp11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.52@tcp11
+        - nid: 172.17.8.152@tcp11
+    - primary nid: 172.17.8.52@tcp12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.52@tcp12
+        - nid: 172.17.8.152@tcp12
+    - primary nid: 172.17.8.52@tcp13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.52@tcp13
+        - nid: 172.17.8.152@tcp13
+    - primary nid: 172.17.8.52@tcp14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.52@tcp14
+        - nid: 172.17.8.152@tcp14
+    - primary nid: 172.17.8.52@tcp15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.52@tcp15
+        - nid: 172.17.8.152@tcp15
+    - primary nid: 172.17.8.52@tcp16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.52@tcp16
+        - nid: 172.17.8.152@tcp16
+##hsoss10
+    - primary nid: 172.17.8.53@o2ib10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.53@o2ib10
+        - nid: 172.17.8.153@o2ib10
+    - primary nid: 172.17.8.53@o2ib11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.53@o2ib11
+        - nid: 172.17.8.153@o2ib11
+    - primary nid: 172.17.8.53@o2ib12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.53@o2ib12
+        - nid: 172.17.8.153@o2ib12
+    - primary nid: 172.17.8.53@o2ib13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.53@o2ib13
+        - nid: 172.17.8.153@o2ib13
+    - primary nid: 172.17.8.53@o2ib14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.53@o2ib14
+        - nid: 172.17.8.153@o2ib14
+    - primary nid: 172.17.8.53@o2ib15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.53@o2ib15
+        - nid: 172.17.8.153@o2ib15
+    - primary nid: 172.17.8.53@o2ib16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.53@o2ib16
+        - nid: 172.17.8.153@o2ib16
+    - primary nid: 172.17.8.53@tcp10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.53@tcp10
+        - nid: 172.17.8.153@tcp10
+    - primary nid: 172.17.8.53@tcp11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.53@tcp11
+        - nid: 172.17.8.153@tcp11
+    - primary nid: 172.17.8.53@tcp12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.53@tcp12
+        - nid: 172.17.8.153@tcp12
+    - primary nid: 172.17.8.53@tcp13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.53@tcp13
+        - nid: 172.17.8.153@tcp13
+    - primary nid: 172.17.8.53@tcp14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.53@tcp14
+        - nid: 172.17.8.153@tcp14
+    - primary nid: 172.17.8.53@tcp15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.53@tcp15
+        - nid: 172.17.8.153@tcp15
+    - primary nid: 172.17.8.53@tcp16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.53@tcp16
+        - nid: 172.17.8.153@tcp16
+##hsoss11
+    - primary nid: 172.17.8.54@o2ib10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.54@o2ib10
+        - nid: 172.17.8.154@o2ib10
+    - primary nid: 172.17.8.54@o2ib11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.54@o2ib11
+        - nid: 172.17.8.154@o2ib11
+    - primary nid: 172.17.8.54@o2ib12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.54@o2ib12
+        - nid: 172.17.8.154@o2ib12
+    - primary nid: 172.17.8.54@o2ib13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.54@o2ib13
+        - nid: 172.17.8.154@o2ib13
+    - primary nid: 172.17.8.54@o2ib14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.54@o2ib14
+        - nid: 172.17.8.154@o2ib14
+    - primary nid: 172.17.8.54@o2ib15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.54@o2ib15
+        - nid: 172.17.8.154@o2ib15
+    - primary nid: 172.17.8.54@o2ib16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.54@o2ib16
+        - nid: 172.17.8.154@o2ib16
+    - primary nid: 172.17.8.54@tcp10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.54@tcp10
+        - nid: 172.17.8.154@tcp10
+    - primary nid: 172.17.8.54@tcp11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.54@tcp11
+        - nid: 172.17.8.154@tcp11
+    - primary nid: 172.17.8.54@tcp12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.54@tcp12
+        - nid: 172.17.8.154@tcp12
+    - primary nid: 172.17.8.54@tcp13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.54@tcp13
+        - nid: 172.17.8.154@tcp13
+    - primary nid: 172.17.8.54@tcp14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.54@tcp14
+        - nid: 172.17.8.154@tcp14
+    - primary nid: 172.17.8.54@tcp15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.54@tcp15
+        - nid: 172.17.8.154@tcp15
+    - primary nid: 172.17.8.54@tcp16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.54@tcp16
+        - nid: 172.17.8.154@tcp16
+##hsoss12
+    - primary nid: 172.17.8.55@o2ib10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.55@o2ib10
+        - nid: 172.17.8.155@o2ib10
+    - primary nid: 172.17.8.55@o2ib11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.55@o2ib11
+        - nid: 172.17.8.155@o2ib11
+    - primary nid: 172.17.8.55@o2ib12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.55@o2ib12
+        - nid: 172.17.8.155@o2ib12
+    - primary nid: 172.17.8.55@o2ib13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.55@o2ib13
+        - nid: 172.17.8.155@o2ib13
+    - primary nid: 172.17.8.55@o2ib14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.55@o2ib14
+        - nid: 172.17.8.155@o2ib14
+    - primary nid: 172.17.8.55@o2ib15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.55@o2ib15
+        - nid: 172.17.8.155@o2ib15
+    - primary nid: 172.17.8.55@o2ib16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.55@o2ib16
+        - nid: 172.17.8.155@o2ib16
+    - primary nid: 172.17.8.55@tcp10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.55@tcp10
+        - nid: 172.17.8.155@tcp10
+    - primary nid: 172.17.8.55@tcp11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.55@tcp11
+        - nid: 172.17.8.155@tcp11
+    - primary nid: 172.17.8.55@tcp12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.55@tcp12
+        - nid: 172.17.8.155@tcp12
+    - primary nid: 172.17.8.55@tcp13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.55@tcp13
+        - nid: 172.17.8.155@tcp13
+    - primary nid: 172.17.8.55@tcp14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.55@tcp14
+        - nid: 172.17.8.155@tcp14
+    - primary nid: 172.17.8.55@tcp15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.55@tcp15
+        - nid: 172.17.8.155@tcp15
+    - primary nid: 172.17.8.55@tcp16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.55@tcp16
+        - nid: 172.17.8.155@tcp16
+##lcmds1
+    - primary nid: 172.17.8.56@o2ib10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.56@o2ib10
+        - nid: 172.17.8.156@o2ib10
+    - primary nid: 172.17.8.56@o2ib11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.56@o2ib11
+        - nid: 172.17.8.156@o2ib11
+    - primary nid: 172.17.8.56@o2ib12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.56@o2ib12
+        - nid: 172.17.8.156@o2ib12
+    - primary nid: 172.17.8.56@o2ib13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.56@o2ib13
+        - nid: 172.17.8.156@o2ib13
+    - primary nid: 172.17.8.56@o2ib14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.56@o2ib14
+        - nid: 172.17.8.156@o2ib14
+    - primary nid: 172.17.8.56@o2ib15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.56@o2ib15
+        - nid: 172.17.8.156@o2ib15
+    - primary nid: 172.17.8.56@o2ib16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.56@o2ib16
+        - nid: 172.17.8.156@o2ib16
+    - primary nid: 172.17.8.56@tcp10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.56@tcp10
+        - nid: 172.17.8.156@tcp10
+    - primary nid: 172.17.8.56@tcp11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.56@tcp11
+        - nid: 172.17.8.156@tcp11
+    - primary nid: 172.17.8.56@tcp12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.56@tcp12
+        - nid: 172.17.8.156@tcp12
+    - primary nid: 172.17.8.56@tcp13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.56@tcp13
+        - nid: 172.17.8.156@tcp13
+    - primary nid: 172.17.8.56@tcp14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.56@tcp14
+        - nid: 172.17.8.156@tcp14
+    - primary nid: 172.17.8.56@tcp15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.56@tcp15
+        - nid: 172.17.8.156@tcp15
+    - primary nid: 172.17.8.56@tcp16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.56@tcp16
+        - nid: 172.17.8.156@tcp16
+##lcmds2
+    - primary nid: 172.17.8.57@o2ib10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.57@o2ib10
+        - nid: 172.17.8.157@o2ib10
+    - primary nid: 172.17.8.57@o2ib11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.57@o2ib11
+        - nid: 172.17.8.157@o2ib11
+    - primary nid: 172.17.8.57@o2ib12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.57@o2ib12
+        - nid: 172.17.8.157@o2ib12
+    - primary nid: 172.17.8.57@o2ib13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.57@o2ib13
+        - nid: 172.17.8.157@o2ib13
+    - primary nid: 172.17.8.57@o2ib14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.57@o2ib14
+        - nid: 172.17.8.157@o2ib14
+    - primary nid: 172.17.8.57@o2ib15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.57@o2ib15
+        - nid: 172.17.8.157@o2ib15
+    - primary nid: 172.17.8.57@o2ib16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.57@o2ib16
+        - nid: 172.17.8.157@o2ib16
+    - primary nid: 172.17.8.57@tcp10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.57@tcp10
+        - nid: 172.17.8.157@tcp10
+    - primary nid: 172.17.8.57@tcp11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.57@tcp11
+        - nid: 172.17.8.157@tcp11
+    - primary nid: 172.17.8.57@tcp12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.57@tcp12
+        - nid: 172.17.8.157@tcp12
+    - primary nid: 172.17.8.57@tcp13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.57@tcp13
+        - nid: 172.17.8.157@tcp13
+    - primary nid: 172.17.8.57@tcp14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.57@tcp14
+        - nid: 172.17.8.157@tcp14
+    - primary nid: 172.17.8.57@tcp15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.57@tcp15
+        - nid: 172.17.8.157@tcp15
+    - primary nid: 172.17.8.57@tcp16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.57@tcp16
+        - nid: 172.17.8.157@tcp16
+##lcmds3
+    - primary nid: 172.17.8.58@o2ib10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.58@o2ib10
+        - nid: 172.17.8.158@o2ib10
+    - primary nid: 172.17.8.58@o2ib11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.58@o2ib11
+        - nid: 172.17.8.158@o2ib11
+    - primary nid: 172.17.8.58@o2ib12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.58@o2ib12
+        - nid: 172.17.8.158@o2ib12
+    - primary nid: 172.17.8.58@o2ib13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.58@o2ib13
+        - nid: 172.17.8.158@o2ib13
+    - primary nid: 172.17.8.58@o2ib14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.58@o2ib14
+        - nid: 172.17.8.158@o2ib14
+    - primary nid: 172.17.8.58@o2ib15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.58@o2ib15
+        - nid: 172.17.8.158@o2ib15
+    - primary nid: 172.17.8.58@o2ib16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.58@o2ib16
+        - nid: 172.17.8.158@o2ib16
+    - primary nid: 172.17.8.58@tcp10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.58@tcp10
+        - nid: 172.17.8.158@tcp10
+    - primary nid: 172.17.8.58@tcp11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.58@tcp11
+        - nid: 172.17.8.158@tcp11
+    - primary nid: 172.17.8.58@tcp12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.58@tcp12
+        - nid: 172.17.8.158@tcp12
+    - primary nid: 172.17.8.58@tcp13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.58@tcp13
+        - nid: 172.17.8.158@tcp13
+    - primary nid: 172.17.8.58@tcp14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.58@tcp14
+        - nid: 172.17.8.158@tcp14
+    - primary nid: 172.17.8.58@tcp15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.58@tcp15
+        - nid: 172.17.8.158@tcp15
+    - primary nid: 172.17.8.58@tcp16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.58@tcp16
+        - nid: 172.17.8.158@tcp16
+##lcmds4
+    - primary nid: 172.17.8.59@o2ib10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.59@o2ib10
+        - nid: 172.17.8.159@o2ib10
+    - primary nid: 172.17.8.59@o2ib11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.59@o2ib11
+        - nid: 172.17.8.159@o2ib11
+    - primary nid: 172.17.8.59@o2ib12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.59@o2ib12
+        - nid: 172.17.8.159@o2ib12
+    - primary nid: 172.17.8.59@o2ib13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.59@o2ib13
+        - nid: 172.17.8.159@o2ib13
+    - primary nid: 172.17.8.59@o2ib14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.59@o2ib14
+        - nid: 172.17.8.159@o2ib14
+    - primary nid: 172.17.8.59@o2ib15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.59@o2ib15
+        - nid: 172.17.8.159@o2ib15
+    - primary nid: 172.17.8.59@o2ib16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.59@o2ib16
+        - nid: 172.17.8.159@o2ib16
+    - primary nid: 172.17.8.59@tcp10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.59@tcp10
+        - nid: 172.17.8.159@tcp10
+    - primary nid: 172.17.8.59@tcp11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.59@tcp11
+        - nid: 172.17.8.159@tcp11
+    - primary nid: 172.17.8.59@tcp12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.59@tcp12
+        - nid: 172.17.8.159@tcp12
+    - primary nid: 172.17.8.59@tcp13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.59@tcp13
+        - nid: 172.17.8.159@tcp13
+    - primary nid: 172.17.8.59@tcp14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.59@tcp14
+        - nid: 172.17.8.159@tcp14
+    - primary nid: 172.17.8.59@tcp15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.59@tcp15
+        - nid: 172.17.8.159@tcp15
+    - primary nid: 172.17.8.59@tcp16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.59@tcp16
+        - nid: 172.17.8.159@tcp16
+##lcoss01
+    - primary nid: 172.17.8.60@o2ib10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.60@o2ib10
+        - nid: 172.17.8.160@o2ib10
+    - primary nid: 172.17.8.60@o2ib11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.60@o2ib11
+        - nid: 172.17.8.160@o2ib11
+    - primary nid: 172.17.8.60@o2ib12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.60@o2ib12
+        - nid: 172.17.8.160@o2ib12
+    - primary nid: 172.17.8.60@o2ib13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.60@o2ib13
+        - nid: 172.17.8.160@o2ib13
+    - primary nid: 172.17.8.60@o2ib14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.60@o2ib14
+        - nid: 172.17.8.160@o2ib14
+    - primary nid: 172.17.8.60@o2ib15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.60@o2ib15
+        - nid: 172.17.8.160@o2ib15
+    - primary nid: 172.17.8.60@o2ib16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.60@o2ib16
+        - nid: 172.17.8.160@o2ib16
+    - primary nid: 172.17.8.60@tcp10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.60@tcp10
+        - nid: 172.17.8.160@tcp10
+    - primary nid: 172.17.8.60@tcp11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.60@tcp11
+        - nid: 172.17.8.160@tcp11
+    - primary nid: 172.17.8.60@tcp12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.60@tcp12
+        - nid: 172.17.8.160@tcp12
+    - primary nid: 172.17.8.60@tcp13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.60@tcp13
+        - nid: 172.17.8.160@tcp13
+    - primary nid: 172.17.8.60@tcp14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.60@tcp14
+        - nid: 172.17.8.160@tcp14
+    - primary nid: 172.17.8.60@tcp15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.60@tcp15
+        - nid: 172.17.8.160@tcp15
+    - primary nid: 172.17.8.60@tcp16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.60@tcp16
+        - nid: 172.17.8.160@tcp16
+##lcoss02
+    - primary nid: 172.17.8.61@o2ib10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.61@o2ib10
+        - nid: 172.17.8.161@o2ib10
+    - primary nid: 172.17.8.61@o2ib11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.61@o2ib11
+        - nid: 172.17.8.161@o2ib11
+    - primary nid: 172.17.8.61@o2ib12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.61@o2ib12
+        - nid: 172.17.8.161@o2ib12
+    - primary nid: 172.17.8.61@o2ib13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.61@o2ib13
+        - nid: 172.17.8.161@o2ib13
+    - primary nid: 172.17.8.61@o2ib14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.61@o2ib14
+        - nid: 172.17.8.161@o2ib14
+    - primary nid: 172.17.8.61@o2ib15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.61@o2ib15
+        - nid: 172.17.8.161@o2ib15
+    - primary nid: 172.17.8.61@o2ib16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.61@o2ib16
+        - nid: 172.17.8.161@o2ib16
+    - primary nid: 172.17.8.61@tcp10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.61@tcp10
+        - nid: 172.17.8.161@tcp10
+    - primary nid: 172.17.8.61@tcp11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.61@tcp11
+        - nid: 172.17.8.161@tcp11
+    - primary nid: 172.17.8.61@tcp12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.61@tcp12
+        - nid: 172.17.8.161@tcp12
+    - primary nid: 172.17.8.61@tcp13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.61@tcp13
+        - nid: 172.17.8.161@tcp13
+    - primary nid: 172.17.8.61@tcp14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.61@tcp14
+        - nid: 172.17.8.161@tcp14
+    - primary nid: 172.17.8.61@tcp15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.61@tcp15
+        - nid: 172.17.8.161@tcp15
+    - primary nid: 172.17.8.61@tcp16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.61@tcp16
+        - nid: 172.17.8.161@tcp16
+##lcoss03
+    - primary nid: 172.17.8.62@o2ib10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.62@o2ib10
+        - nid: 172.17.8.162@o2ib10
+    - primary nid: 172.17.8.62@o2ib11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.62@o2ib11
+        - nid: 172.17.8.162@o2ib11
+    - primary nid: 172.17.8.62@o2ib12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.62@o2ib12
+        - nid: 172.17.8.162@o2ib12
+    - primary nid: 172.17.8.62@o2ib13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.62@o2ib13
+        - nid: 172.17.8.162@o2ib13
+    - primary nid: 172.17.8.62@o2ib14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.62@o2ib14
+        - nid: 172.17.8.162@o2ib14
+    - primary nid: 172.17.8.62@o2ib15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.62@o2ib15
+        - nid: 172.17.8.162@o2ib15
+    - primary nid: 172.17.8.62@o2ib16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.62@o2ib16
+        - nid: 172.17.8.162@o2ib16
+    - primary nid: 172.17.8.62@tcp10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.62@tcp10
+        - nid: 172.17.8.162@tcp10
+    - primary nid: 172.17.8.62@tcp11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.62@tcp11
+        - nid: 172.17.8.162@tcp11
+    - primary nid: 172.17.8.62@tcp12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.62@tcp12
+        - nid: 172.17.8.162@tcp12
+    - primary nid: 172.17.8.62@tcp13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.62@tcp13
+        - nid: 172.17.8.162@tcp13
+    - primary nid: 172.17.8.62@tcp14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.62@tcp14
+        - nid: 172.17.8.162@tcp14
+    - primary nid: 172.17.8.62@tcp15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.62@tcp15
+        - nid: 172.17.8.162@tcp15
+    - primary nid: 172.17.8.62@tcp16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.62@tcp16
+        - nid: 172.17.8.162@tcp16
+##lcoss04
+    - primary nid: 172.17.8.63@o2ib10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.63@o2ib10
+        - nid: 172.17.8.163@o2ib10
+    - primary nid: 172.17.8.63@o2ib11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.63@o2ib11
+        - nid: 172.17.8.163@o2ib11
+    - primary nid: 172.17.8.63@o2ib12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.63@o2ib12
+        - nid: 172.17.8.163@o2ib12
+    - primary nid: 172.17.8.63@o2ib13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.63@o2ib13
+        - nid: 172.17.8.163@o2ib13
+    - primary nid: 172.17.8.63@o2ib14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.63@o2ib14
+        - nid: 172.17.8.163@o2ib14
+    - primary nid: 172.17.8.63@o2ib15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.63@o2ib15
+        - nid: 172.17.8.163@o2ib15
+    - primary nid: 172.17.8.63@o2ib16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.63@o2ib16
+        - nid: 172.17.8.163@o2ib16
+    - primary nid: 172.17.8.63@tcp10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.63@tcp10
+        - nid: 172.17.8.163@tcp10
+    - primary nid: 172.17.8.63@tcp11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.63@tcp11
+        - nid: 172.17.8.163@tcp11
+    - primary nid: 172.17.8.63@tcp12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.63@tcp12
+        - nid: 172.17.8.163@tcp12
+    - primary nid: 172.17.8.63@tcp13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.63@tcp13
+        - nid: 172.17.8.163@tcp13
+    - primary nid: 172.17.8.63@tcp14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.63@tcp14
+        - nid: 172.17.8.163@tcp14
+    - primary nid: 172.17.8.63@tcp15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.63@tcp15
+        - nid: 172.17.8.163@tcp15
+    - primary nid: 172.17.8.63@tcp16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.63@tcp16
+        - nid: 172.17.8.163@tcp16
+##lcoss05
+    - primary nid: 172.17.8.64@o2ib10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.64@o2ib10
+        - nid: 172.17.8.164@o2ib10
+    - primary nid: 172.17.8.64@o2ib11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.64@o2ib11
+        - nid: 172.17.8.164@o2ib11
+    - primary nid: 172.17.8.64@o2ib12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.64@o2ib12
+        - nid: 172.17.8.164@o2ib12
+    - primary nid: 172.17.8.64@o2ib13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.64@o2ib13
+        - nid: 172.17.8.164@o2ib13
+    - primary nid: 172.17.8.64@o2ib14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.64@o2ib14
+        - nid: 172.17.8.164@o2ib14
+    - primary nid: 172.17.8.64@o2ib15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.64@o2ib15
+        - nid: 172.17.8.164@o2ib15
+    - primary nid: 172.17.8.64@o2ib16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.64@o2ib16
+        - nid: 172.17.8.164@o2ib16
+    - primary nid: 172.17.8.64@tcp10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.64@tcp10
+        - nid: 172.17.8.164@tcp10
+    - primary nid: 172.17.8.64@tcp11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.64@tcp11
+        - nid: 172.17.8.164@tcp11
+    - primary nid: 172.17.8.64@tcp12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.64@tcp12
+        - nid: 172.17.8.164@tcp12
+    - primary nid: 172.17.8.64@tcp13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.64@tcp13
+        - nid: 172.17.8.164@tcp13
+    - primary nid: 172.17.8.64@tcp14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.64@tcp14
+        - nid: 172.17.8.164@tcp14
+    - primary nid: 172.17.8.64@tcp15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.64@tcp15
+        - nid: 172.17.8.164@tcp15
+    - primary nid: 172.17.8.64@tcp16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.64@tcp16
+        - nid: 172.17.8.164@tcp16
+##lcoss06
+    - primary nid: 172.17.8.65@o2ib10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.65@o2ib10
+        - nid: 172.17.8.165@o2ib10
+    - primary nid: 172.17.8.65@o2ib11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.65@o2ib11
+        - nid: 172.17.8.165@o2ib11
+    - primary nid: 172.17.8.65@o2ib12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.65@o2ib12
+        - nid: 172.17.8.165@o2ib12
+    - primary nid: 172.17.8.65@o2ib13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.65@o2ib13
+        - nid: 172.17.8.165@o2ib13
+    - primary nid: 172.17.8.65@o2ib14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.65@o2ib14
+        - nid: 172.17.8.165@o2ib14
+    - primary nid: 172.17.8.65@o2ib15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.65@o2ib15
+        - nid: 172.17.8.165@o2ib15
+    - primary nid: 172.17.8.65@o2ib16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.65@o2ib16
+        - nid: 172.17.8.165@o2ib16
+    - primary nid: 172.17.8.65@tcp10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.65@tcp10
+        - nid: 172.17.8.165@tcp10
+    - primary nid: 172.17.8.65@tcp11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.65@tcp11
+        - nid: 172.17.8.165@tcp11
+    - primary nid: 172.17.8.65@tcp12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.65@tcp12
+        - nid: 172.17.8.165@tcp12
+    - primary nid: 172.17.8.65@tcp13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.65@tcp13
+        - nid: 172.17.8.165@tcp13
+    - primary nid: 172.17.8.65@tcp14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.65@tcp14
+        - nid: 172.17.8.165@tcp14
+    - primary nid: 172.17.8.65@tcp15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.65@tcp15
+        - nid: 172.17.8.165@tcp15
+    - primary nid: 172.17.8.65@tcp16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.65@tcp16
+        - nid: 172.17.8.165@tcp16
+##lcoss07
+    - primary nid: 172.17.8.66@o2ib10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.66@o2ib10
+        - nid: 172.17.8.166@o2ib10
+    - primary nid: 172.17.8.66@o2ib11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.66@o2ib11
+        - nid: 172.17.8.166@o2ib11
+    - primary nid: 172.17.8.66@o2ib12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.66@o2ib12
+        - nid: 172.17.8.166@o2ib12
+    - primary nid: 172.17.8.66@o2ib13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.66@o2ib13
+        - nid: 172.17.8.166@o2ib13
+    - primary nid: 172.17.8.66@o2ib14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.66@o2ib14
+        - nid: 172.17.8.166@o2ib14
+    - primary nid: 172.17.8.66@o2ib15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.66@o2ib15
+        - nid: 172.17.8.166@o2ib15
+    - primary nid: 172.17.8.66@o2ib16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.66@o2ib16
+        - nid: 172.17.8.166@o2ib16
+    - primary nid: 172.17.8.66@tcp10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.66@tcp10
+        - nid: 172.17.8.166@tcp10
+    - primary nid: 172.17.8.66@tcp11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.66@tcp11
+        - nid: 172.17.8.166@tcp11
+    - primary nid: 172.17.8.66@tcp12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.66@tcp12
+        - nid: 172.17.8.166@tcp12
+    - primary nid: 172.17.8.66@tcp13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.66@tcp13
+        - nid: 172.17.8.166@tcp13
+    - primary nid: 172.17.8.66@tcp14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.66@tcp14
+        - nid: 172.17.8.166@tcp14
+    - primary nid: 172.17.8.66@tcp15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.66@tcp15
+        - nid: 172.17.8.166@tcp15
+    - primary nid: 172.17.8.66@tcp16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.66@tcp16
+        - nid: 172.17.8.166@tcp16
+##lcoss08
+    - primary nid: 172.17.8.67@o2ib10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.67@o2ib10
+        - nid: 172.17.8.167@o2ib10
+    - primary nid: 172.17.8.67@o2ib11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.67@o2ib11
+        - nid: 172.17.8.167@o2ib11
+    - primary nid: 172.17.8.67@o2ib12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.67@o2ib12
+        - nid: 172.17.8.167@o2ib12
+    - primary nid: 172.17.8.67@o2ib13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.67@o2ib13
+        - nid: 172.17.8.167@o2ib13
+    - primary nid: 172.17.8.67@o2ib14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.67@o2ib14
+        - nid: 172.17.8.167@o2ib14
+    - primary nid: 172.17.8.67@o2ib15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.67@o2ib15
+        - nid: 172.17.8.167@o2ib15
+    - primary nid: 172.17.8.67@o2ib16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.67@o2ib16
+        - nid: 172.17.8.167@o2ib16
+    - primary nid: 172.17.8.67@tcp10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.67@tcp10
+        - nid: 172.17.8.167@tcp10
+    - primary nid: 172.17.8.67@tcp11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.67@tcp11
+        - nid: 172.17.8.167@tcp11
+    - primary nid: 172.17.8.67@tcp12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.67@tcp12
+        - nid: 172.17.8.167@tcp12
+    - primary nid: 172.17.8.67@tcp13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.67@tcp13
+        - nid: 172.17.8.167@tcp13
+    - primary nid: 172.17.8.67@tcp14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.67@tcp14
+        - nid: 172.17.8.167@tcp14
+    - primary nid: 172.17.8.67@tcp15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.67@tcp15
+        - nid: 172.17.8.167@tcp15
+    - primary nid: 172.17.8.67@tcp16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.67@tcp16
+        - nid: 172.17.8.167@tcp16
+##lcoss09
+    - primary nid: 172.17.8.68@o2ib10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.68@o2ib10
+        - nid: 172.17.8.168@o2ib10
+    - primary nid: 172.17.8.68@o2ib11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.68@o2ib11
+        - nid: 172.17.8.168@o2ib11
+    - primary nid: 172.17.8.68@o2ib12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.68@o2ib12
+        - nid: 172.17.8.168@o2ib12
+    - primary nid: 172.17.8.68@o2ib13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.68@o2ib13
+        - nid: 172.17.8.168@o2ib13
+    - primary nid: 172.17.8.68@o2ib14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.68@o2ib14
+        - nid: 172.17.8.168@o2ib14
+    - primary nid: 172.17.8.68@o2ib15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.68@o2ib15
+        - nid: 172.17.8.168@o2ib15
+    - primary nid: 172.17.8.68@o2ib16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.68@o2ib16
+        - nid: 172.17.8.168@o2ib16
+    - primary nid: 172.17.8.68@tcp10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.68@tcp10
+        - nid: 172.17.8.168@tcp10
+    - primary nid: 172.17.8.68@tcp11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.68@tcp11
+        - nid: 172.17.8.168@tcp11
+    - primary nid: 172.17.8.68@tcp12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.68@tcp12
+        - nid: 172.17.8.168@tcp12
+    - primary nid: 172.17.8.68@tcp13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.68@tcp13
+        - nid: 172.17.8.168@tcp13
+    - primary nid: 172.17.8.68@tcp14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.68@tcp14
+        - nid: 172.17.8.168@tcp14
+    - primary nid: 172.17.8.68@tcp15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.68@tcp15
+        - nid: 172.17.8.168@tcp15
+    - primary nid: 172.17.8.68@tcp16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.68@tcp16
+        - nid: 172.17.8.168@tcp16
+##lcoss10
+    - primary nid: 172.17.8.69@o2ib10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.69@o2ib10
+        - nid: 172.17.8.169@o2ib10
+    - primary nid: 172.17.8.69@o2ib11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.69@o2ib11
+        - nid: 172.17.8.169@o2ib11
+    - primary nid: 172.17.8.69@o2ib12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.69@o2ib12
+        - nid: 172.17.8.169@o2ib12
+    - primary nid: 172.17.8.69@o2ib13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.69@o2ib13
+        - nid: 172.17.8.169@o2ib13
+    - primary nid: 172.17.8.69@o2ib14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.69@o2ib14
+        - nid: 172.17.8.169@o2ib14
+    - primary nid: 172.17.8.69@o2ib15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.69@o2ib15
+        - nid: 172.17.8.169@o2ib15
+    - primary nid: 172.17.8.69@o2ib16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.69@o2ib16
+        - nid: 172.17.8.169@o2ib16
+    - primary nid: 172.17.8.69@tcp10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.69@tcp10
+        - nid: 172.17.8.169@tcp10
+    - primary nid: 172.17.8.69@tcp11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.69@tcp11
+        - nid: 172.17.8.169@tcp11
+    - primary nid: 172.17.8.69@tcp12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.69@tcp12
+        - nid: 172.17.8.169@tcp12
+    - primary nid: 172.17.8.69@tcp13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.69@tcp13
+        - nid: 172.17.8.169@tcp13
+    - primary nid: 172.17.8.69@tcp14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.69@tcp14
+        - nid: 172.17.8.169@tcp14
+    - primary nid: 172.17.8.69@tcp15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.69@tcp15
+        - nid: 172.17.8.169@tcp15
+    - primary nid: 172.17.8.69@tcp16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.69@tcp16
+        - nid: 172.17.8.169@tcp16
+##shmds1
+    - primary nid: 172.17.8.72@o2ib10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.72@o2ib10
+        - nid: 172.17.8.172@o2ib10
+    - primary nid: 172.17.8.72@o2ib11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.72@o2ib11
+        - nid: 172.17.8.172@o2ib11
+    - primary nid: 172.17.8.72@o2ib12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.72@o2ib12
+        - nid: 172.17.8.172@o2ib12
+    - primary nid: 172.17.8.72@o2ib13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.72@o2ib13
+        - nid: 172.17.8.172@o2ib13
+    - primary nid: 172.17.8.72@o2ib14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.72@o2ib14
+        - nid: 172.17.8.172@o2ib14
+    - primary nid: 172.17.8.72@o2ib15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.72@o2ib15
+        - nid: 172.17.8.172@o2ib15
+    - primary nid: 172.17.8.72@o2ib16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.72@o2ib16
+        - nid: 172.17.8.172@o2ib16
+    - primary nid: 172.17.8.72@tcp10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.72@tcp10
+        - nid: 172.17.8.172@tcp10
+    - primary nid: 172.17.8.72@tcp11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.72@tcp11
+        - nid: 172.17.8.172@tcp11
+    - primary nid: 172.17.8.72@tcp12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.72@tcp12
+        - nid: 172.17.8.172@tcp12
+    - primary nid: 172.17.8.72@tcp13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.72@tcp13
+        - nid: 172.17.8.172@tcp13
+    - primary nid: 172.17.8.72@tcp14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.72@tcp14
+        - nid: 172.17.8.172@tcp14
+    - primary nid: 172.17.8.72@tcp15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.72@tcp15
+        - nid: 172.17.8.172@tcp15
+    - primary nid: 172.17.8.72@tcp16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.72@tcp16
+        - nid: 172.17.8.172@tcp16
+##shmds2
+    - primary nid: 172.17.8.73@o2ib10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.73@o2ib10
+        - nid: 172.17.8.173@o2ib10
+    - primary nid: 172.17.8.73@o2ib11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.73@o2ib11
+        - nid: 172.17.8.173@o2ib11
+    - primary nid: 172.17.8.73@o2ib12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.73@o2ib12
+        - nid: 172.17.8.173@o2ib12
+    - primary nid: 172.17.8.73@o2ib13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.73@o2ib13
+        - nid: 172.17.8.173@o2ib13
+    - primary nid: 172.17.8.73@o2ib14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.73@o2ib14
+        - nid: 172.17.8.173@o2ib14
+    - primary nid: 172.17.8.73@o2ib15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.73@o2ib15
+        - nid: 172.17.8.173@o2ib15
+    - primary nid: 172.17.8.73@o2ib16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.73@o2ib16
+        - nid: 172.17.8.173@o2ib16
+    - primary nid: 172.17.8.73@tcp10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.73@tcp10
+        - nid: 172.17.8.173@tcp10
+    - primary nid: 172.17.8.73@tcp11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.73@tcp11
+        - nid: 172.17.8.173@tcp11
+    - primary nid: 172.17.8.73@tcp12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.73@tcp12
+        - nid: 172.17.8.173@tcp12
+    - primary nid: 172.17.8.73@tcp13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.73@tcp13
+        - nid: 172.17.8.173@tcp13
+    - primary nid: 172.17.8.73@tcp14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.73@tcp14
+        - nid: 172.17.8.173@tcp14
+    - primary nid: 172.17.8.73@tcp15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.73@tcp15
+        - nid: 172.17.8.173@tcp15
+    - primary nid: 172.17.8.73@tcp16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.73@tcp16
+        - nid: 172.17.8.173@tcp16
+##shmds3
+    - primary nid: 172.17.8.74@o2ib10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.74@o2ib10
+        - nid: 172.17.8.174@o2ib10
+    - primary nid: 172.17.8.74@o2ib11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.74@o2ib11
+        - nid: 172.17.8.174@o2ib11
+    - primary nid: 172.17.8.74@o2ib12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.74@o2ib12
+        - nid: 172.17.8.174@o2ib12
+    - primary nid: 172.17.8.74@o2ib13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.74@o2ib13
+        - nid: 172.17.8.174@o2ib13
+    - primary nid: 172.17.8.74@o2ib14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.74@o2ib14
+        - nid: 172.17.8.174@o2ib14
+    - primary nid: 172.17.8.74@o2ib15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.74@o2ib15
+        - nid: 172.17.8.174@o2ib15
+    - primary nid: 172.17.8.74@o2ib16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.74@o2ib16
+        - nid: 172.17.8.174@o2ib16
+    - primary nid: 172.17.8.74@tcp10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.74@tcp10
+        - nid: 172.17.8.174@tcp10
+    - primary nid: 172.17.8.74@tcp11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.74@tcp11
+        - nid: 172.17.8.174@tcp11
+    - primary nid: 172.17.8.74@tcp12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.74@tcp12
+        - nid: 172.17.8.174@tcp12
+    - primary nid: 172.17.8.74@tcp13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.74@tcp13
+        - nid: 172.17.8.174@tcp13
+    - primary nid: 172.17.8.74@tcp14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.74@tcp14
+        - nid: 172.17.8.174@tcp14
+    - primary nid: 172.17.8.74@tcp15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.74@tcp15
+        - nid: 172.17.8.174@tcp15
+    - primary nid: 172.17.8.74@tcp16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.74@tcp16
+        - nid: 172.17.8.174@tcp16
+##shmds4
+    - primary nid: 172.17.8.75@o2ib10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.75@o2ib10
+        - nid: 172.17.8.175@o2ib10
+    - primary nid: 172.17.8.75@o2ib11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.75@o2ib11
+        - nid: 172.17.8.175@o2ib11
+    - primary nid: 172.17.8.75@o2ib12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.75@o2ib12
+        - nid: 172.17.8.175@o2ib12
+    - primary nid: 172.17.8.75@o2ib13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.75@o2ib13
+        - nid: 172.17.8.175@o2ib13
+    - primary nid: 172.17.8.75@o2ib14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.75@o2ib14
+        - nid: 172.17.8.175@o2ib14
+    - primary nid: 172.17.8.75@o2ib15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.75@o2ib15
+        - nid: 172.17.8.175@o2ib15
+    - primary nid: 172.17.8.75@o2ib16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.75@o2ib16
+        - nid: 172.17.8.175@o2ib16
+    - primary nid: 172.17.8.75@tcp10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.75@tcp10
+        - nid: 172.17.8.175@tcp10
+    - primary nid: 172.17.8.75@tcp11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.75@tcp11
+        - nid: 172.17.8.175@tcp11
+    - primary nid: 172.17.8.75@tcp12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.75@tcp12
+        - nid: 172.17.8.175@tcp12
+    - primary nid: 172.17.8.75@tcp13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.75@tcp13
+        - nid: 172.17.8.175@tcp13
+    - primary nid: 172.17.8.75@tcp14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.75@tcp14
+        - nid: 172.17.8.175@tcp14
+    - primary nid: 172.17.8.75@tcp15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.75@tcp15
+        - nid: 172.17.8.175@tcp15
+    - primary nid: 172.17.8.75@tcp16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.75@tcp16
+        - nid: 172.17.8.175@tcp16
+##shoss1
+    - primary nid: 172.17.8.76@o2ib10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.76@o2ib10
+        - nid: 172.17.8.176@o2ib10
+    - primary nid: 172.17.8.76@o2ib11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.76@o2ib11
+        - nid: 172.17.8.176@o2ib11
+    - primary nid: 172.17.8.76@o2ib12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.76@o2ib12
+        - nid: 172.17.8.176@o2ib12
+    - primary nid: 172.17.8.76@o2ib13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.76@o2ib13
+        - nid: 172.17.8.176@o2ib13
+    - primary nid: 172.17.8.76@o2ib14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.76@o2ib14
+        - nid: 172.17.8.176@o2ib14
+    - primary nid: 172.17.8.76@o2ib15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.76@o2ib15
+        - nid: 172.17.8.176@o2ib15
+    - primary nid: 172.17.8.76@o2ib16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.76@o2ib16
+        - nid: 172.17.8.176@o2ib16
+    - primary nid: 172.17.8.76@tcp10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.76@tcp10
+        - nid: 172.17.8.176@tcp10
+    - primary nid: 172.17.8.76@tcp11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.76@tcp11
+        - nid: 172.17.8.176@tcp11
+    - primary nid: 172.17.8.76@tcp12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.76@tcp12
+        - nid: 172.17.8.176@tcp12
+    - primary nid: 172.17.8.76@tcp13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.76@tcp13
+        - nid: 172.17.8.176@tcp13
+    - primary nid: 172.17.8.76@tcp14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.76@tcp14
+        - nid: 172.17.8.176@tcp14
+    - primary nid: 172.17.8.76@tcp15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.76@tcp15
+        - nid: 172.17.8.176@tcp15
+    - primary nid: 172.17.8.76@tcp16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.76@tcp16
+        - nid: 172.17.8.176@tcp16
+##shoss2
+    - primary nid: 172.17.8.77@o2ib10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.77@o2ib10
+        - nid: 172.17.8.177@o2ib10
+    - primary nid: 172.17.8.77@o2ib11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.77@o2ib11
+        - nid: 172.17.8.177@o2ib11
+    - primary nid: 172.17.8.77@o2ib12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.77@o2ib12
+        - nid: 172.17.8.177@o2ib12
+    - primary nid: 172.17.8.77@o2ib13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.77@o2ib13
+        - nid: 172.17.8.177@o2ib13
+    - primary nid: 172.17.8.77@o2ib14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.77@o2ib14
+        - nid: 172.17.8.177@o2ib14
+    - primary nid: 172.17.8.77@o2ib15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.77@o2ib15
+        - nid: 172.17.8.177@o2ib15
+    - primary nid: 172.17.8.77@o2ib16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.77@o2ib16
+        - nid: 172.17.8.177@o2ib16
+    - primary nid: 172.17.8.77@tcp10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.77@tcp10
+        - nid: 172.17.8.177@tcp10
+    - primary nid: 172.17.8.77@tcp11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.77@tcp11
+        - nid: 172.17.8.177@tcp11
+    - primary nid: 172.17.8.77@tcp12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.77@tcp12
+        - nid: 172.17.8.177@tcp12
+    - primary nid: 172.17.8.77@tcp13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.77@tcp13
+        - nid: 172.17.8.177@tcp13
+    - primary nid: 172.17.8.77@tcp14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.77@tcp14
+        - nid: 172.17.8.177@tcp14
+    - primary nid: 172.17.8.77@tcp15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.77@tcp15
+        - nid: 172.17.8.177@tcp15
+    - primary nid: 172.17.8.77@tcp16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.77@tcp16
+        - nid: 172.17.8.177@tcp16
+##shoss3
+    - primary nid: 172.17.8.78@o2ib10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.78@o2ib10
+        - nid: 172.17.8.178@o2ib10
+    - primary nid: 172.17.8.78@o2ib11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.78@o2ib11
+        - nid: 172.17.8.178@o2ib11
+    - primary nid: 172.17.8.78@o2ib12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.78@o2ib12
+        - nid: 172.17.8.178@o2ib12
+    - primary nid: 172.17.8.78@o2ib13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.78@o2ib13
+        - nid: 172.17.8.178@o2ib13
+    - primary nid: 172.17.8.78@o2ib14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.78@o2ib14
+        - nid: 172.17.8.178@o2ib14
+    - primary nid: 172.17.8.78@o2ib15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.78@o2ib15
+        - nid: 172.17.8.178@o2ib15
+    - primary nid: 172.17.8.78@o2ib16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.78@o2ib16
+        - nid: 172.17.8.178@o2ib16
+    - primary nid: 172.17.8.78@tcp10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.78@tcp10
+        - nid: 172.17.8.178@tcp10
+    - primary nid: 172.17.8.78@tcp11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.78@tcp11
+        - nid: 172.17.8.178@tcp11
+    - primary nid: 172.17.8.78@tcp12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.78@tcp12
+        - nid: 172.17.8.178@tcp12
+    - primary nid: 172.17.8.78@tcp13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.78@tcp13
+        - nid: 172.17.8.178@tcp13
+    - primary nid: 172.17.8.78@tcp14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.78@tcp14
+        - nid: 172.17.8.178@tcp14
+    - primary nid: 172.17.8.78@tcp15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.78@tcp15
+        - nid: 172.17.8.178@tcp15
+    - primary nid: 172.17.8.78@tcp16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.78@tcp16
+        - nid: 172.17.8.178@tcp16
+##shoss4
+    - primary nid: 172.17.8.79@o2ib10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.79@o2ib10
+        - nid: 172.17.8.179@o2ib10
+    - primary nid: 172.17.8.79@o2ib11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.79@o2ib11
+        - nid: 172.17.8.179@o2ib11
+    - primary nid: 172.17.8.79@o2ib12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.79@o2ib12
+        - nid: 172.17.8.179@o2ib12
+    - primary nid: 172.17.8.79@o2ib13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.79@o2ib13
+        - nid: 172.17.8.179@o2ib13
+    - primary nid: 172.17.8.79@o2ib14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.79@o2ib14
+        - nid: 172.17.8.179@o2ib14
+    - primary nid: 172.17.8.79@o2ib15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.79@o2ib15
+        - nid: 172.17.8.179@o2ib15
+    - primary nid: 172.17.8.79@o2ib16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.79@o2ib16
+        - nid: 172.17.8.179@o2ib16
+    - primary nid: 172.17.8.79@tcp10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.79@tcp10
+        - nid: 172.17.8.179@tcp10
+    - primary nid: 172.17.8.79@tcp11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.79@tcp11
+        - nid: 172.17.8.179@tcp11
+    - primary nid: 172.17.8.79@tcp12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.79@tcp12
+        - nid: 172.17.8.179@tcp12
+    - primary nid: 172.17.8.79@tcp13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.79@tcp13
+        - nid: 172.17.8.179@tcp13
+    - primary nid: 172.17.8.79@tcp14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.79@tcp14
+        - nid: 172.17.8.179@tcp14
+    - primary nid: 172.17.8.79@tcp15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.79@tcp15
+        - nid: 172.17.8.179@tcp15
+    - primary nid: 172.17.8.79@tcp16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.79@tcp16
+        - nid: 172.17.8.179@tcp16
+##s3ds1
+    - primary nid: 172.17.8.16@o2ib10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.16@o2ib10
+        - nid: 172.17.8.116@o2ib10
+    - primary nid: 172.17.8.16@o2ib11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.16@o2ib11
+        - nid: 172.17.8.116@o2ib11
+    - primary nid: 172.17.8.16@o2ib12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.16@o2ib12
+        - nid: 172.17.8.116@o2ib12
+    - primary nid: 172.17.8.16@o2ib13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.16@o2ib13
+        - nid: 172.17.8.116@o2ib13
+    - primary nid: 172.17.8.16@o2ib14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.16@o2ib14
+        - nid: 172.17.8.116@o2ib14
+    - primary nid: 172.17.8.16@o2ib15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.16@o2ib15
+        - nid: 172.17.8.116@o2ib15
+    - primary nid: 172.17.8.16@o2ib16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.16@o2ib16
+        - nid: 172.17.8.116@o2ib16
+    - primary nid: 172.17.8.16@tcp10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.16@tcp10
+        - nid: 172.17.8.116@tcp10
+    - primary nid: 172.17.8.16@tcp11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.16@tcp11
+        - nid: 172.17.8.116@tcp11
+    - primary nid: 172.17.8.16@tcp12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.16@tcp12
+        - nid: 172.17.8.116@tcp12
+    - primary nid: 172.17.8.16@tcp13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.16@tcp13
+        - nid: 172.17.8.116@tcp13
+    - primary nid: 172.17.8.16@tcp14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.16@tcp14
+        - nid: 172.17.8.116@tcp14
+    - primary nid: 172.17.8.16@tcp15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.16@tcp15
+        - nid: 172.17.8.116@tcp15
+    - primary nid: 172.17.8.16@tcp16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.16@tcp16
+        - nid: 172.17.8.116@tcp16
+##s3ds2
+    - primary nid: 172.17.8.17@o2ib10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.17@o2ib10
+        - nid: 172.17.8.117@o2ib10
+    - primary nid: 172.17.8.17@o2ib11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.17@o2ib11
+        - nid: 172.17.8.117@o2ib11
+    - primary nid: 172.17.8.17@o2ib12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.17@o2ib12
+        - nid: 172.17.8.117@o2ib12
+    - primary nid: 172.17.8.17@o2ib13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.17@o2ib13
+        - nid: 172.17.8.117@o2ib13
+    - primary nid: 172.17.8.17@o2ib14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.17@o2ib14
+        - nid: 172.17.8.117@o2ib14
+    - primary nid: 172.17.8.17@o2ib15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.17@o2ib15
+        - nid: 172.17.8.117@o2ib15
+    - primary nid: 172.17.8.17@o2ib16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.17@o2ib16
+        - nid: 172.17.8.117@o2ib16
+    - primary nid: 172.17.8.17@tcp10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.17@tcp10
+        - nid: 172.17.8.117@tcp10
+    - primary nid: 172.17.8.17@tcp11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.17@tcp11
+        - nid: 172.17.8.117@tcp11
+    - primary nid: 172.17.8.17@tcp12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.17@tcp12
+        - nid: 172.17.8.117@tcp12
+    - primary nid: 172.17.8.17@tcp13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.17@tcp13
+        - nid: 172.17.8.117@tcp13
+    - primary nid: 172.17.8.17@tcp14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.17@tcp14
+        - nid: 172.17.8.117@tcp14
+    - primary nid: 172.17.8.17@tcp15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.17@tcp15
+        - nid: 172.17.8.117@tcp15
+    - primary nid: 172.17.8.17@tcp16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.17@tcp16
+        - nid: 172.17.8.117@tcp16
+##s3ds3
+    - primary nid: 172.17.8.18@o2ib10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.18@o2ib10
+        - nid: 172.17.8.118@o2ib10
+    - primary nid: 172.17.8.18@o2ib11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.18@o2ib11
+        - nid: 172.17.8.118@o2ib11
+    - primary nid: 172.17.8.18@o2ib12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.18@o2ib12
+        - nid: 172.17.8.118@o2ib12
+    - primary nid: 172.17.8.18@o2ib13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.18@o2ib13
+        - nid: 172.17.8.118@o2ib13
+    - primary nid: 172.17.8.18@o2ib14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.18@o2ib14
+        - nid: 172.17.8.118@o2ib14
+    - primary nid: 172.17.8.18@o2ib15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.18@o2ib15
+        - nid: 172.17.8.118@o2ib15
+    - primary nid: 172.17.8.18@o2ib16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.18@o2ib16
+        - nid: 172.17.8.118@o2ib16
+    - primary nid: 172.17.8.18@tcp10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.18@tcp10
+        - nid: 172.17.8.118@tcp10
+    - primary nid: 172.17.8.18@tcp11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.18@tcp11
+        - nid: 172.17.8.118@tcp11
+    - primary nid: 172.17.8.18@tcp12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.18@tcp12
+        - nid: 172.17.8.118@tcp12
+    - primary nid: 172.17.8.18@tcp13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.18@tcp13
+        - nid: 172.17.8.118@tcp13
+    - primary nid: 172.17.8.18@tcp14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.18@tcp14
+        - nid: 172.17.8.118@tcp14
+    - primary nid: 172.17.8.18@tcp15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.18@tcp15
+        - nid: 172.17.8.118@tcp15
+    - primary nid: 172.17.8.18@tcp16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.18@tcp16
+        - nid: 172.17.8.118@tcp16
+##s3ds4
+    - primary nid: 172.17.8.19@o2ib10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.19@o2ib10
+        - nid: 172.17.8.119@o2ib10
+    - primary nid: 172.17.8.19@o2ib11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.19@o2ib11
+        - nid: 172.17.8.119@o2ib11
+    - primary nid: 172.17.8.19@o2ib12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.19@o2ib12
+        - nid: 172.17.8.119@o2ib12
+    - primary nid: 172.17.8.19@o2ib13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.19@o2ib13
+        - nid: 172.17.8.119@o2ib13
+    - primary nid: 172.17.8.19@o2ib14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.19@o2ib14
+        - nid: 172.17.8.119@o2ib14
+    - primary nid: 172.17.8.19@o2ib15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.19@o2ib15
+        - nid: 172.17.8.119@o2ib15
+    - primary nid: 172.17.8.19@o2ib16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.19@o2ib16
+        - nid: 172.17.8.119@o2ib16
+    - primary nid: 172.17.8.19@tcp10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.19@tcp10
+        - nid: 172.17.8.119@tcp10
+    - primary nid: 172.17.8.19@tcp11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.19@tcp11
+        - nid: 172.17.8.119@tcp11
+    - primary nid: 172.17.8.19@tcp12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.19@tcp12
+        - nid: 172.17.8.119@tcp12
+    - primary nid: 172.17.8.19@tcp13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.19@tcp13
+        - nid: 172.17.8.119@tcp13
+    - primary nid: 172.17.8.19@tcp14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.19@tcp14
+        - nid: 172.17.8.119@tcp14
+    - primary nid: 172.17.8.19@tcp15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.19@tcp15
+        - nid: 172.17.8.119@tcp15
+    - primary nid: 172.17.8.19@tcp16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.19@tcp16
+        - nid: 172.17.8.119@tcp16
+##nfs1
+    - primary nid: 172.17.8.24@o2ib10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.24@o2ib10
+        - nid: 172.17.8.124@o2ib10
+    - primary nid: 172.17.8.24@o2ib11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.24@o2ib11
+        - nid: 172.17.8.124@o2ib11
+    - primary nid: 172.17.8.24@o2ib12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.24@o2ib12
+        - nid: 172.17.8.124@o2ib12
+    - primary nid: 172.17.8.24@o2ib13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.24@o2ib13
+        - nid: 172.17.8.124@o2ib13
+    - primary nid: 172.17.8.24@o2ib14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.24@o2ib14
+        - nid: 172.17.8.124@o2ib14
+    - primary nid: 172.17.8.24@o2ib15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.24@o2ib15
+        - nid: 172.17.8.124@o2ib15
+    - primary nid: 172.17.8.24@o2ib16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.24@o2ib16
+        - nid: 172.17.8.124@o2ib16
+    - primary nid: 172.17.8.24@tcp10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.24@tcp10
+        - nid: 172.17.8.124@tcp10
+    - primary nid: 172.17.8.24@tcp11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.24@tcp11
+        - nid: 172.17.8.124@tcp11
+    - primary nid: 172.17.8.24@tcp12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.24@tcp12
+        - nid: 172.17.8.124@tcp12
+    - primary nid: 172.17.8.24@tcp13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.24@tcp13
+        - nid: 172.17.8.124@tcp13
+    - primary nid: 172.17.8.24@tcp14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.24@tcp14
+        - nid: 172.17.8.124@tcp14
+    - primary nid: 172.17.8.24@tcp15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.24@tcp15
+        - nid: 172.17.8.124@tcp15
+    - primary nid: 172.17.8.24@tcp16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.24@tcp16
+        - nid: 172.17.8.124@tcp16
+##nfs2
+    - primary nid: 172.17.8.25@o2ib10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.25@o2ib10
+        - nid: 172.17.8.125@o2ib10
+    - primary nid: 172.17.8.25@o2ib11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.25@o2ib11
+        - nid: 172.17.8.125@o2ib11
+    - primary nid: 172.17.8.25@o2ib12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.25@o2ib12
+        - nid: 172.17.8.125@o2ib12
+    - primary nid: 172.17.8.25@o2ib13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.25@o2ib13
+        - nid: 172.17.8.125@o2ib13
+    - primary nid: 172.17.8.25@o2ib14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.25@o2ib14
+        - nid: 172.17.8.125@o2ib14
+    - primary nid: 172.17.8.25@o2ib15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.25@o2ib15
+        - nid: 172.17.8.125@o2ib15
+    - primary nid: 172.17.8.25@o2ib16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.25@o2ib16
+        - nid: 172.17.8.125@o2ib16
+    - primary nid: 172.17.8.25@tcp10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.25@tcp10
+        - nid: 172.17.8.125@tcp10
+    - primary nid: 172.17.8.25@tcp11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.25@tcp11
+        - nid: 172.17.8.125@tcp11
+    - primary nid: 172.17.8.25@tcp12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.25@tcp12
+        - nid: 172.17.8.125@tcp12
+    - primary nid: 172.17.8.25@tcp13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.25@tcp13
+        - nid: 172.17.8.125@tcp13
+    - primary nid: 172.17.8.25@tcp14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.25@tcp14
+        - nid: 172.17.8.125@tcp14
+    - primary nid: 172.17.8.25@tcp15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.25@tcp15
+        - nid: 172.17.8.125@tcp15
+    - primary nid: 172.17.8.25@tcp16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.25@tcp16
+        - nid: 172.17.8.125@tcp16
+##nfs3
+    - primary nid: 172.17.8.26@o2ib10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.26@o2ib10
+        - nid: 172.17.8.126@o2ib10
+    - primary nid: 172.17.8.26@o2ib11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.26@o2ib11
+        - nid: 172.17.8.126@o2ib11
+    - primary nid: 172.17.8.26@o2ib12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.26@o2ib12
+        - nid: 172.17.8.126@o2ib12
+    - primary nid: 172.17.8.26@o2ib13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.26@o2ib13
+        - nid: 172.17.8.126@o2ib13
+    - primary nid: 172.17.8.26@o2ib14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.26@o2ib14
+        - nid: 172.17.8.126@o2ib14
+    - primary nid: 172.17.8.26@o2ib15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.26@o2ib15
+        - nid: 172.17.8.126@o2ib15
+    - primary nid: 172.17.8.26@o2ib16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.26@o2ib16
+        - nid: 172.17.8.126@o2ib16
+    - primary nid: 172.17.8.26@tcp10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.26@tcp10
+        - nid: 172.17.8.126@tcp10
+    - primary nid: 172.17.8.26@tcp11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.26@tcp11
+        - nid: 172.17.8.126@tcp11
+    - primary nid: 172.17.8.26@tcp12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.26@tcp12
+        - nid: 172.17.8.126@tcp12
+    - primary nid: 172.17.8.26@tcp13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.26@tcp13
+        - nid: 172.17.8.126@tcp13
+    - primary nid: 172.17.8.26@tcp14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.26@tcp14
+        - nid: 172.17.8.126@tcp14
+    - primary nid: 172.17.8.26@tcp15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.26@tcp15
+        - nid: 172.17.8.126@tcp15
+    - primary nid: 172.17.8.26@tcp16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.26@tcp16
+        - nid: 172.17.8.126@tcp16
+##nfs4
+    - primary nid: 172.17.8.27@o2ib10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.27@o2ib10
+        - nid: 172.17.8.127@o2ib10
+    - primary nid: 172.17.8.27@o2ib11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.27@o2ib11
+        - nid: 172.17.8.127@o2ib11
+    - primary nid: 172.17.8.27@o2ib12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.27@o2ib12
+        - nid: 172.17.8.127@o2ib12
+    - primary nid: 172.17.8.27@o2ib13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.27@o2ib13
+        - nid: 172.17.8.127@o2ib13
+    - primary nid: 172.17.8.27@o2ib14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.27@o2ib14
+        - nid: 172.17.8.127@o2ib14
+    - primary nid: 172.17.8.27@o2ib15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.27@o2ib15
+        - nid: 172.17.8.127@o2ib15
+    - primary nid: 172.17.8.27@o2ib16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.27@o2ib16
+        - nid: 172.17.8.127@o2ib16
+    - primary nid: 172.17.8.27@tcp10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.27@tcp10
+        - nid: 172.17.8.127@tcp10
+    - primary nid: 172.17.8.27@tcp11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.27@tcp11
+        - nid: 172.17.8.127@tcp11
+    - primary nid: 172.17.8.27@tcp12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.27@tcp12
+        - nid: 172.17.8.127@tcp12
+    - primary nid: 172.17.8.27@tcp13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.27@tcp13
+        - nid: 172.17.8.127@tcp13
+    - primary nid: 172.17.8.27@tcp14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.27@tcp14
+        - nid: 172.17.8.127@tcp14
+    - primary nid: 172.17.8.27@tcp15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.27@tcp15
+        - nid: 172.17.8.127@tcp15
+    - primary nid: 172.17.8.27@tcp16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.27@tcp16
+        - nid: 172.17.8.127@tcp16
+##mon
+    - primary nid: 172.17.8.32@o2ib10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.32@o2ib10
+        - nid: 172.17.8.132@o2ib10
+    - primary nid: 172.17.8.32@o2ib11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.32@o2ib11
+        - nid: 172.17.8.132@o2ib11
+    - primary nid: 172.17.8.32@o2ib12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.32@o2ib12
+        - nid: 172.17.8.132@o2ib12
+    - primary nid: 172.17.8.32@o2ib13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.32@o2ib13
+        - nid: 172.17.8.132@o2ib13
+    - primary nid: 172.17.8.32@o2ib14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.32@o2ib14
+        - nid: 172.17.8.132@o2ib14
+    - primary nid: 172.17.8.32@o2ib15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.32@o2ib15
+        - nid: 172.17.8.132@o2ib15
+    - primary nid: 172.17.8.32@o2ib16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.32@o2ib16
+        - nid: 172.17.8.132@o2ib16
+    - primary nid: 172.17.8.32@tcp10
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.32@tcp10
+        - nid: 172.17.8.132@tcp10
+    - primary nid: 172.17.8.32@tcp11
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.32@tcp11
+        - nid: 172.17.8.132@tcp11
+    - primary nid: 172.17.8.32@tcp12
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.32@tcp12
+        - nid: 172.17.8.132@tcp12
+    - primary nid: 172.17.8.32@tcp13
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.32@tcp13
+        - nid: 172.17.8.132@tcp13
+    - primary nid: 172.17.8.32@tcp14
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.32@tcp14
+        - nid: 172.17.8.132@tcp14
+    - primary nid: 172.17.8.32@tcp15
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.32@tcp15
+        - nid: 172.17.8.132@tcp15
+    - primary nid: 172.17.8.32@tcp16
+      Multi-Rail: True
+      peer ni:
+        - nid: 172.17.8.32@tcp16
+        - nid: 172.17.8.132@tcp16
+numa:
+    range: 0
