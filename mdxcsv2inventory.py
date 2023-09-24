@@ -150,6 +150,7 @@ def generate_inventory(args):
     w("[all:vars]")
     w("ansible_user={}".format(args.ansible_user))
     w("ansible_remote_tmp=/tmp/.ansible")
+    w("ldap_vars_file=vars/ldap.yml")
     if ethipv4prefix:
         w("ethipv4prefix={}".format(ethipv4prefix))
     else:
