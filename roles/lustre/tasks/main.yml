@@ -30,8 +30,8 @@
     path: /etc/fstab
     block: |
       # lustre
-      172.17.8.40@{{ lnet }}:172.17.8.41@{{ lnet }}:/fast  /data  lustre network={{ lnet }},flock,noauto,defaults 0 0
-      172.17.8.56@{{ lnet }}:172.17.8.57@{{ lnet }}:/large /model lustre network={{ lnet }},flock,noauto,defaults 0 0
+      172.17.8.40@{{ lnet }}:172.17.8.41@{{ lnet }}:/fast  /fast  lustre network={{ lnet }},flock,noauto,defaults 0 0
+      172.17.8.56@{{ lnet }}:172.17.8.57@{{ lnet }}:/large /large lustre network={{ lnet }},flock,noauto,defaults 0 0
 
 - name: lustre.conf
   template:
