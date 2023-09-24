@@ -30,13 +30,35 @@
     path: /etc/fstab
     block: |
       # lustre
-      172.17.8.40@{{ lnet }}:172.17.8.41@{{ lnet }}:/fast  /fast  lustre network={{ lnet }},flock,noauto,defaults 0 0
-      172.17.8.56@{{ lnet }}:172.17.8.57@{{ lnet }}:/large /large lustre network={{ lnet }},flock,noauto,defaults 0 0
+      172.17.8.40@{{ lnet }}:172.17.8.41@{{ lnet }}:/fast  /data  lustre network={{ lnet }},flock,noauto,defaults 0 0
+      172.17.8.56@{{ lnet }}:172.17.8.57@{{ lnet }}:/large /model lustre network={{ lnet }},flock,noauto,defaults 0 0
 
 - name: lustre.conf
   template:
     src: templates/lustre.conf.j2
     dest: /etc/modprobe.d/lustre.conf
+
+- name: get lustre_client version
+  shell: dkms status | grep lustre-client-modules  | grep $(uname -r) | awk -F'[/,]' '{print $2}'
+  register: lustre_ver
+# - debug: msg="{{ lustre_ver.stdout }}"
+
+- name: get linux kernel version
+  shell: uname -r
+  register: linux_ver
+# - debug: msg="{{ linux_ver.stdout }}"
+
+- name: uninstall lustre_client dkms module
+  shell: dkms uninstall -m lustre-client-modules -v {{ lustre_ver.stdout }} -k {{ linux_ver.stdout }}
+
+- name: remove lustre_client dkms module
+  shell: dkms remove -m lustre-client-modules -v {{ lustre_ver.stdout }} -k {{ linux_ver.stdout }}
+
+- name: build lustre_client dkms module
+  shell: dkms build -m lustre-client-modules -v {{ lustre_ver.stdout }} -k {{ linux_ver.stdout }}
+
+- name: install lustre_client dkms module
+  shell: dkms install -m lustre-client-modules -v {{ lustre_ver.stdout }} -k {{ linux_ver.stdout }}
 
 - name: enable lustre
   systemd:
